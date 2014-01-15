@@ -13,7 +13,7 @@
 //
 // Original Author:  Silvio DONATO
 //         Created:  Wed Dec 18 10:05:40 CET 2013
-//
+// $Id$
 //
 //
 
@@ -89,9 +89,6 @@ class PixelJetPuId : public edm::EDFilter {
 
      double m_MinGoodJetTrackPt;
      double m_MinGoodJetTrackPtRatio; 
-
-     double m_etjets;
-     double m_minet_jets; 
 };
 
 //
@@ -126,9 +123,6 @@ PixelJetPuId::PixelJetPuId(const edm::ParameterSet& iConfig)
   m_fwjets        = iConfig.getParameter<bool>("UseForwardJetsAsNoPU");
   m_mineta_fwjets        = iConfig.getParameter<double>("MinEtaForwardJets");
   m_minet_fwjets        = iConfig.getParameter<double>("MinEtForwardJets");
-
-  m_etjets        = iConfig.getParameter<bool>("UseEnergeticJetAsNoPU");
-  m_minet_jets        = iConfig.getParameter<double>("ThresholdEtEnergeticJet");
 
   produces<std::vector<reco::CaloJet> >(); 
   produces<std::vector<reco::CaloJet> >("PUjets"); 
@@ -165,7 +159,7 @@ PixelJetPuId::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByLabel(m_tracks, tracks);
    
    //get jets
-   Handle<reco::CaloJet > jets;
+   Handle<edm::View<reco::CaloJet> > jets;
    iEvent.getByLabel(m_jets, jets);
    
    //get primary vertices
@@ -183,7 +177,7 @@ PixelJetPuId::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
    {
    	const reco::Vertex* pv = &*primaryVertex->begin();
    	//loop on jets
-	for(reco::CaloJet::const_iterator itJet = jets->begin();  itJet != jets->end(); itJet++ ) {
+	for(edm::View<reco::CaloJet>::const_iterator itJet = jets->begin();  itJet != jets->end(); itJet++ ) {
 //		const reco::TrackRefVector& tracks = it->second;
 
 		math::XYZVector jetMomentum = itJet->momentum();
@@ -191,18 +185,15 @@ PixelJetPuId::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 //		int ntracks=0;
 		math::XYZVector trMomentum;
-
-		if((m_fwjets) && (fabs(itJet->eta())>m_mineta_fwjets) && (itJet->et()>m_minet_fwjets))
+		      
+		//loop on tracks
+		if(fabs(itJet->eta())>m_mineta_fwjets)
 		{
+			if((m_fwjets) && (itJet->et()>m_minet_fwjets))
 				pOut->push_back(*itJet);// fill forward jet as signal jet
-		}
-		else if((m_etjets) && (itJet->et()>m_minet_jets))
-		{
-				pOut->push_back(*itJet);// fill energetic jet as signal jet
 		}
 		else 
 		{
-			//loop on tracks
 			for(std::vector<reco::Track>::const_iterator itTrack = tracks->begin(); itTrack != tracks->end(); ++itTrack) 
 			{
 			  float deltaR=reco::deltaR2( jetMomentum.eta(), jetMomentum.phi(), itTrack->eta(), itTrack->phi() );
