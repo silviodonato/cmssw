@@ -14,7 +14,7 @@
 //
 // Original Author:  Silvio DONATO
 //         Created:  Wed Dec 18 10:05:40 CET 2013
-// $Id$
+// 
 //
 //
 
@@ -394,12 +394,13 @@ FastPrimaryVertexWithWeightsProducer::produce(edm::Event& iEvent, const edm::Eve
 
 //Finally, calculate the zClusterQuality as Sum(weights near the fastPV)/sqrt(Sum(total weights)) [a kind of zCluster significance]
 
+  const float half_width_peak=1;
   float nWeightedTot=0;
   float nWeightedTotPeak=0;
   for(std::vector<float>::iterator it = zProjections.begin();it!=zProjections.end(); it++)
   {
   	nWeightedTot+=zWeights[it-zProjections.begin()]; 
-  	if((res-1)<=(*it) && (*it)<=(res+1))
+  	if((res-half_width_peak)<=(*it) && (*it)<=(res+half_width_peak))
 	{
 	  	nWeightedTotPeak+=zWeights[it-zProjections.begin()]; 	
 	}
@@ -409,7 +410,7 @@ std::auto_ptr<float > zClusterQuality(new float());
 *zClusterQuality=-1;
 if(nWeightedTot!=0)
 {
-   *zClusterQuality=nWeightedTotPeak / sqrt(nWeightedTot/17) ;
+   *zClusterQuality=nWeightedTotPeak / sqrt(nWeightedTot/(30.0/(2*half_width_peak))) ; // where 30 is the beam spot lenght 
    iEvent.put(zClusterQuality);
 }
 else
