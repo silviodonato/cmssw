@@ -5,8 +5,8 @@
  * Use only values with *zWeights*>*m_weightCut*. 
  * Look near *oldVertex* within *m_zClusterSearchArea*.
  *
- *  $Date: 2013/12/17 17:33:24 $
- *  $Revision: 1.0 $
+ *  
+ *  
  *  \author Silvio Donato (SNS)
  */
 //#include "FWCore/Framework/interface/EDFilter.h"
@@ -18,13 +18,13 @@
 //#include <set>
 
 
-float FindPeakFastPV(  std::vector<float> &zProjections, std::vector<float> &zWeights, float oldVertex, const float m_zClusterWidth, const float m_zClusterSearchArea, const float m_weightCut){
+float FindPeakFastPV(  const std::vector<float> &zProjections, const std::vector<float> &zWeights, const float oldVertex, const float m_zClusterWidth, const float m_zClusterSearchArea, const float m_weightCut){
 float centerWMax= oldVertex;
 if( m_zClusterWidth > 0 && m_zClusterSearchArea >0 )
 {
-  std::vector<float>::iterator itCenter = zProjections.begin();
-  std::vector<float>::iterator itLeftSide = zProjections.begin();
-  std::vector<float>::iterator itRightSide = zProjections.begin();
+  std::vector<float>::const_iterator itCenter = zProjections.begin();
+  std::vector<float>::const_iterator itLeftSide = zProjections.begin();
+  std::vector<float>::const_iterator itRightSide = zProjections.begin();
   float zClusterWidth = m_zClusterWidth/2.0; //take half zCluster width 
   float maxW=0;
   for(;itCenter!=zProjections.end(); itCenter++)
@@ -36,7 +36,7 @@ if( m_zClusterWidth > 0 && m_zClusterSearchArea >0 )
     float nWeighted = 0;
     float centerW= 0;
     
-    for(std::vector<float>::iterator ii = itLeftSide; ii != itRightSide; ii++) 
+    for(std::vector<float>::const_iterator ii = itLeftSide; ii != itRightSide; ii++) 
     {//loop inside the peak and calculate its weight
      if(zWeights[ii-zProjections.begin()]<m_weightCut) continue;
      nWeighted+=zWeights[ii-zProjections.begin()]; 
