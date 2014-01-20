@@ -46,6 +46,10 @@
 #include "TrackingTools/Records/interface/TransientTrackRecord.h"
 
 #include "DataFormats/Math/interface/deltaR.h"
+
+
+#include "DataFormats/Common/interface/PtrVector.h"
+
      
 //
 // class declaration
@@ -109,8 +113,8 @@ PixelJetPuId::PixelJetPuId(const edm::ParameterSet& iConfig)
   m_mineta_fwjets          = iConfig.getParameter<double>("MinEtaForwardJets");
   m_minet_fwjets           = iConfig.getParameter<double>("MinEtForwardJets");
 
-  produces<std::vector<reco::CaloJet> >(); 
-  produces<std::vector<reco::CaloJet> >("PUjets"); 
+  produces< edm::PtrVector<reco::CaloJet>  >(); 
+  produces< edm::PtrVector<reco::CaloJet>  >("PUjets"); 
 }
 
 
@@ -142,15 +146,27 @@ PixelJetPuId::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 void PixelJetPuId::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
-  std::auto_ptr<std::vector<reco::CaloJet> > pOut(new std::vector<reco::CaloJet> );
-  std::auto_ptr<std::vector<reco::CaloJet> > pOut_PUjets(new std::vector<reco::CaloJet> );
+//  reco::CaloJetRefVector refVector
+
+
+  std::auto_ptr < PtrVector<reco::CaloJet> > pOut(new PtrVector<reco::CaloJet> );
+  std::auto_ptr < PtrVector<reco::CaloJet> > pOut_PUjets(new PtrVector<reco::CaloJet> );
+
+
+//  std::auto_ptr < reco::CaloJetRefVector > pOut(new reco::CaloJetRefVector());
+//  std::auto_ptr < reco::CaloJetRefVector > pOut_PUjets(new reco::CaloJetRefVector());
+ 
+//  std::auto_ptr<std::vector<reco::CaloJet> > pOut(new std::vector<reco::CaloJet> );
+//  std::auto_ptr<std::vector<reco::CaloJet> > pOut_PUjets(new std::vector<reco::CaloJet> );
   
    //get tracks
   Handle<std::vector<reco::Track> > tracks;
   iEvent.getByToken(tracksToken, tracks);
    
   //get jets
+//  Handle<reco::CaloJetCollection> jetscollection;
   Handle<edm::View<reco::CaloJet> > jets;
+//  Handle<reco::CaloJetCollection>  jets;
   iEvent.getByToken(jetsToken, jets);
    
   //get primary vertices
@@ -167,6 +183,7 @@ void PixelJetPuId::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       const reco::Vertex* pv = &*primaryVertex->begin();
       //loop on jets
       for(edm::View<reco::CaloJet>::const_iterator itJet = jets->begin();  itJet != jets->end(); itJet++ ) {
+//      for(reco::CaloJetCollection::const_iterator itJet = jets->begin();  itJet != jets->end(); itJet++ ) {
 	
 	math::XYZVector jetMomentum = itJet->momentum();
 	GlobalVector direction(jetMomentum.x(), jetMomentum.y(), jetMomentum.z());
@@ -177,7 +194,9 @@ void PixelJetPuId::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	if(fabs(itJet->eta())>m_mineta_fwjets)
 	  {
 	    if((m_fwjets) && (itJet->et()>m_minet_fwjets))
-	      pOut->push_back(*itJet);// fill forward jet as signal jet
+//	      pOut->push_back(*itJet);// fill forward jet as signal jet
+//	      pOut->push_back(edm::Ref<reco::CaloJetCollection>(jets, itJet - jets->begin() ));// fill forward jet as signal jet
+	      pOut->push_back(jets->ptrAt(itJet - jets->begin()));// fill forward jet as signal jet
 	  }
 	else 
 	  {
@@ -199,11 +218,13 @@ void PixelJetPuId::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	    //if Sum(comp.trackPt)/CaloJetPt > minPtRatio or Sum(trackPt) > minPt  the jet is a signal jet
 	    if(trMomentum.rho()/jetMomentum.rho() > m_MinGoodJetTrackPtRatio || trMomentum.rho() > m_MinGoodJetTrackPt ) 
 	      {
-		pOut->push_back(*itJet);        // fill it as signal jet
+//		pOut->push_back(*itJet);        // fill it as signal jet
+	        pOut->push_back(jets->ptrAt(itJet - jets->begin()));        // fill it as signal jet
 	      }
 	    else//else it is a PUjet
 	      {
-		pOut_PUjets->push_back(*itJet); // fill it as PUjets
+	        pOut_PUjets->push_back(jets->ptrAt(itJet - jets->begin())); // fill it as PUjets
+//		pOut_PUjets->push_back(*itJet); // fill it as PUjets
 	      }
 	  }
       }
