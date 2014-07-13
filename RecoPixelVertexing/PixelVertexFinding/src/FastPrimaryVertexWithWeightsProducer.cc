@@ -102,6 +102,7 @@ class FastPrimaryVertexWithWeightsProducer : public edm::EDProducer {
   double m_minSizeY_q;		// Use only pixel clusters with sizeY > PixelCellHeightOverWidth * |jetZOverRho| + minSizeY_q
   double m_maxSizeY_q;		// Use only pixel clusters with sizeY < PixelCellHeightOverWidth * |jetZOverRho| + maxSizeY_q
   
+  bool   m_ptWeight; 		// use jetPt reweighting
 // PARAMETERS USED TO WEIGHT THE BARREL PIXEL CLUSTERS   
   // The cluster weight is defined as weight = weight_dPhi * weight_sizeY  * weight_rho * weight_sizeX1 * weight_charge
 
@@ -134,6 +135,7 @@ class FastPrimaryVertexWithWeightsProducer : public edm::EDProducer {
   double m_zClusterWidth_step3; 		// cluster width in step2
   double m_zClusterSearchArea_step3;	// cluster width in step2
   double m_weightCut_step3; 		// minimum z-projections weight required in step3
+ 
   
 };
 
@@ -158,6 +160,8 @@ FastPrimaryVertexWithWeightsProducer::FastPrimaryVertexWithWeightsProducer(const
   m_minSizeY_q     		= iConfig.getParameter<double>("minSizeY_q");
   m_maxSizeY_q     		= iConfig.getParameter<double>("maxSizeY_q");
   
+  m_ptWeight      		= iConfig.getParameter<bool>("m_ptWeight");
+
   m_weight_dPhi     		= iConfig.getParameter<double>("weight_dPhi");
   m_weight_SizeX1      		= iConfig.getParameter<double>("weight_SizeX1");
   m_weight_rho_up      		= iConfig.getParameter<double>("weight_rho_up");
@@ -335,6 +339,9 @@ FastPrimaryVertexWithWeightsProducer::produce(edm::Event& iEvent, const edm::Eve
 	        	//calculate the final weight
 			weight=	 m_EC_weight*(weight_dPhi) ;    	        
 	        }
+
+		if(m_ptWeight)	weight=weight*(pt-20)/20; //add the jetPt reweighting
+
 	        zWeights.push_back(weight); //add the weight to zWeights
 	      }	
   	    }//if it pass DeltaPhi(Jet,Cluster) requirements
