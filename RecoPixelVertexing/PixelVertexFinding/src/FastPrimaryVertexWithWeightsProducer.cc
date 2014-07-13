@@ -160,7 +160,7 @@ FastPrimaryVertexWithWeightsProducer::FastPrimaryVertexWithWeightsProducer(const
   m_minSizeY_q     		= iConfig.getParameter<double>("minSizeY_q");
   m_maxSizeY_q     		= iConfig.getParameter<double>("maxSizeY_q");
   
-  m_ptWeight      		= iConfig.getParameter<bool>("m_ptWeight");
+  m_ptWeight      		= iConfig.getParameter<bool>("ptWeight");
 
   m_weight_dPhi     		= iConfig.getParameter<double>("weight_dPhi");
   m_weight_SizeX1      		= iConfig.getParameter<double>("weight_SizeX1");
