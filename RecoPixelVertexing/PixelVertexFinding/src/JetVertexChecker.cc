@@ -61,6 +61,7 @@ class JetVertexChecker : public edm::EDFilter {
      bool m_doFilter;
      double m_cutMinPt;
      double m_cutMinPtRatio; 
+     bool m_newMethod;
      int32_t m_maxNjets;
 
 };
@@ -85,6 +86,7 @@ JetVertexChecker::JetVertexChecker(const edm::ParameterSet& iConfig)
   m_cutMinPt                = iConfig.getParameter<double>("minPt");
   m_cutMinPtRatio           = iConfig.getParameter<double>("minPtRatio");
   m_maxNjets           = iConfig.getParameter<int32_t>("maxNJetsToCheck");
+  m_newMethod                = iConfig.getParameter<bool>("newMethod");
   produces<std::vector<reco::CaloJet> >(); 
   produces<reco::VertexCollection >(); 
 }
@@ -125,7 +127,9 @@ JetVertexChecker::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
       for(reco::TrackRefVector::const_iterator itTrack = tracks.begin(); itTrack != tracks.end(); ++itTrack) 
       {
              trMomentum += (*itTrack)->momentum();
-      }
+	            trkpt += (*itTrack)->momentum().rho();
+	     }
+      calopt += jetMomentum.rho();
       if(trMomentum.rho()/jetMomentum.rho() < m_cutMinPtRatio || trMomentum.rho() < m_cutMinPt) 
       {
 //        std::cout << "bad jet " << it->first->pt() << std::endl;
@@ -134,7 +138,24 @@ JetVertexChecker::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
       }
      }
     } 
-  
+ 
+ 
+   if(m_newMethod)
+	  {
+	   pOut->clear();
+	   result=true;
+	   if(trkpt/calopt < m_cutMinPtRatio) result=false;   
+
+	   for(reco::JetTracksAssociationCollection::const_iterator it = jetTracksAssociation->begin(); it != jetTracksAssociation->end(); it++, i++)
+	   {
+	     if(fabs(it->first->eta()) < 2.4 && !result)
+	     {
+	//        std::cout << "bad jet " << it->first->pt() << std::endl;
+		pOut->push_back(* dynamic_cast<const reco::CaloJet *>(&(*it->first)));
+	     }
+	    } 
+    }
+ 
     iEvent.put(pOut);
 
    edm::Handle<reco::BeamSpot> beamSpot;
