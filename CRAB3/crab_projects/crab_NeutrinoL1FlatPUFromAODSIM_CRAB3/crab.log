@@ -1,0 +1,395 @@
+DEBUG 2014-08-05 17:33:20,329: 	 Checking credentials
+DEBUG 2014-08-05 17:33:20,445: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:33:20,446: 	 Getting proxy life time left
+DEBUG 2014-08-05 17:33:21,456: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -timeleft
+ output : 84654
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:33:22,466: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -actimeleft
+ output : 84652
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:33:22,467: 	 Proxy is valid: 84654
+DEBUG 2014-08-05 17:33:23,480: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u33244 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:33:23,623: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+DEBUG 2014-08-05 17:33:23,739: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:33:23,740: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2014-08-05 17:33:23,740: 	 Calculating hash of /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato_cmsweb.cern.ch for credential name
+DEBUG 2014-08-05 17:33:24,047: 	 Executing : 
+ command : myproxy-info -l ba83456b0a7cd62221aac81e32531c20c7aedfd6 -s myproxy.cern.ch
+ output : username: ba83456b0a7cd62221aac81e32531c20c7aedfd6
+owner: /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  timeleft: 712:52:27  (29.7 days)
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:33:24,049: 	 Myproxy is valid: 2566347
+DEBUG 2014-08-05 17:33:24,049: 	 Command use: submit
+DEBUG 2014-08-05 17:33:24,049: 	 Options use: ['-c', 'crab3_NeutrinoAOD.py']
+DEBUG 2014-08-05 17:33:24,207: 	 CRABClient version: 3.3.7.patch2 Compatible
+DEBUG 2014-08-05 17:33:24,207: 	 Instance is prod
+DEBUG 2014-08-05 17:33:24,207: 	 Server base url is cmsweb.cern.ch
+DEBUG 2014-08-05 17:33:24,207: 	 Command url /crabserver/prod/workflow
+DEBUG 2014-08-05 17:33:24,207: 	 Started submission
+DEBUG 2014-08-05 17:33:24,208: 	 Working on /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+DEBUG 2014-08-05 17:33:24,371: 	 Found CMSSW_7_0_4 for slc6_amd64_gcc481 with base /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4
+DEBUG 2014-08-05 17:33:24,399: 	 UNIQUE NAME: tarUUID 0639954f-b892-480f-adbe-606803739d1a 
+DEBUG 2014-08-05 17:33:24,400: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.workArea = 'crab_projects'
+config.General.requestName = 'NeutrinoL1FlatPUFromAODSIM_CRAB3'
+config.General.serverUrl = 'cmsweb.cern.ch'
+config.section_('JobType')
+config.JobType.psetName = 'ntuplerL1MinBiasAODSIM.py'
+config.JobType.pluginName = 'Analysis'
+config.JobType.capath = '/etc/grid-security/certificates/'
+config.JobType.proxyfilename = '/tmp/x509up_u33244'
+config.JobType.filecacheurl = 'https://cmsweb.cern.ch/crabcache'
+config.section_('Data')
+config.Data.inputDataset = '/Neutrino_Pt-2to20_gun/Spring14dr-Flat20to50_POSTLS170_V5-v1/AODSIM'
+config.Data.totalUnits = -1
+config.Data.unitsPerJob = 30
+config.Data.splitting = 'FileBased'
+config.Data.dbsUrl = 'global'
+config.Data.publishDataName = 'NeutrinoL1FlatPUFromAODSIM_CRAB3'
+config.Data.publication = True
+config.section_('Site')
+config.Site.storageSite = 'T2_IT_Pisa'
+
+DEBUG 2014-08-05 17:33:24,400: 	 self.config.JobType.psetName: ntuplerL1MinBiasAODSIM.py
+DEBUG 2014-08-05 17:33:24,401: 	 Importing CMSSW config ntuplerL1MinBiasAODSIM.py
+DEBUG 2014-08-05 17:33:29,194: 	 TFiles ['ntupla2L1MinBiasFromAODSIM.root'] and EDM Files [] will be collected
+DEBUG 2014-08-05 17:33:29,195: 	 User files [] will be collected
+DEBUG 2014-08-05 17:33:29,195: 	 Writing CMSSW config to /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/inputs/CMSSW_cfg.py
+DEBUG 2014-08-05 17:33:29,817: 	 Found CMSSW_7_0_4 for slc6_amd64_gcc481 with base /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4
+DEBUG 2014-08-05 17:33:29,818: 	 Making tarball in /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/inputs/0639954f-b892-480f-adbe-606803739d1adefault.tgz
+DEBUG 2014-08-05 17:33:29,819: 	  checking directory /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/lib
+DEBUG 2014-08-05 17:33:29,819: 	  adding directory /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/lib to tarball
+DEBUG 2014-08-05 17:33:30,910: 	  checking directory /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/module
+DEBUG 2014-08-05 17:33:31,183: 	  adding data directory /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/L1Trigger/RegionalCaloTrigger/data to tarball
+DEBUG 2014-08-05 17:33:31,240: 	  adding data directory /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/L1Trigger/RegionalCaloTrigger/test/data to tarball
+DEBUG 2014-08-05 17:33:31,775: 	 tgz contents: [('lib', 0, 1405073781, 'sdonato'), ('lib/slc6_amd64_gcc481', 0, 1407248620, 'sdonato'), ('lib/slc6_amd64_gcc481/libDataFormatsL1CaloTrigger.so', 270135, 1405073945, 'sdonato'), ('lib/slc6_amd64_gcc481/pluginDataFormatsL1CaloTriggerCapabilities.so', 7758, 1405073957, 'sdonato'), ('lib/slc6_amd64_gcc481/DataFormatsL1CaloTriggerCapabilities.edmplugin', 53, 1405073957, 'sdonato'), ('lib/slc6_amd64_gcc481/libL1TriggerRegionalCaloTrigger.so', 167200, 1405073964, 'sdonato'), ('lib/slc6_amd64_gcc481/libL1TriggerUCT2015.so', 438282, 1405073964, 'sdonato'), ('lib/slc6_amd64_gcc481/pluginL1TriggerConfigL1ScalesProducers.so', 1045639, 1405073966, 'sdonato'), ('lib/slc6_amd64_gcc481/L1TriggerConfigL1ScalesProducers.edmplugin', 49, 1405073966, 'sdonato'), ('lib/slc6_amd64_gcc481/pluginNtuplerL1NtuplerL1Auto.so', 208604, 1407248614, 'sdonato'), ('lib/slc6_amd64_gcc481/NtuplerL1NtuplerL1Auto.edmplugin', 39, 1407248614, 'sdonato'), ('lib/slc6_amd64_gcc481/pluginL1TriggerRegionalCaloTriggerPlugins.so', 648544, 1405073968, 'sdonato'), ('lib/slc6_amd64_gcc481/L1TriggerRegionalCaloTriggerPlugins.edmplugin', 52, 1405073968, 'sdonato'), ('lib/slc6_amd64_gcc481/pluginL1TriggerUCT2015Capabilities.so', 11854, 1405073977, 'sdonato'), ('lib/slc6_amd64_gcc481/L1TriggerUCT2015Capabilities.edmplugin', 45, 1405073977, 'sdonato'), ('lib/slc6_amd64_gcc481/pluginL1TriggerUCT20125Plugins.so', 745691, 1405073987, 'sdonato'), ('lib/slc6_amd64_gcc481/L1TriggerUCT20125Plugins.edmplugin', 41, 1405073987, 'sdonato'), ('lib/slc6_amd64_gcc481/.edmplugincache', 7839, 1407248620, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data', 0, 1405073849, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/RCTHcalScaleFactors.txt', 147, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/RCTLUTParameters.txt', 269, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/TPGcalc.txt', 56807, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/maskEcalGren1.txt', 21038, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/maskEcalGren2.txt', 21038, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/maskHcalGren.txt', 21039, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/patternTestEcal.txt', 269, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/patternTestEcalZeroes.txt', 269, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/patternTestHcal.txt', 147, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/patternTestHcalZeroes.txt', 147, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-1.dat', 16423, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-2.dat', 16428, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-3.dat', 16423, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-4.dat', 16434, 1405073848, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-5.dat', 16425, 1405073849, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-6.dat', 16423, 1405073849, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-7.dat', 16424, 1405073849, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-8.dat', 16422, 1405073849, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/data/rct-input-9.dat', 16442, 1405073849, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/test/data', 0, 1405073852, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/test/data/TPGcalcDecompress2Identity.txt', 37696, 1405073852, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/test/data/emptyMask.txt', 22383, 1405073852, 'sdonato'), ('src/L1Trigger/RegionalCaloTrigger/test/data/testMaskOutEtaMinus.txt', 22383, 1405073852, 'sdonato'), ('PSet.py', 101, 1407252809, 'sdonato'), ('PSet.pkl', 539893, 1407252809, 'sdonato')]
+DEBUG 2014-08-05 17:33:31,775: 	 MD5 checksum: ab39e64eab4bf376b53aa68b28b26492
+DEBUG 2014-08-05 17:33:31,823: 	  uploading archive to cache /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/inputs/0639954f-b892-480f-adbe-606803739d1adefault.tgz 
+DEBUG 2014-08-05 17:33:32,330: 	 Result uploading input files: ('https://cmsweb.cern.ch/crabcache', 'b69d7c555af7bfbc0307509aa82a33c14042ce57b8add2783402cdb9031259ff.tar.gz', 'ab39e64eab4bf376b53aa68b28b26492') 
+INFO 2014-08-05 17:33:32,331: 	 Sending the request to the server
+DEBUG 2014-08-05 17:33:32,331: 	 Submitting {'ignorelocality': 0, 'workflow': 'crab_NeutrinoL1FlatPUFromAODSIM_CRAB3', 'cacheurl': 'https://cmsweb.cern.ch/crabcache', 'publishname': 'NeutrinoL1FlatPUFromAODSIM_CRAB3-ab39e64eab4bf376b53aa68b28b26492', 'savelogsflag': 0, 'nonprodsw': 0, 'tfileoutfiles': ['ntupla2L1MinBiasFromAODSIM.root'], 'asyncdest': 'T2_IT_Pisa', 'oneEventMode': 0, 'algoargs': 30, 'saveoutput': 1, 'totalunits': -1, 'cachefilename': 'b69d7c555af7bfbc0307509aa82a33c14042ce57b8add2783402cdb9031259ff.tar.gz', 'jobarch': 'slc6_amd64_gcc481', 'publication': 1, 'splitalgo': 'FileBased', 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'jobsw': 'CMSSW_7_0_4', 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'addoutputfiles': [], 'edmoutfiles': [], 'adduserfiles': [], 'inputdata': '/Neutrino_Pt-2to20_gun/Spring14dr-Flat20to50_POSTLS170_V5-v1/AODSIM', 'jobtype': 'Analysis'} 
+DEBUG 2014-08-05 17:33:32,331: 	 Encoded submit request: ignorelocality=0&workflow=crab_NeutrinoL1FlatPUFromAODSIM_CRAB3&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&publishname=NeutrinoL1FlatPUFromAODSIM_CRAB3-ab39e64eab4bf376b53aa68b28b26492&savelogsflag=0&nonprodsw=0&asyncdest=T2_IT_Pisa&oneEventMode=0&algoargs=30&saveoutput=1&totalunits=-1&cachefilename=b69d7c555af7bfbc0307509aa82a33c14042ce57b8add2783402cdb9031259ff.tar.gz&jobarch=slc6_amd64_gcc481&publication=1&splitalgo=FileBased&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&jobsw=CMSSW_7_0_4&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&inputdata=%2FNeutrino_Pt-2to20_gun%2FSpring14dr-Flat20to50_POSTLS170_V5-v1%2FAODSIM&jobtype=Analysis&tfileoutfiles=ntupla2L1MinBiasFromAODSIM.root
+DEBUG 2014-08-05 17:33:32,678: 	 Result: {'result': [{'RequestName': '140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3'}]}
+INFO 2014-08-05 17:33:32,682: 	 [92mSuccess[0m: Your task has been delivered to the CRAB3 server.
+INFO 2014-08-05 17:33:32,682: 	 Please use 'crab status' to check how the submission process proceed
+DEBUG 2014-08-05 17:33:32,682: 	 Request ID: 140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3 
+INFO 2014-08-05 17:33:32,683: 	 Log file is /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/crab.log
+DEBUG 2014-08-05 17:34:03,215: 	 Checking credentials
+DEBUG 2014-08-05 17:34:03,337: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:34:03,338: 	 Getting proxy life time left
+DEBUG 2014-08-05 17:34:04,451: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -timeleft
+ output : 84611
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:34:05,560: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -actimeleft
+ output : 84609
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:34:05,561: 	 Proxy is valid: 84611
+DEBUG 2014-08-05 17:34:06,874: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u33244 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:34:21,812: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+DEBUG 2014-08-05 17:34:21,928: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:34:21,929: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2014-08-05 17:34:21,929: 	 Calculating hash of /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato_cmsweb.cern.ch for credential name
+DEBUG 2014-08-05 17:34:22,136: 	 Executing : 
+ command : myproxy-info -l ba83456b0a7cd62221aac81e32531c20c7aedfd6 -s myproxy.cern.ch
+ output : username: ba83456b0a7cd62221aac81e32531c20c7aedfd6
+owner: /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  timeleft: 712:51:29  (29.7 days)
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:34:22,138: 	 Myproxy is valid: 2566289
+DEBUG 2014-08-05 17:34:22,138: 	 Command use: status
+DEBUG 2014-08-05 17:34:22,138: 	 Options use: ['crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/']
+DEBUG 2014-08-05 17:34:22,291: 	 CRABClient version: 3.3.7.patch2 Compatible
+DEBUG 2014-08-05 17:34:22,292: 	 Instance is prod
+DEBUG 2014-08-05 17:34:22,292: 	 Server base url is cmsweb.cern.ch
+DEBUG 2014-08-05 17:34:22,292: 	 Command url /crabserver/prod/workflow
+DEBUG 2014-08-05 17:34:22,292: 	 Looking up detailed status of task 140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+DEBUG 2014-08-05 17:34:22,801: 	 {'status': 'NEW', 'saveLogs': 'F', 'totalJobdefs': 0, 'jobSetID': '', 'jobsPerStatus': {}, 'taskFailureMsg': '', 'failedJobdefs': 0, 'jobdefErrors': [], 'jobList': []}
+INFO 2014-08-05 17:34:22,801: 	 Task name:			140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+INFO 2014-08-05 17:34:22,801: 	 Task status:			NEW
+INFO 2014-08-05 17:34:22,801: 	 
+ERROR 2014-08-05 17:34:22,802: 	 No publication information available yet
+INFO 2014-08-05 17:34:22,802: 	 
+No jobs created yet!
+INFO 2014-08-05 17:34:22,802: 	 Log file is /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/crab.log
+DEBUG 2014-08-05 17:36:18,292: 	 Checking credentials
+DEBUG 2014-08-05 17:36:18,526: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:36:18,529: 	 Getting proxy life time left
+DEBUG 2014-08-05 17:36:19,642: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -timeleft
+ output : 84476
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:36:20,853: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -actimeleft
+ output : 84474
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:36:20,854: 	 Proxy is valid: 84476
+DEBUG 2014-08-05 17:36:21,866: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u33244 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:36:22,019: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+DEBUG 2014-08-05 17:36:22,136: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:36:22,137: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2014-08-05 17:36:22,137: 	 Calculating hash of /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato_cmsweb.cern.ch for credential name
+DEBUG 2014-08-05 17:36:22,343: 	 Executing : 
+ command : myproxy-info -l ba83456b0a7cd62221aac81e32531c20c7aedfd6 -s myproxy.cern.ch
+ output : username: ba83456b0a7cd62221aac81e32531c20c7aedfd6
+owner: /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  timeleft: 712:49:29  (29.7 days)
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:36:22,345: 	 Myproxy is valid: 2566169
+DEBUG 2014-08-05 17:36:22,346: 	 Command use: status
+DEBUG 2014-08-05 17:36:22,346: 	 Options use: ['crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/']
+DEBUG 2014-08-05 17:36:22,457: 	 CRABClient version: 3.3.7.patch2 Compatible
+DEBUG 2014-08-05 17:36:22,457: 	 Instance is prod
+DEBUG 2014-08-05 17:36:22,457: 	 Server base url is cmsweb.cern.ch
+DEBUG 2014-08-05 17:36:22,457: 	 Command url /crabserver/prod/workflow
+DEBUG 2014-08-05 17:36:22,457: 	 Looking up detailed status of task 140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+DEBUG 2014-08-05 17:36:56,521: 	 {'status': 'UNKNOWN', 'saveLogs': 'F', 'totalJobdefs': 0, 'jobSetID': '', 'jobsPerStatus': {}, 'taskFailureMsg': 'Node status file not currently available.  Retry in a minute if you just submitted the task', 'failedJobdefs': 0, 'jobdefErrors': [], 'jobList': []}
+INFO 2014-08-05 17:36:56,522: 	 Task name:			140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+INFO 2014-08-05 17:36:56,522: 	 Task status:			UNKNOWN
+ERROR 2014-08-05 17:36:56,522: 	 [91mError during task injection:[0m	Node status file not currently available.  Retry in a minute if you just submitted the task
+INFO 2014-08-05 17:36:56,522: 	 
+ERROR 2014-08-05 17:36:56,522: 	 No publication information available yet
+INFO 2014-08-05 17:36:56,522: 	 
+No jobs created yet!
+INFO 2014-08-05 17:36:56,522: 	 Log file is /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/crab.log
+DEBUG 2014-08-05 17:44:20,693: 	 Checking credentials
+DEBUG 2014-08-05 17:44:21,271: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:44:21,272: 	 Getting proxy life time left
+DEBUG 2014-08-05 17:44:23,839: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -timeleft
+ output : 83992
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:44:25,235: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -actimeleft
+ output : 83989
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:44:25,236: 	 Proxy is valid: 83992
+DEBUG 2014-08-05 17:44:26,513: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u33244 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:44:26,749: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+DEBUG 2014-08-05 17:44:27,403: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:44:27,403: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2014-08-05 17:44:27,404: 	 Calculating hash of /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato_cmsweb.cern.ch for credential name
+DEBUG 2014-08-05 17:44:27,833: 	 Executing : 
+ command : myproxy-info -l ba83456b0a7cd62221aac81e32531c20c7aedfd6 -s myproxy.cern.ch
+ output : username: ba83456b0a7cd62221aac81e32531c20c7aedfd6
+owner: /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  timeleft: 712:41:24  (29.7 days)
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:44:27,835: 	 Myproxy is valid: 2565684
+DEBUG 2014-08-05 17:44:27,835: 	 Command use: status
+DEBUG 2014-08-05 17:44:27,835: 	 Options use: ['crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/']
+DEBUG 2014-08-05 17:44:37,083: 	 CRABClient version: 3.3.7.patch2 Compatible
+DEBUG 2014-08-05 17:44:37,083: 	 Instance is prod
+DEBUG 2014-08-05 17:44:37,083: 	 Server base url is cmsweb.cern.ch
+DEBUG 2014-08-05 17:44:37,083: 	 Command url /crabserver/prod/workflow
+DEBUG 2014-08-05 17:44:37,083: 	 Looking up detailed status of task 140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+DEBUG 2014-08-05 17:45:11,400: 	 {'status': 'SUBMITTED', 'totalJobdefs': 0, 'jobSetID': '140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3', 'publication': {}, 'jobsPerStatus': {'running': 4, 'idle': 1, 'unsubmitted': 43}, 'taskFailureMsg': '', 'failedJobdefs': 0, 'jobList': [['unsubmitted', 42], ['unsubmitted', 48], ['unsubmitted', 43], ['unsubmitted', 24], ['unsubmitted', 25], ['unsubmitted', 26], ['unsubmitted', 27], ['unsubmitted', 20], ['unsubmitted', 21], ['unsubmitted', 22], ['unsubmitted', 23], ['unsubmitted', 46], ['unsubmitted', 47], ['unsubmitted', 44], ['unsubmitted', 45], ['unsubmitted', 28], ['unsubmitted', 29], ['unsubmitted', 40], ['unsubmitted', 41], ['running', 1], ['running', 3], ['running', 2], ['idle', 5], ['running', 4], ['unsubmitted', 7], ['unsubmitted', 6], ['unsubmitted', 9], ['unsubmitted', 8], ['unsubmitted', 39], ['unsubmitted', 38], ['unsubmitted', 11], ['unsubmitted', 10], ['unsubmitted', 13], ['unsubmitted', 12], ['unsubmitted', 15], ['unsubmitted', 14], ['unsubmitted', 17], ['unsubmitted', 16], ['unsubmitted', 19], ['unsubmitted', 18], ['unsubmitted', 31], ['unsubmitted', 30], ['unsubmitted', 37], ['unsubmitted', 36], ['unsubmitted', 35], ['unsubmitted', 34], ['unsubmitted', 33], ['unsubmitted', 32]], 'jobs': {'28': {'State': 'unsubmitted'}, '29': {'State': 'unsubmitted'}, '24': {'State': 'unsubmitted'}, '25': {'State': 'unsubmitted'}, '26': {'State': 'unsubmitted'}, '27': {'State': 'unsubmitted'}, '20': {'State': 'unsubmitted'}, '21': {'State': 'unsubmitted'}, '48': {'State': 'unsubmitted'}, '23': {'State': 'unsubmitted'}, '46': {'State': 'unsubmitted'}, '47': {'State': 'unsubmitted'}, '44': {'State': 'unsubmitted'}, '45': {'State': 'unsubmitted'}, '42': {'State': 'unsubmitted'}, '43': {'State': 'unsubmitted'}, '40': {'State': 'unsubmitted'}, '41': {'State': 'unsubmitted'}, '1': {'State': 'running'}, '3': {'State': 'running'}, '2': {'State': 'running'}, '5': {'State': 'idle'}, '4': {'State': 'running'}, '7': {'State': 'unsubmitted'}, '6': {'State': 'unsubmitted'}, '9': {'State': 'unsubmitted'}, '8': {'State': 'unsubmitted'}, '13': {'State': 'unsubmitted'}, '12': {'State': 'unsubmitted'}, '14': {'State': 'unsubmitted'}, '11': {'State': 'unsubmitted'}, '10': {'State': 'unsubmitted'}, '39': {'State': 'unsubmitted'}, '38': {'State': 'unsubmitted'}, '15': {'State': 'unsubmitted'}, '22': {'State': 'unsubmitted'}, '17': {'State': 'unsubmitted'}, '16': {'State': 'unsubmitted'}, '19': {'State': 'unsubmitted'}, '18': {'State': 'unsubmitted'}, '31': {'State': 'unsubmitted'}, '30': {'State': 'unsubmitted'}, '37': {'State': 'unsubmitted'}, '36': {'State': 'unsubmitted'}, '35': {'State': 'unsubmitted'}, '34': {'State': 'unsubmitted'}, '33': {'State': 'unsubmitted'}, '32': {'State': 'unsubmitted'}}, 'jobdefErrors': [], 'outdatasets': [], 'pool': {}}
+INFO 2014-08-05 17:45:11,401: 	 Task name:			140805_153332_crab3test-3:sdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+INFO 2014-08-05 17:45:11,401: 	 Task status:			SUBMITTED
+INFO 2014-08-05 17:45:11,401: 	 Glidemon monitoring URL:	http://glidemon.web.cern.ch/glidemon/jobs.php?taskname=140805_153332_crab3test-3%3Asdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+INFO 2014-08-05 17:45:11,401: 	 Dashboard monitoring URL:	http://dashb-cms-job.cern.ch/dashboard/templates/task-analysis/#user=sdonato&refresh=0&table=Jobs&p=1&records=25&activemenu=2&status=&site=&tid=140805_153332_crab3test-3%3Asdonato_crab_NeutrinoL1FlatPUFromAODSIM_CRAB3
+INFO 2014-08-05 17:45:11,401: 	 Details:			[90midle         [0m   2.1% ([90m 1[0m/48)
+INFO 2014-08-05 17:45:11,402: 	 				[92mrunning      [0m   8.3% ([92m 4[0m/48)
+INFO 2014-08-05 17:45:11,402: 	 				[90munsubmitted  [0m  89.6% ([90m43[0m/48)
+INFO 2014-08-05 17:45:11,402: 	 
+ERROR 2014-08-05 17:45:11,402: 	 No publication information available yet
+INFO 2014-08-05 17:45:11,402: 	 Log file is /afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/crab.log
+DEBUG 2014-08-05 17:45:56,057: 	 Checking credentials
+DEBUG 2014-08-05 17:45:56,180: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:45:56,181: 	 Getting proxy life time left
+DEBUG 2014-08-05 17:45:57,709: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -timeleft
+ output : 83898
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:45:59,609: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u33244 -actimeleft
+ output : 83895
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:45:59,609: 	 Proxy is valid: 83898
+DEBUG 2014-08-05 17:46:00,845: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u33244 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:46:01,239: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+DEBUG 2014-08-05 17:46:01,860: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:46:01,861: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2014-08-05 17:46:01,861: 	 Calculating hash of /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato_cmsweb.cern.ch for credential name
+DEBUG 2014-08-05 17:46:02,272: 	 Executing : 
+ command : myproxy-info -l ba83456b0a7cd62221aac81e32531c20c7aedfd6 -s myproxy.cern.ch
+ output : username: ba83456b0a7cd62221aac81e32531c20c7aedfd6
+owner: /C=IT/O=INFN/OU=Personal Certificate/L=Pisa/CN=Silvio Donato
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(24[345]|3[136]|21).cern.ch
+  timeleft: 712:39:49  (29.7 days)
+
+ error: 
+ retcode : 0
+DEBUG 2014-08-05 17:46:02,274: 	 Myproxy is valid: 2565589
+DEBUG 2014-08-05 17:46:02,274: 	 Command use: status
+DEBUG 2014-08-05 17:46:02,274: 	 Options use: ['crab_projects/crab_NeutrinoL1FlatPUFromAODSIM_CRAB3/']
+INFO 2014-08-05 17:46:27,453: 	 Error contacting the server.
+INFO 2014-08-05 17:46:27,453: 	 Server answered with: Database unavailable
+DEBUG 2014-08-05 17:46:27,453: 	 ERROR:  (503):  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <title>503 Service Unavailable</title>
+    <style type="text/css">
+    #powered_by {
+        margin-top: 20px;
+        border-top: 2px solid black;
+        font-style: italic;
+    }
+
+    #traceback {
+        color: red;
+    }
+    </style>
+</head>
+    <body>
+        <h2>503 Service Unavailable</h2>
+        <p>Database unavailable</p>
+        <pre id="traceback"></pre>
+    <div id="powered_by">
+    <span>Powered by <a href="http://www.cherrypy.org">CherryPy 3.1.2</a></span>
+    </div>
+    </body>
+</html>
+'
+DEBUG 2014-08-05 17:46:27,453: 	 Command failed with URI: https://cmsweb.cern.ch/crabserver/prod/info
+DEBUG 2014-08-05 17:46:27,453: 	      Input data: {'subresource': 'version'}
+DEBUG 2014-08-05 17:46:27,453: 	      Request headers: {'Content-Length': '727', 'X-Error-Http': '503', 'X-Rest-Time': '20279259.920 us', 'Server': 'CherryPy/3.1.2', 'Connection': 'close', 'X-Error-Detail': 'Database unavailable', 'X-Rest-Status': '401', 'Date': 'Tue, 05 Aug 2014 15:46:07 GMT', 'Content-Type': 'text/html', 'CMS-Server-Time': 'D=25092023 t=1407253562336233', 'X-Error-Id': '8308f097050525d455d503f2f2840c7b'}
+ERROR 2014-08-05 17:46:27,453: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/bin/crab", line 172, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/bin/crab", line 157, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/CRABClient/Commands/SubCommand.py", line 223, in __init__
+    self.checkversion(self.getUrl(self.instance, resource='info'))
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/CRABClient/Commands/SubCommand.py", line 311, in checkversion
+    compatibleversion = server_info('version', self.serverurl, self.proxyfilename, baseurl)
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/CRABClient/client_utilities.py", line 329, in server_info
+    dictresult, status, reason = server.get(baseurl, requestdict)
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/RESTInteractions.py", line 59, in get
+    return self.makeRequest(uri = uri, data = data, verb = 'GET')
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/RESTInteractions.py", line 105, in makeRequest
+    capath=caCertPath)#, verbose=True)# for debug
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/WMCore/Services/pycurl_manager.py", line 162, in request
+    raise exc
+HTTPException
