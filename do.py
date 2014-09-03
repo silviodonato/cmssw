@@ -65,6 +65,7 @@ process.l1extraParticles = cms.EDProducer("L1ExtraParticlesProd",
      ignoreHtMiss = cms.bool(False)
 )
 
+process.TFileService = cms.Service("TFileService", fileName = cms.string("L1ntuple.root") )
 process.n = cms.EDAnalyzer("NtuplerL1GenAOD")
 
 process.p1 = cms.Path(
