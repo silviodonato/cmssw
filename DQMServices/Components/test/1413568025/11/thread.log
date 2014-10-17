@@ -1,0 +1,24 @@
+Fri Oct 17 19:47:05 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver11a.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11/driver11a.sh 
+Fri Oct 17 19:47:05 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11/driver11a.shFri Oct 17 19:49:55 2014After running CMSSW, this is the exit code 0Fri Oct 17 19:49:55 2014
+ RAW2DIGI,RECO,DQM
+magnetic field option forced to: AutoFromDBCurrent
+entry file:/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/DQMTest/MinimumBias__RAW__v1__165633__1CC420EE-B686-E011-A788-0030487CD6E8.root
+Step: RAW2DIGI Spec: 
+Step: RECO Spec: 
+Step: DQM Spec: 
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+customising the process with customise from DQMServices/Components/test/customDQM
+Config file test_11_a_1.py created
+Fri Oct 17 19:49:55 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver11b.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11/driver11b.sh 
+Fri Oct 17 19:49:55 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11/driver11b.shFri Oct 17 19:50:28 2014After running CMSSW, this is the exit code 0Fri Oct 17 19:50:28 2014
+ HARVESTING:dqmHarvesting
+magnetic field option forced to: AutoFromDBCurrent
+entry file:test_11_a_1_RAW2DIGI_RECO_DQM.root
+Step: HARVESTING Spec: ['dqmHarvesting']
+['HLT_Mu17_TkMu8', 'HLT_DoublePhoton70', 'HLT_Ele27_WP80', 'HLT_Ele80_CaloIdVT_GsfTrkIdT', 'HLT_MET120_HBHENoiseCleaned', 'HLT_Photon155', 'HLT_L2Mu20_NoVertex_3Sta_NoBPTX3BX_NoHalo', 'HLT_Photon135', 'HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW', 'HLT_HT900', 'HLT_Ele95_CaloIdVT_GsfTrkIdT', 'HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_PFNoPUHT750_4Jet', 'HLT_PFHT900', 'HLT_Mu22_TkMu8', 'HLT_L2Mu20_NoVertex_2Cha_NoBPTX3BX_NoHalo', 'HLT_PFJet260', 'HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95', 'HLT_DoubleMu33NoFiltersNoVtx', 'HLT_Ele27_WP85_Gsf', 'HLT_DoubleMu38NoFiltersNoVtx', 'HLT_PFMET180_NoiseCleaned', 'HLT_DoublePho85', 'HLT_JetE50_NoBPTX3BX_NoHalo', 'HLT_HT750', 'HLT_Mu42NoFiltersNoVtx_Photon42_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL', 'HLT_Mu30_TkMu11HLT_Mu17_Mu8', 'HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10']
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+customising the process with customise from DQMServices/Components/test/customHarvesting
+Config file test_11_b_1.py created
+Fri Oct 17 19:50:28 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver11c.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11/driver11c.sh 
+Fri Oct 17 19:50:28 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413568025/11/driver11c.shFri Oct 17 19:50:28 2014After running CMSSW, this is the exit code 0Fri Oct 17 19:50:28 2014
+ 

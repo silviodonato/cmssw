@@ -1,0 +1,541 @@
+['HLT_Mu17_TkMu8', 'HLT_DoublePhoton70', 'HLT_Ele27_WP80', 'HLT_Ele80_CaloIdVT_GsfTrkIdT', 'HLT_MET120_HBHENoiseCleaned', 'HLT_Photon155', 'HLT_L2Mu20_NoVertex_3Sta_NoBPTX3BX_NoHalo', 'HLT_Photon135', 'HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW', 'HLT_HT900', 'HLT_Ele95_CaloIdVT_GsfTrkIdT', 'HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_PFNoPUHT750_4Jet', 'HLT_PFHT900', 'HLT_Mu22_TkMu8', 'HLT_L2Mu20_NoVertex_2Cha_NoBPTX3BX_NoHalo', 'HLT_PFJet260', 'HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95', 'HLT_DoubleMu33NoFiltersNoVtx', 'HLT_Ele27_WP85_Gsf', 'HLT_DoubleMu38NoFiltersNoVtx', 'HLT_PFMET180_NoiseCleaned', 'HLT_DoublePho85', 'HLT_JetE50_NoBPTX3BX_NoHalo', 'HLT_HT750', 'HLT_Mu42NoFiltersNoVtx_Photon42_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL', 'HLT_Mu30_TkMu11HLT_Mu17_Mu8', 'HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10']
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+17-Oct-2014 19:26:52 CEST  Initiating request to open file file:test_9_a_1_inDQM.root
+17-Oct-2014 19:26:52 CEST  Successfully opened file file:test_9_a_1_inDQM.root
+DQMFileSaver: storing EventInfo folders for Run: 1, Lumi Section: 1, Subsystems: Btag  EgammaV  Generator  HLT  JetMET  Muons  Physics  PhysicsHWW  Tracking  
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- Dumping stats results FOR ALL ME
+===========================================================================================
+
+------------------------------------------------------------------------------------------
+Configuration:
+------------------------------------------------------------------------------------------
+ > running on run end.
+ > pathNameMatch = "*"
+
+------------------------------------------------------------------------------------------
+Top level folder tree:
+------------------------------------------------------------------------------------------
+Btag (subsystem)
+  |--> CSVTag_GLOBAL (subfolder)
+  |--> CSV_GLOBAL (subfolder)
+  |--> GhTrk_GLOBAL (subfolder)
+  |--> IPTag_GLOBAL (subfolder)
+  |--> JBP_GLOBAL (subfolder)
+  |--> JP_GLOBAL (subfolder)
+  |--> SET_GLOBAL (subfolder)
+  |--> SMT_GLOBAL (subfolder)
+  |--> SSVHE_GLOBAL (subfolder)
+  |--> SSVHP_GLOBAL (subfolder)
+  |--> TCHE_GLOBAL (subfolder)
+  |--> TCHP_GLOBAL (subfolder)
+EgammaV (subsystem)
+  |--> ElectronMcFakeValidator (subfolder)
+  |--> ElectronMcSignalValidator (subfolder)
+  |--> PhotonValidator (subfolder)
+  |--> pfPhotonValidator (subfolder)
+Generator (subsystem)
+  |--> GenParticles (subfolder)
+  |--> Particles (subfolder)
+HLT (subsystem)
+  |--> B2GHLTValidation (subfolder)
+  |--> BTag (subfolder)
+  |--> HLTEgammaValidation (subfolder)
+  |--> HLTJETMET (subfolder)
+  |--> Higgs (subfolder)
+  |--> Muon (subfolder)
+  |--> SusyExo (subfolder)
+  |--> TauRelVal (subfolder)
+  |--> TopHLTOffline (subfolder)
+  |--> TopHLTValidation (subfolder)
+  |--> Vertex (subfolder)
+JetMET (subsystem)
+  |--> JetValidation (subfolder)
+  |--> METValidation (subfolder)
+Muons (subsystem)
+  |--> MuonIdentificationV (subfolder)
+  |--> MuonIsolationV_global (subfolder)
+  |--> MuonIsolationV_inc (subfolder)
+  |--> RecoMuonV (subfolder)
+Physics (subsystem)
+  |--> B2G (subfolder)
+  |--> BPhysics (subfolder)
+  |--> EwkElecDQM (subfolder)
+  |--> EwkMuDQM (subfolder)
+  |--> EwkMuLumiMonitorDQM (subfolder)
+  |--> Exotica (subfolder)
+  |--> Higgs (subfolder)
+  |--> QcdPhotons (subfolder)
+  |--> Susy (subfolder)
+  |--> Top (subfolder)
+PhysicsHWW (subsystem)
+  |--> PhysicsHWW (subfolder)
+  |--> PhysicsHWW (subfolder)
+  |--> PhysicsHWW (subfolder)
+  |--> PhysicsHWW (subfolder)
+Tracking (subsystem)
+  |--> Track (subfolder)
+  |--> TrackingMCTruth (subfolder)
+
+------------------------------------------------------------------------------------------
+Detailed ressource usage information FOR ALL ME
+------------------------------------------------------------------------------------------
+subsystem/folder                          histograms       bins        Empty bins     Empty/Total      bins per       MB         kB per
+                                           (total)        (total)        (total)                      histogram     (total)    histogram  
+------------------------------------------------------------------------------------------
+Btag
+ -> CSVTag_GLOBAL                           1500         77682         76640         0.987          51.8         0.296         0.202
+ -> CSV_GLOBAL                                42          6210          6146          0.99           148        0.0237         0.578
+ -> GhTrk_GLOBAL                              42          6210          6147          0.99           148        0.0237         0.578
+ -> IPTag_GLOBAL                             690         51396         38454         0.748          74.5         0.198         0.294
+ -> JBP_GLOBAL                                42          6210          6146          0.99           148        0.0237         0.578
+ -> JP_GLOBAL                                 42          6210          6147          0.99           148        0.0237         0.578
+ -> SET_GLOBAL                                42          6210          6156         0.991           148        0.0237         0.578
+ -> SMT_GLOBAL                                42          6210          6154         0.991           148        0.0237         0.578
+ -> SSVHE_GLOBAL                              42          6210          6154         0.991           148        0.0237         0.578
+ -> SSVHP_GLOBAL                              42          6210          6154         0.991           148        0.0237         0.578
+ -> TCHE_GLOBAL                               42          6210          6150          0.99           148        0.0237         0.578
+ -> TCHP_GLOBAL                               42          6210          6150          0.99           148        0.0237         0.578
+    SUBSYSTEM TOTAL                         2610        191178        176598         0.924          73.2         0.749         0.287
+..........................................................................................
+EgammaV
+ -> ElectronMcFakeValidator                  337        216136         25861          0.12           641         0.825          2.51
+ -> ElectronMcSignalValidator                440        233658         33168         0.142           531         0.892          2.08
+ -> PhotonValidator                          543        367844         56643         0.154           677          1.43           2.7
+ -> pfPhotonValidator                        543        367844         56673         0.154           677          1.43           2.7
+    SUBSYSTEM TOTAL                         1863       1185482        172345         0.145           636          4.69          2.52
+..........................................................................................
+Generator
+ -> GenParticles                              16          1301          1219         0.937          81.3       0.00496         0.318
+ -> Particles                                120          8257          7310         0.885          68.8        0.0315         0.269
+    SUBSYSTEM TOTAL                          136          9558          8529         0.892          70.3        0.0373         0.275
+..........................................................................................
+HLT
+ -> B2GHLTValidation                          26           866           866             1          33.3        0.0033          0.13
+ -> BTag                                      11         30600          1400        0.0458      2.78e+03         0.117          10.9
+ -> HLTEgammaValidation                      869         33575         33575             1          38.6         0.128         0.151
+ -> HLTJETMET                                 96          9600          9570         0.997           100        0.0488         0.521
+ -> Higgs                                    304          9772          9696         0.992          32.1        0.0373         0.126
+ -> Muon                                     548        699584         75051         0.107      1.28e+03          2.73           5.1
+ -> SusyExo                                 5384        218758        216504          0.99          40.6         0.849         0.161
+ -> TauRelVal                                238          4784          4780         0.999          20.1        0.0182        0.0785
+ -> TopHLTOffline                            406         24222         13234         0.546          59.7        0.0924         0.233
+ -> TopHLTValidation                          70          2424          2392         0.987          34.6       0.00925         0.135
+ -> Vertex                                     3           300           300             1           100       0.00114         0.391
+    SUBSYSTEM TOTAL                         7955       1034485        367368         0.355           130          4.13         0.519
+..........................................................................................
+JetMET
+ -> JetValidation                            306         19567         18726         0.957          63.9        0.0952         0.318
+ -> METValidation                            219         56330         56166         0.997           257         0.216          1.01
+    SUBSYSTEM TOTAL                          525         75897         74892         0.987           145         0.319         0.607
+..........................................................................................
+Muons
+ -> MuonIdentificationV                      805        175894        175687         0.999           219         0.671         0.854
+ -> MuonIsolationV_global                    460          6928          6747         0.974          15.1        0.0497         0.111
+ -> MuonIsolationV_inc                       460          6928          6747         0.974          15.1        0.0497         0.111
+ -> RecoMuonV                               1736       2812223        244434        0.0869      1.62e+03          10.9          6.43
+    SUBSYSTEM TOTAL                         3461       3001973        433615         0.144           867          11.9          3.45
+..........................................................................................
+Physics
+ -> B2G                                      112          5875          5875             1          52.5        0.0224         0.205
+ -> BPhysics                                  15          9190          9190             1           613        0.0351          2.39
+ -> EwkElecDQM                                44          4686          2510         0.536           106        0.0179         0.416
+ -> EwkMuDQM                                  56          4234          4234             1          75.6        0.0162         0.295
+ -> EwkMuLumiMonitorDQM                       13         13500         13500             1      1.04e+03        0.0515          4.06
+ -> Exotica                                   20           930           930             1          46.5       0.00355         0.182
+ -> Higgs                                     39          2387          2387             1          61.2       0.00911         0.239
+ -> QcdPhotons                                28           389           389             1          13.9       0.00148        0.0543
+ -> Susy                                      28         23370          1761        0.0754           835        0.0891          3.26
+ -> Top                                     1347        348811        239794         0.687           259          1.33          1.01
+    SUBSYSTEM TOTAL                         1702        413372        280570         0.679           243          1.61         0.949
+..........................................................................................
+PhysicsHWW
+ -> PhysicsHWW                                 1            21            21             1            21      8.01e-05         0.082
+ -> PhysicsHWW                                 1            21            21             1            21      8.01e-05         0.082
+ -> PhysicsHWW                                 1            21            21             1            21      8.01e-05         0.082
+ -> PhysicsHWW                                 1            21            21             1            21      8.01e-05         0.082
+    SUBSYSTEM TOTAL                            4            84            84             1            21      0.000328         0.082
+..........................................................................................
+Tracking
+ -> Track                                   2706       9032804        451017        0.0499      3.34e+03          34.8          13.2
+ -> TrackingMCTruth                           14          1730          1238         0.716           124        0.0066         0.483
+    SUBSYSTEM TOTAL                         2720       9034534        452255        0.0501      3.32e+03          35.6          13.1
+..........................................................................................
+
+------------------------------------------------------------------------------------------
+Grand total FOR ALL ME:
+------------------------------------------------------------------------------------------
+Number of subsystems: 9
+Total number of histograms: 20976 with: 14946563 bins alltogether
+Total memory occupied by histograms (excl. overhead): 59.1 MB
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- End of output FOR ALL ME.
+===========================================================================================
+
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- Dumping stats results FOR LUMI PRODUCTS ONLY
+===========================================================================================
+
+------------------------------------------------------------------------------------------
+Configuration:
+------------------------------------------------------------------------------------------
+ > running on run end.
+ > pathNameMatch = "*"
+
+------------------------------------------------------------------------------------------
+Top level folder tree:
+------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------
+Detailed ressource usage information FOR LUMI PRODUCTS ONLY
+------------------------------------------------------------------------------------------
+subsystem/folder                          histograms       bins        Empty bins     Empty/Total      bins per       MB         kB per
+                                           (total)        (total)        (total)                      histogram     (total)    histogram  
+------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------
+Grand total FOR LUMI PRODUCTS ONLY:
+------------------------------------------------------------------------------------------
+Number of subsystems: 0
+Total number of histograms: 0 with: 0 bins alltogether
+Total memory occupied by histograms (excl. overhead): 0 MB
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- End of output FOR LUMI PRODUCTS ONLY.
+===========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Memory profile:
+------------------------------------------------------------------------------------------
+Approx. maximum total virtual memory size of job: (could not be determined)
+
+
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 0 passed = 0 failed = 0
+
+TrigReport ---------- Path   Summary ------------
+TrigReport  Trig Bit#        Run     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 edmtome_step
+TrigReport     1    1          0          0          0          0 validationHarvestingFS
+TrigReport     1    2          0          0          0          0 dqmsave_step
+
+TrigReport -------End-Path   Summary ------------
+TrigReport  Trig Bit#        Run     Passed     Failed      Error Name
+TrigReport     0    0          0          0          0          0 stats
+
+TrigReport ---------- Modules in Path: edmtome_step ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 EDMtoMEConverter
+
+TrigReport ---------- Modules in Path: validationHarvestingFS ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 postProcessorMuonMultiTrack
+TrigReport     1    1          0          0          0          0 postProcessorRecoMuon_Glb
+TrigReport     1    2          0          0          0          0 postProcessorRecoMuon_Trk
+TrigReport     1    3          0          0          0          0 postProcessorRecoMuon_Sta
+TrigReport     1    4          0          0          0          0 postProcessorRecoMuon_Tgt
+TrigReport     1    5          0          0          0          0 postProcessorRecoMuon_GlbPF
+TrigReport     1    6          0          0          0          0 postProcessorRecoMuon_TrkPF
+TrigReport     1    7          0          0          0          0 postProcessorRecoMuon_StaPF
+TrigReport     1    8          0          0          0          0 postProcessorMuonMultiTrackComp
+TrigReport     1    9          0          0          0          0 postProcessorRecoMuonComp
+TrigReport     1   10          0          0          0          0 postProcessorRecoMuonCompPF
+TrigReport     1   11          0          0          0          0 postProcessorTrack
+TrigReport     1   12          0          0          0          0 postProcessorMuonIsolation
+TrigReport     1   13          0          0          0          0 fastSimPhotonPostProcessing
+TrigReport     1   14          0          0          0          0 fastSimGEDPhotonPostProcessing
+TrigReport     1   15          0          0          0          0 bTagCollectorMC
+TrigReport     1   16          0          0          0          0 postProcessorMuonMultiTrackHLT
+TrigReport     1   17          0          0          0          0 postProcessorMuonMultiTrackHLTCompFS
+TrigReport     1   18          0          0          0          0 hltMuonPostNonIso
+TrigReport     1   19          0          0          0          0 hltMuonPostIso
+TrigReport     1   20          0          0          0          0 hltMuonPostMain
+TrigReport     1   21          0          0          0          0 HLTTauValPostAnalysis_MC
+TrigReport     1   22          0          0          0          0 HLTTauValPostAnalysis_MC2
+TrigReport     1   23          0          0          0          0 HLTTauValPostAnalysis_PF
+TrigReport     1   24          0          0          0          0 HLTTauValPostAnalysis_PF2
+TrigReport     1   25          0          0          0          0 EgammaPostVal
+TrigReport     1   26          0          0          0          0 hltriggerFourVectorClient
+TrigReport     1   27          0          0          0          0 DiMuonHLTValidationHarvest
+TrigReport     1   28          0          0          0          0 DiElectronHLTValidationHarvest
+TrigReport     1   29          0          0          0          0 ElecMuonHLTValidationHarvest
+TrigReport     1   30          0          0          0          0 topSingleMuonHLTValidationHarvest
+TrigReport     1   31          0          0          0          0 topSingleElectronHLTValidationHarvest
+TrigReport     1   32          0          0          0          0 SingleTopSingleMuonHLTValidationHarvest
+TrigReport     1   33          0          0          0          0 SingleTopSingleElectronHLTValidationHarvest
+TrigReport     1   34          0          0          0          0 hfv1
+TrigReport     1   35          0          0          0          0 hfv2
+TrigReport     1   36          0          0          0          0 hfv3
+TrigReport     1   37          0          0          0          0 hfv4
+TrigReport     1   38          0          0          0          0 hfv5
+TrigReport     1   39          0          0          0          0 hfv6
+TrigReport     1   40          0          0          0          0 hfv7
+TrigReport     1   41          0          0          0          0 hfv8
+TrigReport     1   42          0          0          0          0 hfv9
+TrigReport     1   43          0          0          0          0 combiner
+TrigReport     1   44          0          0          0          0 JetMETPostVal
+TrigReport     1   45          0          0          0          0 SusyExoPostVal_fastsim
+TrigReport     1   46          0          0          0          0 hltHiggsPostHWW
+TrigReport     1   47          0          0          0          0 hltHiggsPostHZZ
+TrigReport     1   48          0          0          0          0 hltHiggsPostHgg
+TrigReport     1   49          0          0          0          0 hltHiggsPostHtaunu
+TrigReport     1   50          0          0          0          0 hltHiggsPostH2tau
+TrigReport     1   51          0          0          0          0 b2gSingleMuonHLTValidationHarvest
+TrigReport     1   52          0          0          0          0 b2gSingleElectronHLTValidationHarvest
+TrigReport     1   53          0          0          0          0 b2gSingleJetHLTValidationHarvest
+
+TrigReport ---------- Modules in Path: dqmsave_step ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 dqmSaver
+
+TrigReport ------ Modules in End-Path: stats ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     0    0          0          0          0          0 dqmStoreStats
+
+TrigReport ---------- Module Summary ------------
+TrigReport    Visited        Run     Passed     Failed      Error Name
+TrigReport          0          0          0          0          0 EDMtoMEConverter
+TrigReport          0          0          0          0          0 postProcessorMuonMultiTrack
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_Glb
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_Trk
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_Sta
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_Tgt
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_GlbPF
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_TrkPF
+TrigReport          0          0          0          0          0 postProcessorRecoMuon_StaPF
+TrigReport          0          0          0          0          0 postProcessorMuonMultiTrackComp
+TrigReport          0          0          0          0          0 postProcessorRecoMuonComp
+TrigReport          0          0          0          0          0 postProcessorRecoMuonCompPF
+TrigReport          0          0          0          0          0 postProcessorTrack
+TrigReport          0          0          0          0          0 postProcessorMuonIsolation
+TrigReport          0          0          0          0          0 fastSimPhotonPostProcessing
+TrigReport          0          0          0          0          0 fastSimGEDPhotonPostProcessing
+TrigReport          0          0          0          0          0 bTagCollectorMC
+TrigReport          0          0          0          0          0 postProcessorMuonMultiTrackHLT
+TrigReport          0          0          0          0          0 postProcessorMuonMultiTrackHLTCompFS
+TrigReport          0          0          0          0          0 hltMuonPostNonIso
+TrigReport          0          0          0          0          0 hltMuonPostIso
+TrigReport          0          0          0          0          0 hltMuonPostMain
+TrigReport          0          0          0          0          0 HLTTauValPostAnalysis_MC
+TrigReport          0          0          0          0          0 HLTTauValPostAnalysis_MC2
+TrigReport          0          0          0          0          0 HLTTauValPostAnalysis_PF
+TrigReport          0          0          0          0          0 HLTTauValPostAnalysis_PF2
+TrigReport          0          0          0          0          0 EgammaPostVal
+TrigReport          0          0          0          0          0 hltriggerFourVectorClient
+TrigReport          0          0          0          0          0 DiMuonHLTValidationHarvest
+TrigReport          0          0          0          0          0 DiElectronHLTValidationHarvest
+TrigReport          0          0          0          0          0 ElecMuonHLTValidationHarvest
+TrigReport          0          0          0          0          0 topSingleMuonHLTValidationHarvest
+TrigReport          0          0          0          0          0 topSingleElectronHLTValidationHarvest
+TrigReport          0          0          0          0          0 SingleTopSingleMuonHLTValidationHarvest
+TrigReport          0          0          0          0          0 SingleTopSingleElectronHLTValidationHarvest
+TrigReport          0          0          0          0          0 hfv1
+TrigReport          0          0          0          0          0 hfv2
+TrigReport          0          0          0          0          0 hfv3
+TrigReport          0          0          0          0          0 hfv4
+TrigReport          0          0          0          0          0 hfv5
+TrigReport          0          0          0          0          0 hfv6
+TrigReport          0          0          0          0          0 hfv7
+TrigReport          0          0          0          0          0 hfv8
+TrigReport          0          0          0          0          0 hfv9
+TrigReport          0          0          0          0          0 combiner
+TrigReport          0          0          0          0          0 JetMETPostVal
+TrigReport          0          0          0          0          0 SusyExoPostVal_fastsim
+TrigReport          0          0          0          0          0 hltHiggsPostHWW
+TrigReport          0          0          0          0          0 hltHiggsPostHZZ
+TrigReport          0          0          0          0          0 hltHiggsPostHgg
+TrigReport          0          0          0          0          0 hltHiggsPostHtaunu
+TrigReport          0          0          0          0          0 hltHiggsPostH2tau
+TrigReport          0          0          0          0          0 b2gSingleMuonHLTValidationHarvest
+TrigReport          0          0          0          0          0 b2gSingleElectronHLTValidationHarvest
+TrigReport          0          0          0          0          0 b2gSingleJetHLTValidationHarvest
+TrigReport          0          0          0          0          0 dqmSaver
+TrigReport          0          0          0          0          0 TriggerResults
+TrigReport          0          0          0          0          0 dqmStoreStats
+
+TimeReport ---------- Event  Summary ---[sec]----
+TimeReport CPU/event = 0.000000 Real/event = 0.000000
+
+TimeReport ---------- Path   Summary ---[sec]----
+TimeReport             per event          per path-run 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 edmtome_step
+TimeReport   0.000000   0.000000   0.000000   0.000000 validationHarvestingFS
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmsave_step
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event          per path-run 
+
+TimeReport -------End-Path   Summary ---[sec]----
+TimeReport             per event       per endpath-run 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 stats
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event       per endpath-run 
+
+TimeReport ---------- Modules in Path: edmtome_step ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 EDMtoMEConverter
+
+TimeReport ---------- Modules in Path: validationHarvestingFS ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrack
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Glb
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Trk
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Sta
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Tgt
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_GlbPF
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_TrkPF
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_StaPF
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrackComp
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuonComp
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuonCompPF
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorTrack
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorMuonIsolation
+TimeReport   0.000000   0.000000   0.000000   0.000000 fastSimPhotonPostProcessing
+TimeReport   0.000000   0.000000   0.000000   0.000000 fastSimGEDPhotonPostProcessing
+TimeReport   0.000000   0.000000   0.000000   0.000000 bTagCollectorMC
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrackHLT
+TimeReport   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrackHLTCompFS
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltMuonPostNonIso
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltMuonPostIso
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltMuonPostMain
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_MC
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_MC2
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_PF
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_PF2
+TimeReport   0.000000   0.000000   0.000000   0.000000 EgammaPostVal
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltriggerFourVectorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 DiMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 DiElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 ElecMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 topSingleMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 topSingleElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 SingleTopSingleMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 SingleTopSingleElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv1
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv2
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv3
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv4
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv5
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv6
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv7
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv8
+TimeReport   0.000000   0.000000   0.000000   0.000000 hfv9
+TimeReport   0.000000   0.000000   0.000000   0.000000 combiner
+TimeReport   0.000000   0.000000   0.000000   0.000000 JetMETPostVal
+TimeReport   0.000000   0.000000   0.000000   0.000000 SusyExoPostVal_fastsim
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHWW
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHZZ
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHgg
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHtaunu
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltHiggsPostH2tau
+TimeReport   0.000000   0.000000   0.000000   0.000000 b2gSingleMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 b2gSingleElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000 b2gSingleJetHLTValidationHarvest
+
+TimeReport ---------- Modules in Path: dqmsave_step ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmSaver
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event      per module-visit 
+
+TimeReport ------ Modules in End-Path: stats ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmStoreStats
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event      per module-visit 
+
+TimeReport ---------- Module Summary ---[sec]----
+TimeReport             per event        per module-run      per module-visit 
+TimeReport        CPU       Real        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 TriggerResults
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 EDMtoMEConverter
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrack
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Glb
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Trk
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Sta
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_Tgt
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_GlbPF
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_TrkPF
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuon_StaPF
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrackComp
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuonComp
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorRecoMuonCompPF
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorTrack
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorMuonIsolation
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 fastSimPhotonPostProcessing
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 fastSimGEDPhotonPostProcessing
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 bTagCollectorMC
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrackHLT
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 postProcessorMuonMultiTrackHLTCompFS
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltMuonPostNonIso
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltMuonPostIso
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltMuonPostMain
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_MC
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_MC2
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_PF
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauValPostAnalysis_PF2
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 EgammaPostVal
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltriggerFourVectorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 DiMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 DiElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ElecMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 topSingleMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 topSingleElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 SingleTopSingleMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 SingleTopSingleElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv1
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv2
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv3
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv4
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv5
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv6
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv7
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv8
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hfv9
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 combiner
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 JetMETPostVal
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 SusyExoPostVal_fastsim
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHWW
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHZZ
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHgg
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltHiggsPostHtaunu
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltHiggsPostH2tau
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 b2gSingleMuonHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 b2gSingleElectronHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 b2gSingleJetHLTValidationHarvest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmSaver
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmStoreStats
+TimeReport        CPU       Real        CPU       Real        CPU       Real Name
+TimeReport             per event        per module-run      per module-visit 
+
+T---Report end!
+
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s AfterModBeginStr                       2        2
+    2 fileAction           -s DQMFileSaver:dqm                       1        1
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           BeforeEvents     BeforeEvents     
+    2 fileAction           Run: 1 Lumi: 1                    
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+17-Oct-2014 19:26:56 CEST  Closed file file:test_9_a_1_inDQM.root

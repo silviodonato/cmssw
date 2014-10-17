@@ -1,0 +1,424 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+ FastSimulation/PileUpProducer -> poissonian distribution
+ FastSimulation/PileUpProducer -> No pileup 
+
+ *------------------------------------------------------------------------------------* 
+ |                                                                                    | 
+ |  *------------------------------------------------------------------------------*  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  |   PPP   Y   Y  TTTTT  H   H  III    A      Welcome to the Lund Monte Carlo!  |  | 
+ |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.200      |  | 
+ |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change: 23 Sep 2014  |  | 
+ |  |   P       Y      T    H   H   I   A   A                                      |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 17 Oct 2014 at 19:26:10    |  | 
+ |  |                                                                              |  | 
+ |  |   Torbjorn Sjostrand;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      phone: + 46 - 46 - 222 48 16; e-mail: torbjorn@thep.lu.se               |  | 
+ |  |   Jesper Roy Christiansen;  Department of Astronomy and Theoretical Physics, |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: Jesper.Roy.Christiansen@thep.lu.se                              |  | 
+ |  |   Nishita Desai;  Institut fuer Theoretische Physik,                         |  | 
+ |  |     Universitaet Heidelberg, Philosophenweg 16, D-69120 Heidelberg, Germany; |  | 
+ |  |      phone: +49 - 6221 54 9424; e-mail: Nishita.Desai@cern.ch                |  | 
+ |  |   Philip Ilten;  Massachusetts Institute of Technology,                      |  | 
+ |  |      stationed at CERN, CH-1211 Geneva 23, Switzerland;                      |  | 
+ |  |      e-mail: philten@cern.ch                                                 |  | 
+ |  |   Stephen Mrenna;  Computing Division, Simulations Group,                    |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 234, Batavia, IL 60510, USA;  |  | 
+ |  |      phone: + 1 - 630 - 840 - 2556; e-mail: mrenna@fnal.gov                  |  | 
+ |  |   Stefan Prestel;  Theory Group, DESY,                                       |  | 
+ |  |      Notkestrasse 85, D-22607 Hamburg, Germany;                              |  | 
+ |  |      phone: + 49 - 40 - 8998-4250; e-mail: stefan.prestel@thep.lu.se         |  | 
+ |  |   Christine Rasmussen;  Department of Astronomy and Theoretical Physics,     |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christine.rasmussen@thep.lu.se                                  |  | 
+ |  |   Peter Skands;  Theoretical Physics, CERN, CH-1211 Geneva 23, Switzerland;  |  | 
+ |  |      phone: + 41 - 22 - 767 2447; e-mail: peter.skands@cern.ch               |  | 
+ |  |   Stefan Ask; former author; e-mail: ask.stefan@gmail.com                    |  | 
+ |  |   Richard Corke; former author; e-mail: r.corke@errno.net                    |  | 
+ |  |                                                                              |  | 
+ |  |   The main program reference is the 'Brief Introduction to PYTHIA 8.1',      |  | 
+ |  |   T. Sjostrand, S. Mrenna and P. Skands, Comput. Phys. Comm. 178 (2008) 85   |  | 
+ |  |   [arXiv:0710.3820]                                                          |  | 
+ |  |                                                                              |  | 
+ |  |   The main physics reference is the 'PYTHIA 6.4 Physics and Manual',         |  | 
+ |  |   T. Sjostrand, S. Mrenna and P. Skands, JHEP05 (2006) 026 [hep-ph/0603175]. |  | 
+ |  |                                                                              |  | 
+ |  |   An archive of program versions and documentation is found on the web:      |  | 
+ |  |   http://www.thep.lu.se/~torbjorn/Pythia.html                                |  | 
+ |  |                                                                              |  | 
+ |  |   This program is released under the GNU General Public Licence version 2.   |  | 
+ |  |   Please respect the MCnet Guidelines for Event Generator Authors and Users. |  | 
+ |  |                                                                              |  | 
+ |  |   Disclaimer: this program comes without any guarantees.                     |  | 
+ |  |   Beware of errors and use common sense when interpreting results.           |  | 
+ |  |                                                                              |  | 
+ |  |   Copyright (C) 2014 Torbjorn Sjostrand                                      |  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  *------------------------------------------------------------------------------*  | 
+ |                                                                                    | 
+ *------------------------------------------------------------------------------------* 
+
+
+ *-------  PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec Settings (changes only)  -------------------------* 
+ |                                                                                                                 | 
+ | Name                                          |                      Now |      Default         Min         Max | 
+ |                                               |                          |                                      | 
+ | BeamRemnants:halfScaleForKT                   |                  1.50000 |      1.00000         0.0             | 
+ | BeamRemnants:primordialKThard                 |                  1.80000 |      2.00000         0.0             | 
+ | BeamRemnants:primordialKTsoft                 |                  0.90000 |      0.50000         0.0             | 
+ | ColourReconnection:range                      |                  1.80000 |     10.00000         0.0    10.00000 | 
+ | Diffraction:largeMassSuppress                 |                  4.00000 |      2.00000         0.0             | 
+ | MultipartonInteractions:alphaSvalue           |                  0.13000 |      0.12700   0.0600000     0.25000 | 
+ | MultipartonInteractions:bProfile              |                        3 |            1           0           4 | 
+ | MultipartonInteractions:ecmPow                |                  0.21500 |      0.24000         0.0     0.50000 | 
+ | MultipartonInteractions:ecmRef                |                 7000.000 |     1800.000     1.00000             | 
+ | MultipartonInteractions:expPow                |                  1.85000 |      1.00000     0.40000    10.00000 | 
+ | MultipartonInteractions:pT0Ref                |                  2.28000 |      2.15000     0.50000    10.00000 | 
+ | PartonLevel:FSRinResonances                   |                      off |           on                         | 
+ | PDF:pSet                                      |                       13 |            2                         | 
+ | ProcessLevel:all                              |                      off |           on                         | 
+ | ProcessLevel:resonanceDecays                  |                      off |           on                         | 
+ | SigmaDiffractive:dampen                       |                       on |          off                         | 
+ | SigmaDiffractive:maxAX                        |                 65.00000 |     15.00000         0.0             | 
+ | SigmaDiffractive:maxXB                        |                 65.00000 |     15.00000         0.0             | 
+ | SigmaDiffractive:maxXX                        |                 65.00000 |     15.00000         0.0             | 
+ | SigmaProcess:alphaSvalue                      |                  0.13000 |      0.12650   0.0600000     0.25000 | 
+ | SigmaTotal:zeroAXB                            |                       on |          off                         | 
+ | SpaceShower:alphaSvalue                       |                  0.13650 |      0.13700   0.0600000     0.25000 | 
+ | SpaceShower:ecmRef                            |                 7000.000 |     1800.000     1.00000             | 
+ | SpaceShower:rapidityOrder                     |                       on |          off                         | 
+ | StringFlav:etaSup                             |                  0.60000 |      0.63000         0.0     1.00000 | 
+ | StringFlav:mesonBvector                       |                  2.20000 |      3.00000         0.0     3.00000 | 
+ | StringFlav:mesonCvector                       |                  0.88000 |      1.06000         0.0     3.00000 | 
+ | StringFlav:mesonSvector                       |                  0.55000 |      0.72500         0.0     3.00000 | 
+ | StringFlav:mesonUDvector                      |                  0.50000 |      0.62000         0.0     3.00000 | 
+ | StringFlav:popcornSpair                       |                  0.90000 |      0.50000         0.0     1.00000 | 
+ | StringFlav:probQQ1toQQ0                       |                0.0275000 |    0.0270000         0.0     1.00000 | 
+ | StringFlav:probQQtoQ                          |                0.0810000 |    0.0900000         0.0     1.00000 | 
+ | StringFlav:probSQtoQQ                         |                  0.91500 |      1.00000         0.0     1.00000 | 
+ | StringFlav:probStoUD                          |                  0.21700 |      0.19000         0.0     1.00000 | 
+ | StringPT:sigma                                |                  0.33500 |      0.30400         0.0     1.00000 | 
+ | StringZ:aExtraDiquark                         |                  0.97000 |      0.50000         0.0     2.00000 | 
+ | StringZ:aLund                                 |                  0.68000 |      0.30000         0.0     2.00000 | 
+ | StringZ:bLund                                 |                  0.98000 |      0.80000     0.20000     2.00000 | 
+ | StringZ:rFactB                                |                  0.85500 |      0.67000         0.0     2.00000 | 
+ | StringZ:rFactC                                |                  1.32000 |      1.00000         0.0     2.00000 | 
+ | TimeShower:alphaSvalue                        |                  0.13650 |      0.13830   0.0600000     0.25000 | 
+ | TimeShower:pTmin                              |                  0.50000 |      0.40000     0.10000     2.00000 | 
+ | TimeShower:pTminChgQ                          |                  0.50000 |      0.40000     0.10000     2.00000 | 
+ |                                                                                                                 | 
+ *-------  End PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec Settings  ------------------------------------* 
+
+ --------  PYTHIA Particle Data Table (changed only)  ------------------------------------------------------------------------------
+ 
+      id   name            antiName         spn chg col      m0        mWidth      mMin       mMax       tau0    res dec ext vis wid
+             no onMode   bRatio   meMode     products 
+
+ no particle data has been changed from its default value 
+
+ --------  End PYTHIA Particle Data Table  -----------------------------------------------------------------------------------------
+
+%MSG-w SimpleTrackListMerger:   SimpleTrackListMerger:hltL3NoFiltersTkTracksMergeStep1@ctor  17-Oct-2014 19:26:18 CEST pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:   SimpleTrackListMerger:hltL3NoFiltersTkTracksFromL2@ctor  17-Oct-2014 19:26:18 CEST pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:   SimpleTrackListMerger:hltL3TkTracksMergeStep1@ctor 17-Oct-2014 19:26:18 CEST  pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:  SimpleTrackListMerger:hltL3TkTracksFromL2@ctor  17-Oct-2014 19:26:18 CEST pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:  SimpleTrackListMerger:hltDiMuonMerging@ctor  17-Oct-2014 19:26:18 CEST pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:  SimpleTrackListMerger:hltPFMuonMerging@ctor  17-Oct-2014 19:26:18 CEST pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:   SimpleTrackListMerger:hltPFMuonForTauMerging@ctor 17-Oct-2014 19:26:18 CEST  pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w SimpleTrackListMerger:   SimpleTrackListMerger:hltFastPVPixelTracksMerger@ctor  17-Oct-2014 19:26:18 CEST pre-events
+this class is obsolete, please use TrackListMerger
+%MSG
+%MSG-w HLTTauDQMOfflineSource:   HLTTauDQMOfflineSource:hltTauValIdealMonitorMC@streamBeginRun  17-Oct-2014 19:26:32 CEST Run: 1
+HLTTauDQMPath.cc, inferTauLeptonMultiplicity(): module type 'HLT2PhotonPFTau' not recognized, filter 'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20' in path 'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1' will be ignored for offline matching.
+%MSG
+%MSG-w HLTTauDQMOfflineSource:   HLTTauDQMOfflineSource:hltTauValIdealMonitorPF@streamBeginRun  17-Oct-2014 19:26:32 CEST Run: 1
+HLTTauDQMPath.cc, inferTauLeptonMultiplicity(): module type 'HLT2PhotonPFTau' not recognized, filter 'hltOverlapFilterIsoEle22WP85GsfLooseIsoPFTau20' in path 'HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1' will be ignored for offline matching.
+%MSG
+
+ *************************************
+ *     TAUOLA C++ Interface v1.1.4   *
+ *-----------------------------------*
+ *                                   *
+ *   (c) Nadia    Davidson,   (1,2)  *
+ *       Gizo     Nanava,     (3)    *
+ *       Tomasz   Przedzinski,(4)    *
+ *       Elzbieta Richter-Was,(2,4)  *
+ *       Zbigniew Was         (2,5)  *
+ *                                   *
+ *  1) Unimelb, Melbourne, Australia *
+ *  2)     INP, Krakow, Poland       *
+ *  3) University Bonn, Germany      *
+ *  4)      UJ, Krakow, Poland       *
+ *  5)    CERN, Geneva, Switzerland  *
+ *************************************
+Reading SANC input files.
+File 'table1-1.txt'  missing... skipped.
+File 'table2-2.txt'  missing... skipped.
+File 'table11-11.txt' missing... skipped.
+
+Begin processing the 1st record. Run 1, Event 1, LumiSection 1 at 17-Oct-2014 19:26:33.168 CEST
+ PYTHIA Error in Pythia::check: charge not conserved  
+ PYTHIA Abort from Pythia::forceHadronLevel: check of event revealed problems  
+ PYTHIA Error in Pythia::check: unmatched particle energy/momentum/mass  
+%MSG-w SiStripQuality:  MeasurementTrackerEventProducer:MeasurementTrackerEvent  17-Oct-2014 19:26:34 CEST Run: 1 Event: 1
+The cabling should always include the active feds in runInfo and possibly have some morethere are instead 59 feds only active in runInfo
+%MSG
+%MSG-w ProductNotFound:  TriggerResultsFilter:triggerSelection  17-Oct-2014 19:26:38 CEST Run: 1 Event: 1
+An exception of category 'ProductNotFound' occurred.
+Exception Message:
+Principal::getByToken: Found zero products matching all criteria
+Looking for type: L1GlobalTriggerReadoutRecord
+Looking for module label: hltGtDigis
+Looking for productInstanceName: 
+
+
+%MSG
+     MSTU(12)       changed from              0 to          12345
+  KORB: rho/rhop -> pi-pi0 mixing:
+  KORB: rho   =  0.769900024      0.151199996    
+  KORB: rhop  =   1.37000000      0.509999990     -0.109999999    
+  KORB: K*/K*prime -> Kpi mixing:
+  KORB: kstp  =   1.70000005      0.234999999      -3.79999988E-02
+  KORB: a1/a1prime -> 3pi, KKpi mixing:
+  KORB: a1    =   1.27499998      0.699999988    
+  KORB: a1prim=   1.46099997      0.250000000       0.00000000    
+  KORB: K1A/K1B -> Kpipi mixing:
+  KORB: K1A   =   1.26999998       9.00000036E-02   1.00000000    
+  KORB: K1B   =   1.40199995      0.173999995      0.800000012    
+  KORB: rho/rhop/rhopp -> 4pi mixing:
+  KORB: rho   =  0.769900024      0.151199996    
+  KORB: rhopp =   1.46500003      0.310000002     -0.109999999    
+  KORB: rhoppp=   1.70000005      0.234999999     -0.109999999    
+  KORB: 3PI-PI0 PARAMS:   0.00000000      0.124200001      0.160400003      0.271100014      0.444299996    
+  KORB: PI-3PI0 PARAMS:   0.00000000       1.00000000    
+  In F3pi: add (rho-pi S-wave) + (rhop-pi S-wave) +
+               (rho-pi D-wave) + (rhop-pi D-wave) +
+    (f2 pi D-wave) + (sigmapi S-wave) + (f0pi S-wave)
+1
+ ********************************************************************************
+ *                                                                              *
+ *                          ==========================                          *
+ *                            PHOTOS, Version:  2.15                            *
+ *                            Released at:  11/10/ 5                            *
+ *                          ==========================                          *
+ *                                                                              *
+ *                  PHOTOS QED Corrections in Particle Decays                   *
+ *                                                                              *
+ *         Monte Carlo Program - by E. Barberio, B. van Eijk and Z. Was         *
+ *         Version 2.09  - by P. Golonka and Z.W.                               *
+ *                                                                              *
+ ********************************************************************************
+ *                                                                              *
+ *                  Internal input parameters:                                  *
+ *                                                                              *
+ *                  INTERF= T  ISEC= T  ITRE= F  IEXP= F  IFTOP= T   IFW= T     *
+ *                  ALPHA_QED= 0.00730   XPHCUT=.100E-01                        *
+ *                                                                              *
+ *                  option with interference is active                          *
+ *                  option with double photons is active                        *
+ *                  emision in t tbar production is active                      *
+ *                  correction wt in decay of W is active                       *
+ *                                                                              *
+ *          WARNING (1): /HEPEVT/ is not anymore the standard common block      *
+ *                                                                              *
+ *          PHOTOS expects /HEPEVT/ to have REAL*8 variables. To change to      *
+ *          REAL*4 modify its declaration in subr. PHOTOS_GET PHOTOS_SET:       *
+ *               REAL*8  d_h_phep,  d_h_vhep                                    *
+ *          WARNING (2): check dims. of /hepevt/ /phoqed/ /ph_hepevt/.          *
+ *          HERE:                     d_h_nmxhep=  4000 and  NMXHEP=10000       *
+ *                                                                              *
+ ********************************************************************************
+1****************** PYINIT: initialization of PYTHIA routines *****************
+ ==== PYTHIA WILL USE LHAPDF ====
+ *************************************
+ *       LHAPDF Version 5.9.1        *
+ *   Configured for the following:   *
+ *             All PDFs              *
+ *          LOW MEMORY option        *
+ *    Maximum  1 concurrent set(s)   *
+ *************************************
+
+ >>>>>> PDF description: <<<<<<
+ CTEQ6L1 - LO with LO alpha_s                                    
+ Reference:                                                      
+ J. Pumplin, D.R. Stump, J. Huston, H.L. Lai, P. Nadolsky,       
+ W.K. Tung                                                       
+ hep-ph/0201195                                                  
+ >>>>>>                   <<<<<<
+
+ Parametrization: CTEQ6           
+
+ ==============================================
+ PDFset name /cvmfs/cms.cern.ch/slc6_amd64_gcc481/external/lhapdf/5.9.1-cms4/share/lhapdf/PDF
+ with          1 members
+ ====  initialized. ===========================
+ Strong coupling at Mz for PDF is:  0.12978
+
+ ==============================================================================
+ I                                                                            I
+ I              PYTHIA will be initialized for a p on p collider              I
+ I                  at   8000.000 GeV center-of-mass energy                   I
+ I                                                                            I
+ ==============================================================================
+
+ ******** PYMAXI: summary of differential cross-section maximum search ********
+
+           ==========================================================
+           I                                      I                 I
+           I  ISUB  Subprocess name               I  Maximum value  I
+           I                                      I                 I
+           ==========================================================
+           I                                      I                 I
+           I   81   q + qbar -> Q + Qbar, mass    I    3.6344D-07   I
+           I   82   g + g -> Q + Qbar, massive    I    1.4066D-06   I
+           I   96   Semihard QCD 2 -> 2           I    8.0723D+03   I
+           I                                      I                 I
+           ==========================================================
+
+ ****** PYMULT: initialization of multiple interactions for MSTP(82) = 4 ******
+        pT0 = 2.70 GeV gives sigma(parton-parton) = 4.35D+02 mb: accepted
+
+ ****** PYMIGN: initialization of multiple interactions for MSTP(82) = 4 ******
+        pT0 = 2.70 GeV gives sigma(parton-parton) = 1.82D+02 mb: accepted
+
+ ********************** PYINIT: initialization completed **********************
+1********* PYSTAT:  Statistics on Number of Events and Cross-sections *********
+
+ ==============================================================================
+ I                                  I                            I            I
+ I            Subprocess            I      Number of points      I    Sigma   I
+ I                                  I                            I            I
+ I----------------------------------I----------------------------I    (mb)    I
+ I                                  I                            I            I
+ I N:o Type                         I    Generated         Tried I            I
+ I                                  I                            I            I
+ ==============================================================================
+ I                                  I                            I            I
+ I   0 All included subprocesses    I            1             1 I  1.118D-06 I
+ I  81 q + qbar -> Q + Qbar, mass   I            0             0 I  0.000D+00 I
+ I  82 g + g -> Q + Qbar, massive   I            1             1 I  1.118D-06 I
+ I                                  I                            I            I
+ ==============================================================================
+
+ ********* Total number of errors, excluding junctions =        0 *************
+ ********* Total number of errors, including junctions =        0 *************
+ PhotonMCTruthFinder DTOR
+ PhotonMCTruthFinder DTOR
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 HLTTauDQMOfflineSour -w HLTTauDQMOffline                       1        1
+    2 HLTTauDQMOfflineSour -w HLTTauDQMOffline                       1        1
+    3 ProductNotFound      -w TriggerResultsFi                       1        1
+    4 SiStripQuality       -w MeasurementTrack                       1        1
+    5 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+    6 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+    7 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+    8 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+    9 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+   10 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+   11 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+   12 SimpleTrackListMerge -w SimpleTrackListM                       1        1
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 HLTTauDQMOfflineSource Run: 1                            
+    2 HLTTauDQMOfflineSource Run: 1                            
+    3 ProductNotFound      1/1                               
+    4 SiStripQuality       1/1                               
+    5 SimpleTrackListMerger pre-events                        
+    6 SimpleTrackListMerger pre-events                        
+    7 SimpleTrackListMerger pre-events                        
+    8 SimpleTrackListMerger pre-events                        
+    9 SimpleTrackListMerger pre-events                        
+   10 SimpleTrackListMerger pre-events                        
+   11 SimpleTrackListMerger pre-events                        
+   12 SimpleTrackListMerger pre-events                        
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                12                  12
+
+
+
+ ***************************************************************************
+ *                         *****TAUOLA LIBRARY: VERSION 2.9 ******         *
+ *                         ***********October 2011 ***************         *
+ *                         **AUTHORS: S.JADACH, Z.WAS*************         *
+ *                         **R. DECKER, M. JEZABEK, J.H.KUEHN*****         *
+ *                         **AVAILABLE FROM: www.cern.ch/wasm****          *
+ *                         ***** PUBLISHED IN COMP. PHYS. COMM.***         *
+ *                         0: Physics initialization  CLEO collab          *
+ *                          see Alain Weinstein www home page:             *
+ *                         http://www.cithep.caltech.edu/~ajw/             *
+ *                         /korb_doc.html#files                            *
+ *                         1: Physics initialization RChL of:              *
+ *                          O. Shekhovtsova, T. Przedzinski,               *
+ *                          P. Roig and Z. Was                             *
+ *                          IFJPAN-2013-5, UAB-FT-731                      *
+ *                         *******CPC 76 (1993) 361          *****         *
+ *                         **5 or more pi dec.: precision limited          *
+ *                         ****DEKAY ROUTINE: INITIALIZATION******         *
+ *                   0     JAK1   = DECAY MODE TAU+                        *
+ *                   0     JAK2   = DECAY MODE TAU-                        *
+ ***************************************************************************
+
+ *                   0     IVER   = hadronic current version           *
+
+ ***************************************************************************
+
+ Message from PHCORK(MODCOR):: initialization
+ MODOP=1 -- no corrections on event: DEFAULT
+ Message from PHOTOS: IPHQRK(MODCOR):: (re)initialization
+ MODOP=1 -- blocks emission from light quarks: DEFAULT
+ Message from PHOTOS: IPHEKL(MODCOR):: (re)initialization
+ MODOP=2 -- blocks emission in pi0 to gamma e+e-: DEFAULT
+ MODOP=2 -- blocks emission in Kl  to gamma e+e-: DEFAULT
+ ********* Total number of warnings =                           0 *************
+ ********* Fraction of events that fail fragmentation cuts =  0.00000 *********
+
+1********* PYSTAT:  Statistics on Number of Events and Cross-sections *********
+
+ ==============================================================================
+ I                                  I                            I            I
+ I            Subprocess            I      Number of points      I    Sigma   I
+ I                                  I                            I            I
+ I----------------------------------I----------------------------I    (mb)    I
+ I                                  I                            I            I
+ I N:o Type                         I    Generated         Tried I            I
+ I                                  I                            I            I
+ ==============================================================================
+ I                                  I                            I            I
+ I   0 All included subprocesses    I            1             1 I  1.118D-06 I
+ I  81 q + qbar -> Q + Qbar, mass   I            0             0 I  0.000D+00 I
+ I  82 g + g -> Q + Qbar, massive   I            1             1 I  1.118D-06 I
+ I                                  I                            I            I
+ ==============================================================================
+
+ ********* Total number of errors, excluding junctions =        0 *************
+ ********* Total number of errors, including junctions =        0 *************
+ ********* Total number of warnings =                           0 *************
+ ********* Fraction of events that fail fragmentation cuts =  0.00000 *********
+

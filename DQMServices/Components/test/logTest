@@ -1,0 +1,8 @@
+Active threads:  0
+Performing test 11 on directory /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413571552/11
+Analyzing /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413571552/11/FrameworkJobReport_11_b_1.xml
+Analyzing /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413571552/11/FrameworkJobReport_11_a_1.xml
+Assembling final report on /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test
+Running command find /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/*log -cnewer /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413571552 | sort -n -k 1 -t _
+Processing log file: /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/11_MemoryChanged.log
+Processing log file: /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/11_OK.log

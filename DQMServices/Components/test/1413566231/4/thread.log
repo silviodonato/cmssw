@@ -1,0 +1,18 @@
+Fri Oct 17 19:17:11 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver4a.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566231/4/driver4a.sh 
+Fri Oct 17 19:17:11 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566231/4 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566231/4/driver4a.shFri Oct 17 19:17:59 2014After running CMSSW, this is the exit code 256Fri Oct 17 19:17:59 2014
+ GEN,SIM,RECO,HLT:GRun,VALIDATION
+We have determined that this is simulation (if not, rerun cmsDriver.py with --data)
+Step: GEN Spec: 
+Loading generator fragment from Configuration.Generator.SingleMuPt10_cfi
+Step: SIM Spec: 
+Step: RECO Spec: 
+Step: HLT Spec: ['GRun']
+Step: VALIDATION Spec: 
+ in preparing validation
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+customising the process with setVertexGeneratorPileUpProducer from FastSimulation/Configuration/MixingModule_Full2Fast
+customising the process with customizeHLTforMC from HLTrigger/Configuration/customizeHLTforMC
+customising the process with customise from DQMServices/Components/test/customFEVTDEBUGHLT
+Config file test_4_a_1.py created
+inspect: 1413566231 4 /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test
+Fri Oct 17 19:17:59 2014: Exit status different from 0, quitting. Status: 256

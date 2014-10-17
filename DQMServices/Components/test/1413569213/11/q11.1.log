@@ -1,0 +1,1707 @@
+['HLT_Mu17_TkMu8', 'HLT_DoublePhoton70', 'HLT_Ele27_WP80', 'HLT_Ele80_CaloIdVT_GsfTrkIdT', 'HLT_MET120_HBHENoiseCleaned', 'HLT_Photon155', 'HLT_L2Mu20_NoVertex_3Sta_NoBPTX3BX_NoHalo', 'HLT_Photon135', 'HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW', 'HLT_HT900', 'HLT_Ele95_CaloIdVT_GsfTrkIdT', 'HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_PFNoPUHT750_4Jet', 'HLT_PFHT900', 'HLT_Mu22_TkMu8', 'HLT_L2Mu20_NoVertex_2Cha_NoBPTX3BX_NoHalo', 'HLT_PFJet260', 'HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95', 'HLT_DoubleMu33NoFiltersNoVtx', 'HLT_Ele27_WP85_Gsf', 'HLT_DoubleMu38NoFiltersNoVtx', 'HLT_PFMET180_NoiseCleaned', 'HLT_DoublePho85', 'HLT_JetE50_NoBPTX3BX_NoHalo', 'HLT_HT750', 'HLT_Mu42NoFiltersNoVtx_Photon42_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL', 'HLT_Mu30_TkMu11HLT_Mu17_Mu8', 'HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10']
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+%MSG-w QTestConfigure:  QualityTester:muonSourcesQualityTests@ctor  17-Oct-2014 20:09:57 CEST pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+%MSG-w QTestConfigure:  QualityTester:qTesterJet@ctor 17-Oct-2014 20:09:58 CEST  pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+%MSG-w QTestConfigure:  QualityTester:qTesterJet@ctor 17-Oct-2014 20:09:58 CEST  pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+%MSG-w QTestConfigure:  QualityTester:qTesterJet@ctor 17-Oct-2014 20:09:58 CEST  pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+%MSG-w QTestConfigure:  QualityTester:qTesterMET@ctor 17-Oct-2014 20:09:58 CEST  pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+%MSG-w QTestConfigure:  QualityTester:qTesterMET@ctor 17-Oct-2014 20:09:58 CEST  pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+%MSG-w QTestConfigure:  QualityTester:qTesterMET@ctor 17-Oct-2014 20:09:58 CEST  pre-events
+Warning, using default value for parameter minEntries with default_value: 0
+%MSG
+17-Oct-2014 20:09:58 CEST  Initiating request to open file file:test_11_a_1_RAW2DIGI_RECO_DQM.root
+17-Oct-2014 20:09:58 CEST  Successfully opened file file:test_11_a_1_RAW2DIGI_RECO_DQM.root
+DQMFileSaver: storing EventInfo folders for Run: 165633, Lumi Section: 346, Subsystems: AlcaBeamMonitor  Btag  CSC  CaloTowersD  Castor  DQM  DT  Ecal  EcalBarrel  EcalCalibration  EcalEndcap  EcalPreshower  Egamma  FED  HLT  Hcal  HcalNoiseRatesD  HcalRecHitsD  Info  JetMET  L1T  L1TEMU  MessageLogger  Muons  OfflinePV  Physics  PhysicsHWW  Pixel  RPC  RecoTauV  SiStrip  Tracking  
+[TrackingCertificationInfo::fillTrackingCertificationMEs] xbin: 0 val: -1
+[TrackingCertificationInfo::fillTrackingCertificationMEs] xbin: 1 val: 1
+[TrackingCertificationInfo::fillTrackingCertificationMEs] xbin: 2 val: -1
+[TrackingCertificationInfo::fillTrackingCertificationMEs] xbin: 3 val: 1
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- Dumping stats results FOR ALL ME
+===========================================================================================
+
+------------------------------------------------------------------------------------------
+Configuration:
+------------------------------------------------------------------------------------------
+ > running on run end.
+ > pathNameMatch = "*"
+
+------------------------------------------------------------------------------------------
+Top level folder tree:
+------------------------------------------------------------------------------------------
+AlcaBeamMonitor (subsystem)
+  |--> Debug (subfolder)
+  |--> Service (subfolder)
+  |--> Validation (subfolder)
+Btag (subsystem)
+  |--> CSVTag_ETA_0-1v4 (subfolder)
+  |--> CSVTag_ETA_1v4-2v4 (subfolder)
+  |--> CSVTag_GLOBAL (subfolder)
+  |--> CSV_ETA_0-1v4 (subfolder)
+  |--> CSV_ETA_1v4-2v4 (subfolder)
+  |--> CSV_GLOBAL (subfolder)
+  |--> GhTrk_ETA_0-1v4 (subfolder)
+  |--> GhTrk_ETA_1v4-2v4 (subfolder)
+  |--> GhTrk_GLOBAL (subfolder)
+  |--> IPTag_ETA_0-1v4 (subfolder)
+  |--> IPTag_ETA_1v4-2v4 (subfolder)
+  |--> IPTag_GLOBAL (subfolder)
+  |--> JBP_ETA_0-1v4 (subfolder)
+  |--> JBP_ETA_1v4-2v4 (subfolder)
+  |--> JBP_GLOBAL (subfolder)
+  |--> JP_ETA_0-1v4 (subfolder)
+  |--> JP_ETA_1v4-2v4 (subfolder)
+  |--> JP_GLOBAL (subfolder)
+  |--> SET_ETA_0-1v4 (subfolder)
+  |--> SET_ETA_1v4-2v4 (subfolder)
+  |--> SET_GLOBAL (subfolder)
+  |--> SMT_ETA_0-1v4 (subfolder)
+  |--> SMT_ETA_1v4-2v4 (subfolder)
+  |--> SMT_GLOBAL (subfolder)
+  |--> SSVHE_ETA_0-1v4 (subfolder)
+  |--> SSVHE_ETA_1v4-2v4 (subfolder)
+  |--> SSVHE_GLOBAL (subfolder)
+  |--> SSVHP_ETA_0-1v4 (subfolder)
+  |--> SSVHP_ETA_1v4-2v4 (subfolder)
+  |--> SSVHP_GLOBAL (subfolder)
+  |--> TCHE_ETA_0-1v4 (subfolder)
+  |--> TCHE_ETA_1v4-2v4 (subfolder)
+  |--> TCHE_GLOBAL (subfolder)
+  |--> TCHP_ETA_0-1v4 (subfolder)
+  |--> TCHP_ETA_1v4-2v4 (subfolder)
+  |--> TCHP_GLOBAL (subfolder)
+CSC (subsystem)
+  |--> CSCOfflineMonitor (subfolder)
+  |--> EventInfo (subfolder)
+  |--> FED (subfolder)
+  |--> Summary (subfolder)
+CaloTowersD (subsystem)
+  |--> CaloTowersTask (subfolder)
+Castor (subsystem)
+  |--> CastorChannelQuality (subfolder)
+  |--> CastorDataIntegrityMonitor (subfolder)
+  |--> CastorDigiMonitor (subfolder)
+  |--> CastorEventProducts (subfolder)
+  |--> CastorHIMonitor (subfolder)
+  |--> CastorLEDMonitor (subfolder)
+  |--> CastorPSMonitor (subfolder)
+  |--> CastorRecHitMonitor (subfolder)
+  |--> CastorTowerJetMonitor (subfolder)
+  |--> DQM Job Status (subfolder)
+  |--> EventInfo (subfolder)
+DQM (subsystem)
+  |--> TimerService (subfolder)
+DT (subsystem)
+  |--> 00-DataIntegrity (subfolder)
+  |--> 00-ROChannels (subfolder)
+  |--> 02-Segments (subfolder)
+  |--> 03-LocalTrigger-DCC (subfolder)
+  |--> 04-LocalTrigger-DDU (subfolder)
+  |--> 05-ChamberEff (subfolder)
+  |--> EventInfo (subfolder)
+  |--> FEDIntegrity (subfolder)
+Ecal (subsystem)
+  |--> EcalPileUpDepMonitor (subfolder)
+  |--> EventInfo (subfolder)
+  |--> Trends (subfolder)
+EcalBarrel (subsystem)
+  |--> EBClusterTask (subfolder)
+  |--> EBClusterTaskExtras (subfolder)
+  |--> EBIntegrityClient (subfolder)
+  |--> EBIntegrityTask (subfolder)
+  |--> EBOccupancyTask (subfolder)
+  |--> EBPedestalOnlineClient (subfolder)
+  |--> EBPedestalOnlineTask (subfolder)
+  |--> EBRawDataTask (subfolder)
+  |--> EBRecoSummary (subfolder)
+  |--> EBSelectiveReadoutTask (subfolder)
+  |--> EBStatusFlagsTask (subfolder)
+  |--> EBSummaryClient (subfolder)
+  |--> EBTriggerTowerTask (subfolder)
+  |--> FEDIntegrity (subfolder)
+EcalCalibration (subsystem)
+  |--> Zmass (subfolder)
+EcalEndcap (subsystem)
+  |--> EEClusterTask (subfolder)
+  |--> EEClusterTaskExtras (subfolder)
+  |--> EEIntegrityClient (subfolder)
+  |--> EEIntegrityTask (subfolder)
+  |--> EEOccupancyTask (subfolder)
+  |--> EEPedestalOnlineClient (subfolder)
+  |--> EEPedestalOnlineTask (subfolder)
+  |--> EERawDataTask (subfolder)
+  |--> EERecoSummary (subfolder)
+  |--> EESelectiveReadoutTask (subfolder)
+  |--> EEStatusFlagsTask (subfolder)
+  |--> EESummaryClient (subfolder)
+  |--> EETriggerTowerTask (subfolder)
+  |--> FEDIntegrity (subfolder)
+EcalPreshower (subsystem)
+  |--> ESIntegrityClient (subfolder)
+  |--> ESIntegrityTask (subfolder)
+  |--> ESOccupancyTask (subfolder)
+  |--> ESRawDataTask (subfolder)
+  |--> ESRecoSummary (subfolder)
+  |--> ESTrendTask (subfolder)
+  |--> EventInfo (subfolder)
+  |--> FEDIntegrity (subfolder)
+Egamma (subsystem)
+  |--> Electrons (subfolder)
+  |--> EventInfo (subfolder)
+  |--> PiZeroAnalyzer (subfolder)
+  |--> gedPhotonAnalyzer (subfolder)
+  |--> stdPhotonAnalyzer (subfolder)
+  |--> zmumugammaGedValidation (subfolder)
+  |--> zmumugammaOldValidation (subfolder)
+FED (subsystem)
+  |--> EventInfo (subfolder)
+  |--> FEDIntegrity (subfolder)
+HLT (subsystem)
+  |--> EgOffline (subfolder)
+  |--> EventInfo (subfolder)
+  |--> GeneralHLTOffline (subfolder)
+  |--> Higgs (subfolder)
+  |--> JetMET (subfolder)
+  |--> Muon (subfolder)
+  |--> SiStrip (subfolder)
+  |--> TauOffline (subfolder)
+  |--> TopHLTOffline (subfolder)
+  |--> Tracking (subfolder)
+Hcal (subsystem)
+  |--> BeamMonitor_Hcal (subfolder)
+  |--> DeadCellMonitor_Hcal (subfolder)
+  |--> DetDiagNoiseMonitor_Hcal (subfolder)
+  |--> DigiMonitor_Hcal (subfolder)
+  |--> EventInfo (subfolder)
+  |--> HcalInfo (subfolder)
+  |--> HotCellMonitor_Hcal (subfolder)
+  |--> LSbyLS_Hcal (subfolder)
+  |--> NZSMonitor_Hcal (subfolder)
+  |--> NoiseMonitor_Hcal (subfolder)
+  |--> RawDataMonitor_Hcal (subfolder)
+  |--> RecHitMonitor_Hcal (subfolder)
+  |--> ZDCMonitor (subfolder)
+HcalNoiseRatesD (subsystem)
+  |--> HcalNoiseRatesTask (subfolder)
+HcalRecHitsD (subsystem)
+  |--> HcalRecHitTask (subfolder)
+Info (subsystem)
+  |--> CMSSWInfo (subfolder)
+  |--> DcsInfo (subfolder)
+  |--> EventInfo (subfolder)
+JetMET (subsystem)
+  |--> JetMET (subfolder)
+  |--> JetMET (subfolder)
+  |--> JetMET (subfolder)
+  |--> CaloTowers (subfolder)
+  |--> Jet (subfolder)
+  |--> MET (subfolder)
+  |--> SUSYDQM (subfolder)
+L1T (subsystem)
+  |--> EventInfo (subfolder)
+  |--> L1Extra (subfolder)
+  |--> L1TCSCTF (subfolder)
+  |--> L1TDTTF (subfolder)
+  |--> L1TGCT (subfolder)
+  |--> L1TGMT (subfolder)
+  |--> L1TGT (subfolder)
+  |--> L1TRCT (subfolder)
+  |--> L1TRPCTF (subfolder)
+  |--> L1TRate (subfolder)
+  |--> L1TSync (subfolder)
+  |--> L1TriggerVsReco (subfolder)
+L1TEMU (subsystem)
+  |--> CSCTFexpert (subfolder)
+  |--> DTTF (subfolder)
+  |--> EventInfo (subfolder)
+  |--> GCT (subfolder)
+  |--> GCTexpert (subfolder)
+  |--> GMT (subfolder)
+  |--> GTexpert (subfolder)
+  |--> L1TdeRCT (subfolder)
+  |--> RCT (subfolder)
+  |--> RPC (subfolder)
+  |--> common (subfolder)
+MessageLogger (subsystem)
+  |--> Errors (subfolder)
+  |--> Warnings (subfolder)
+Muons (subsystem)
+  |--> DTSegmentsMonitor (subfolder)
+  |--> DiMuonHistograms (subfolder)
+  |--> EfficiencyAnalyzer (subfolder)
+  |--> EventInfo (subfolder)
+  |--> MuonEnergyDepositAnalyzer (subfolder)
+  |--> MuonIdDQM (subfolder)
+  |--> MuonKinVsEtaAnalyzer (subfolder)
+  |--> MuonPFAnalyzer (subfolder)
+  |--> MuonRecoAnalyzer (subfolder)
+  |--> MuonRecoOneHLT (subfolder)
+  |--> MuonSeedsAnalyzer (subfolder)
+  |--> SegmentTrackAnalyzer (subfolder)
+  |--> globalMuons (subfolder)
+  |--> standAloneMuonsUpdatedAtVtx (subfolder)
+OfflinePV (subsystem)
+  |--> Alignment (subfolder)
+  |--> offlineBeamSpot (subfolder)
+  |--> offlinePrimaryVertices (subfolder)
+Physics (subsystem)
+  |--> B2G (subfolder)
+  |--> BPhysics (subfolder)
+  |--> EwkElecDQM (subfolder)
+  |--> EwkMuDQM (subfolder)
+  |--> EwkMuLumiMonitorDQM (subfolder)
+  |--> Exotica (subfolder)
+  |--> Higgs (subfolder)
+  |--> QcdPhotons (subfolder)
+  |--> Susy (subfolder)
+  |--> Top (subfolder)
+PhysicsHWW (subsystem)
+  |--> PhysicsHWW (subfolder)
+  |--> PhysicsHWW (subfolder)
+  |--> PhysicsHWW (subfolder)
+  |--> PhysicsHWW (subfolder)
+Pixel (subsystem)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> Pixel (subfolder)
+  |--> AdditionalPixelErrors (subfolder)
+  |--> Barrel (subfolder)
+  |--> Clusters (subfolder)
+  |--> Endcap (subfolder)
+  |--> EventInfo (subfolder)
+  |--> FEDIntegrity (subfolder)
+  |--> Tracks (subfolder)
+RPC (subsystem)
+  |--> AllHits (subfolder)
+  |--> DCSInfo (subfolder)
+  |--> EventInfo (subfolder)
+  |--> FEDIntegrity (subfolder)
+  |--> Muon (subfolder)
+  |--> RPCEfficiency (subfolder)
+RecoTauV (subsystem)
+  |--> EventInfo (subfolder)
+  |--> hpsPFTauProducerRealData_Matched (subfolder)
+  |--> hpsPFTauProducerRealData_ReferenceCollection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByDecayModeFinding (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByDecayModeFindingNewDMs (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByDecayModeFindingOldDMs (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseIsolation (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByLooseMuonRejection3 (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVA5LooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVA5MediumElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVA5TightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVA5VLooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVA5VTightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVALooseMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVAMediumMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMVATightMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByMediumMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByTightMuonRejection3 (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVLooseChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVLooseCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVLooseIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVLooseIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVLooseIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVLooseIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVVTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVVTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVVTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealData_hpsPFTauDiscriminationByVVTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_Matched (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_ReferenceCollection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByDecayModeFinding (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByDecayModeFindingNewDMs (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByDecayModeFindingOldDMs (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseIsolation (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByLooseMuonRejection3 (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVA5LooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVA5MediumElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVA5TightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVA5VLooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVA5VTightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVALooseMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVAMediumMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMVATightMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByMediumMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByTightMuonRejection3 (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVLooseChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVLooseCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVLooseIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVLooseIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVLooseIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVLooseIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVVTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVVTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVVTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealElectronsData_hpsPFTauDiscriminationByVVTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_Matched (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_ReferenceCollection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByDecayModeFinding (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByDecayModeFindingNewDMs (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByDecayModeFindingOldDMs (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseIsolation (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByLooseMuonRejection3 (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVA5LooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVA5MediumElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVA5TightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVA5VLooseElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVA5VTightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVALooseMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVAMediumMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMVATightMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByMediumMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightCombinedIsolationDBSumPtCorr3Hits (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightElectronRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightMuonRejection (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightMuonRejection2 (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByTightMuonRejection3 (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVLooseChargedIsolation (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVLooseCombinedIsolationDBSumPtCorr (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVLooseIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVLooseIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVLooseIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVLooseIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVTightIsolationMVA3oldDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVVTightIsolationMVA3newDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVVTightIsolationMVA3newDMwoLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVVTightIsolationMVA3oldDMwLT (subfolder)
+  |--> hpsPFTauProducerRealMuonsData_hpsPFTauDiscriminationByVVTightIsolationMVA3oldDMwoLT (subfolder)
+Reference (subsystem)
+  |--> Egamma (subfolder)
+  |--> Physics (subfolder)
+  |--> SiStrip (subfolder)
+  |--> Tracking (subfolder)
+SiStrip (subsystem)
+  |--> EventInfo (subfolder)
+  |--> FEDIntegrity (subfolder)
+  |--> MechanicalView (subfolder)
+  |--> ReadoutView (subfolder)
+Tracking (subsystem)
+  |--> EventInfo (subfolder)
+  |--> MessageLog (subfolder)
+  |--> TrackParameters (subfolder)
+  |--> dEdx (subfolder)
+
+------------------------------------------------------------------------------------------
+Detailed ressource usage information FOR ALL ME
+------------------------------------------------------------------------------------------
+subsystem/folder                          histograms       bins        Empty bins     Empty/Total      bins per       MB         kB per
+                                           (total)        (total)        (total)                      histogram     (total)    histogram  
+------------------------------------------------------------------------------------------
+AlcaBeamMonitor
+ -> Debug                                     67         18473         18355         0.994           276        0.0705          1.08
+ -> Service                                    1           162            92         0.568           162       0.00124          1.27
+ -> Validation                                13            75             0             0          5.77      0.000526        0.0415
+    SUBSYSTEM TOTAL                           81         18710         18447         0.986           231         0.074         0.913
+..........................................................................................
+Btag
+ -> CSVTag_ETA_0-1v4                         250         12947         11448         0.884          51.8        0.0494         0.202
+ -> CSVTag_ETA_1v4-2v4                       250         12947         12401         0.958          51.8        0.0494         0.202
+ -> CSVTag_GLOBAL                            250         12947         11347         0.876          51.8        0.0494         0.202
+ -> CSV_ETA_0-1v4                              6          1013           861          0.85           169       0.00386          0.66
+ -> CSV_ETA_1v4-2v4                            6          1013           972          0.96           169       0.00386          0.66
+ -> CSV_GLOBAL                                 6          1013           831          0.82           169       0.00386          0.66
+ -> GhTrk_ETA_0-1v4                            6          1013           858         0.847           169       0.00386          0.66
+ -> GhTrk_ETA_1v4-2v4                          6          1013           971         0.959           169       0.00386          0.66
+ -> GhTrk_GLOBAL                               6          1013           828         0.817           169       0.00386          0.66
+ -> IPTag_ETA_0-1v4                          115          8566          4985         0.582          74.5        0.0331         0.294
+ -> IPTag_ETA_1v4-2v4                        115          8566          5826          0.68          74.5        0.0331         0.294
+ -> IPTag_GLOBAL                             115          8566          4842         0.565          74.5        0.0331         0.294
+ -> JBP_ETA_0-1v4                              6          1013           864         0.853           169       0.00386          0.66
+ -> JBP_ETA_1v4-2v4                            6          1013           971         0.959           169       0.00386          0.66
+ -> JBP_GLOBAL                                 6          1013           836         0.825           169       0.00386          0.66
+ -> JP_ETA_0-1v4                               6          1013           870         0.859           169       0.00386          0.66
+ -> JP_ETA_1v4-2v4                             6          1013           973         0.961           169       0.00386          0.66
+ -> JP_GLOBAL                                  6          1013           842         0.831           169       0.00386          0.66
+ -> SET_ETA_0-1v4                              6          1013           884         0.873           169       0.00386          0.66
+ -> SET_ETA_1v4-2v4                            6          1013           978         0.965           169       0.00386          0.66
+ -> SET_GLOBAL                                 6          1013           857         0.846           169       0.00386          0.66
+ -> SMT_ETA_0-1v4                              6          1013           880         0.869           169       0.00386          0.66
+ -> SMT_ETA_1v4-2v4                            6          1013           977         0.964           169       0.00386          0.66
+ -> SMT_GLOBAL                                 6          1013           852         0.841           169       0.00386          0.66
+ -> SSVHE_ETA_0-1v4                            6          1013           880         0.869           169       0.00386          0.66
+ -> SSVHE_ETA_1v4-2v4                          6          1013           978         0.965           169       0.00386          0.66
+ -> SSVHE_GLOBAL                               6          1013           853         0.842           169       0.00386          0.66
+ -> SSVHP_ETA_0-1v4                            6          1013           882         0.871           169       0.00386          0.66
+ -> SSVHP_ETA_1v4-2v4                          6          1013           978         0.965           169       0.00386          0.66
+ -> SSVHP_GLOBAL                               6          1013           855         0.844           169       0.00386          0.66
+ -> TCHE_ETA_0-1v4                             6          1013           864         0.853           169       0.00386          0.66
+ -> TCHE_ETA_1v4-2v4                           6          1013           971         0.959           169       0.00386          0.66
+ -> TCHE_GLOBAL                                6          1013           835         0.824           169       0.00386          0.66
+ -> TCHP_ETA_0-1v4                             6          1013           866         0.855           169       0.00386          0.66
+ -> TCHP_ETA_1v4-2v4                           6          1013           973         0.961           169       0.00386          0.66
+ -> TCHP_GLOBAL                                6          1013           839         0.828           169       0.00386          0.66
+    SUBSYSTEM TOTAL                         1275         94929         77728         0.819          74.5         0.372         0.292
+..........................................................................................
+CSC
+ -> CSCOfflineMonitor                        334        212498         29923         0.141           636         0.811          2.49
+ -> EventInfo                                  1           648            54        0.0833           648       0.00247          2.53
+ -> FED                                        8           768           674         0.878            96       0.00293         0.375
+ -> Summary                                   97        502091          7577        0.0151      5.18e+03          1.92          20.2
+    SUBSYSTEM TOTAL                          440        716005         38228        0.0534      1.63e+03           2.8          6.36
+..........................................................................................
+CaloTowersD
+ -> CaloTowersTask                            69        218909         31600         0.144      3.17e+03         0.844          12.5
+    SUBSYSTEM TOTAL                           69        218909         31600         0.144      3.17e+03         0.864          12.5
+..........................................................................................
+Castor
+ -> CastorChannelQuality                       1           224            23         0.103           224      0.000854         0.875
+ -> CastorDataIntegrityMonitor                 3            66            18         0.273            22      0.000252        0.0859
+ -> CastorDigiMonitor                        898          9314          2878         0.309          10.4        0.0364        0.0415
+ -> CastorEventProducts                        1             3             3             1             3      1.14e-05        0.0117
+ -> CastorHIMonitor                           83          8714          7058          0.81           105        0.0332          0.41
+ -> CastorLEDMonitor                         682        137960        135092         0.979           202         0.526          0.79
+ -> CastorPSMonitor                           20          6624          4005         0.605           331        0.0253          1.29
+ -> CastorRecHitMonitor                       11          1011           298         0.295          91.9       0.00386         0.359
+ -> CastorTowerJetMonitor                     13          1226          1226             1          94.3       0.00468         0.368
+ -> DQM Job Status                             2           200           197         0.985           100      0.000763         0.391
+ -> EventInfo                                  1           224            15         0.067           224      0.000854         0.875
+    SUBSYSTEM TOTAL                         1715        165566        150813         0.911          96.5         0.648         0.378
+..........................................................................................
+DQM
+ -> TimerService                              71         52583         47034         0.894           741         0.321          4.63
+    SUBSYSTEM TOTAL                           71         52583         47034         0.894           741         0.329          4.63
+..........................................................................................
+DT
+ -> 00-DataIntegrity                         152         43340          9508         0.219           285         0.165          1.11
+ -> 00-ROChannels                              6           300            72          0.24            50       0.00114         0.195
+ -> 02-Segments                             2005        213970        210978         0.986           107         0.816         0.417
+ -> 03-LocalTrigger-DCC                       37          1812           991         0.547            49       0.00691         0.191
+ -> 04-LocalTrigger-DDU                       37          1812           997          0.55            49       0.00691         0.191
+ -> 05-ChamberEff                             32          1766           767         0.434          55.2       0.00674         0.216
+ -> EventInfo                                 15           300           153          0.51            20       0.00114        0.0781
+ -> FEDIntegrity                               3            30            25         0.833            10      0.000114        0.0391
+    SUBSYSTEM TOTAL                         2287        263330        223491         0.849           115          1.03          0.45
+..........................................................................................
+Ecal
+ -> EcalPileUpDepMonitor                      20          1000           702         0.702            50       0.00553         0.283
+ -> EventInfo                                  4           216            36         0.167            54      0.000824         0.211
+ -> Trends                                    19          3800          3781         0.995           200        0.0282          1.52
+    SUBSYSTEM TOTAL                           43          5016          4519         0.901           117        0.0354         0.824
+..........................................................................................
+EcalBarrel
+ -> EBClusterTask                             24         15425           744        0.0482           643        0.0783          3.34
+ -> EBClusterTaskExtras                       19         27538          1708         0.062      1.45e+03         0.152           8.2
+ -> EBIntegrityClient                         36         61200          3060          0.05       1.7e+03         0.233          6.64
+ -> EBIntegrityTask                          181        188532         12885        0.0683      1.04e+03         0.719          4.07
+ -> EBOccupancyTask                          124        195160         10162        0.0521      1.57e+03         0.978          8.08
+ -> EBPedestalOnlineClient                   144        130320         11376        0.0873           905         0.497          3.54
+ -> EBPedestalOnlineTask                      36         61200          3060          0.05       1.7e+03         0.467          13.3
+ -> EBRawDataTask                             21         29487          1389        0.0471       1.4e+03         0.112          5.48
+ -> EBRecoSummary                             10           628           376         0.599          62.8        0.0024         0.245
+ -> EBSelectiveReadoutTask                     5         10080           424        0.0421      2.02e+03        0.0385          7.88
+ -> EBStatusFlagsTask                         37         39204          2487        0.0634      1.06e+03          0.15          4.14
+ -> EBSummaryClient                           15        203328          1817       0.00894      1.36e+04         0.794          54.2
+ -> EBTriggerTowerTask                       149         22326          5054         0.226           150        0.0946          0.65
+ -> FEDIntegrity                               3           108            69         0.639            36      0.000412         0.141
+    SUBSYSTEM TOTAL                          804        984536         54611        0.0555      1.22e+03          4.42           5.5
+..........................................................................................
+EcalCalibration
+ -> Zmass                                     12           189           189             1          15.8      0.000721        0.0615
+    SUBSYSTEM TOTAL                           12           189           189             1          15.8      0.000738        0.0615
+..........................................................................................
+EcalEndcap
+ -> EEClusterTask                             37          7353           671        0.0913           199        0.0354         0.981
+ -> EEClusterTaskExtras                       28          9400          1446         0.154           336        0.0515          1.88
+ -> EEIntegrityClient                         18         26400           686         0.026      1.47e+03         0.101          5.73
+ -> EEIntegrityTask                           91         81330          4630        0.0569           894          0.31          3.49
+ -> EEOccupancyTask                           83         97066          4295        0.0442      1.17e+03         0.471          5.81
+ -> EEPedestalOnlineClient                    72         56760          4214        0.0742           788         0.217          3.08
+ -> EEPedestalOnlineTask                      18         26400           686         0.026      1.47e+03         0.201          11.5
+ -> EERawDataTask                             21         14781          1046        0.0708           704        0.0564          2.75
+ -> EERecoSummary                             11           782           467         0.597          71.1       0.00298         0.278
+ -> EESelectiveReadoutTask                    10         80144          1570        0.0196      8.01e+03         0.306          31.3
+ -> EEStatusFlagsTask                         19          9778           629        0.0643           515        0.0373          2.01
+ -> EESummaryClient                           26        143272          2007         0.014      5.51e+03         0.626          24.7
+ -> EETriggerTowerTask                        82         88428          5558        0.0629      1.08e+03         0.438          5.47
+ -> FEDIntegrity                               3           162           144         0.889            54      0.000618         0.211
+    SUBSYSTEM TOTAL                          519        642056         28049        0.0437      1.24e+03          2.92          5.63
+..........................................................................................
+EcalPreshower
+ -> ESIntegrityClient                          8         12800           592        0.0463       1.6e+03        0.0488          6.25
+ -> ESIntegrityTask                           21         66184          7094         0.107      3.15e+03         0.252          12.3
+ -> ESOccupancyTask                           38         31680          1844        0.0582           834         0.125          3.37
+ -> ESRawDataTask                              6           771           769         0.997           128       0.00294         0.502
+ -> ESRecoSummary                              5          1000           607         0.607           200       0.00381         0.781
+ -> ESTrendTask                               12           360           352         0.978            30       0.00275         0.234
+ -> EventInfo                                  4         14402           239        0.0166       3.6e+03        0.0549          14.1
+ -> FEDIntegrity                               3           168           129         0.768            56      0.000641         0.219
+    SUBSYSTEM TOTAL                           97        127365         11626        0.0913      1.31e+03         0.503          5.19
+..........................................................................................
+Egamma
+ -> Electrons                                207         32338         13168         0.407           156         0.131          0.65
+ -> EventInfo                                  1             3             4          1.33             3      1.14e-05        0.0117
+ -> PiZeroAnalyzer                             5           450           282         0.627            90       0.00172         0.352
+ -> gedPhotonAnalyzer                        292        650540         72610         0.112      2.23e+03          2.57          9.03
+ -> stdPhotonAnalyzer                        292        650540         72729         0.112      2.23e+03          2.57          9.03
+ -> zmumugammaGedValidation                  170         24605         24591         0.999           145         0.118         0.712
+ -> zmumugammaOldValidation                  170         24605         24591         0.999           145         0.118         0.712
+    SUBSYSTEM TOTAL                         1137       1383081        207975          0.15      1.22e+03          5.65          4.97
+..........................................................................................
+FED
+ -> EventInfo                                  1            10             3           0.3            10      3.81e-05        0.0391
+ -> FEDIntegrity                               3          2550          2404         0.943           850       0.00973          3.32
+    SUBSYSTEM TOTAL                            4          2560          2407          0.94           640          0.01           2.5
+..........................................................................................
+HLT
+ -> EgOffline                               2912        105327         94418         0.896          36.2         0.402         0.141
+ -> EventInfo                                  2            12             4         0.333             6      4.58e-05        0.0234
+ -> GeneralHLTOffline                        320          2586          1924         0.744          8.08       0.00986        0.0316
+ -> Higgs                                     26          6240          2189         0.351           240        0.0238         0.938
+ -> JetMET                                    46         69137          3344        0.0484       1.5e+03         0.264          5.87
+ -> Muon                                    1376         25696         19977         0.777          18.7         0.098        0.0729
+ -> SiStrip                                  582        261671         95905         0.367           450          1.46          2.57
+ -> TauOffline                               231          4660          4549         0.976          20.2        0.0178        0.0788
+ -> TopHLTOffline                            406         24222         13390         0.553          59.7        0.0924         0.233
+ -> Tracking                                 231        195216         14610        0.0748           845          0.78          3.46
+    SUBSYSTEM TOTAL                         6132        694767        250310          0.36           113          3.22         0.526
+..........................................................................................
+Hcal
+ -> BeamMonitor_Hcal                          53         51070         34155         0.669           964         0.319          6.15
+ -> DeadCellMonitor_Hcal                      58        805450        115840         0.144      1.39e+04          3.48          61.5
+ -> DetDiagNoiseMonitor_Hcal                  30         29110         10146         0.349           970         0.111          3.79
+ -> DigiMonitor_Hcal                         183        189929         71479         0.376      1.04e+03         0.877          4.91
+ -> EventInfo                                  5            34            34             1           6.8       0.00013        0.0266
+ -> HcalInfo                                  32        110692          9464        0.0855      3.46e+03         0.422          13.5
+ -> HotCellMonitor_Hcal                       29         84544         27878          0.33      2.92e+03         0.414          14.6
+ -> LSbyLS_Hcal                                2             8             8             1             4      3.05e-05        0.0156
+ -> NZSMonitor_Hcal                            5         19224           608        0.0316      3.84e+03        0.0733            15
+ -> NoiseMonitor_Hcal                         41         61052          3445        0.0564      1.49e+03         0.233          5.82
+ -> RawDataMonitor_Hcal                       97        231373         47281         0.204      2.39e+03         0.974          10.3
+ -> RecHitMonitor_Hcal                       156        295113         58351         0.198      1.89e+03          1.19          7.79
+ -> ZDCMonitor                                99         40386         40298         0.998           408         0.154          1.59
+    SUBSYSTEM TOTAL                          790       1917985        418987         0.218      2.43e+03          8.45          10.7
+..........................................................................................
+HcalNoiseRatesD
+ -> HcalNoiseRatesTask                         5          1273          1231         0.967           255       0.00486         0.995
+    SUBSYSTEM TOTAL                            5          1273          1231         0.967           255       0.00497         0.995
+..........................................................................................
+HcalRecHitsD
+ -> HcalRecHitTask                            70        164002         18434         0.112      2.34e+03         0.632          9.25
+    SUBSYSTEM TOTAL                           70        164002         18434         0.112      2.34e+03         0.647          9.25
+..........................................................................................
+Info
+ -> CMSSWInfo                                  0             0             0          -nan             -             0             -
+ -> DcsInfo                                    1            25            25             1            25      9.54e-05        0.0977
+ -> EventInfo                                  2          9022           372        0.0412      4.51e+03        0.0344          17.6
+    SUBSYSTEM TOTAL                            3          9047           397        0.0439      3.02e+03        0.0353          11.8
+..........................................................................................
+JetMET
+ -> JetMET                                     1            10             1           0.1            10      3.81e-05        0.0391
+ -> JetMET                                     1          2500          2499             1       2.5e+03       0.00954          9.77
+ -> JetMET                                     1           100            87          0.87           100      0.000381         0.391
+ -> CaloTowers                                11         47813           861         0.018      4.35e+03         0.182            17
+ -> Jet                                      599         58594         46183         0.788          97.8         0.276         0.472
+ -> MET                                      639        972378         77834          0.08      1.52e+03          3.78          6.07
+ -> SUSYDQM                                    8          3200          3060         0.956           400        0.0122          1.56
+    SUBSYSTEM TOTAL                         1260       1084595        130525          0.12           861          4.37          3.47
+..........................................................................................
+L1T
+ -> EventInfo                                  0             0             0          -nan             -             0             -
+ -> L1Extra                                  190         67075         65547         0.977           353         0.256          1.38
+ -> L1TCSCTF                                  37          7078          2070         0.292           191         0.027         0.747
+ -> L1TDTTF                                  713         66726         22991         0.345          93.6         0.255         0.366
+ -> L1TGCT                                    53         90275         22239         0.246       1.7e+03         0.344          6.65
+ -> L1TGMT                                    68         88064         11468          0.13       1.3e+03         0.336          5.06
+ -> L1TGT                                     33       2836802         27225        0.0096       8.6e+04          10.8           336
+ -> L1TRCT                                    17          6037          1961         0.325           355         0.023          1.39
+ -> L1TRPCTF                                  41         29905         14004         0.468           729         0.114          2.85
+ -> L1TRate                                   57        140002        139959             1      2.46e+03         0.763          13.7
+ -> L1TSync                                   19        135061         45070         0.334      7.11e+03         0.515          27.8
+ -> L1TriggerVsReco                            0             0             0          -nan             -             0             -
+    SUBSYSTEM TOTAL                         1228       3467025        352534         0.102      2.82e+03          13.8          11.2
+..........................................................................................
+L1TEMU
+ -> CSCTFexpert                               23        109572          1232        0.0112      4.76e+03         0.418          18.6
+ -> DTTF                                      12          5816           907         0.156           485        0.0222          1.89
+ -> EventInfo                                  0             0             0          -nan             -             0             -
+ -> GCT                                       12           642            80         0.125          53.5       0.00245         0.209
+ -> GCTexpert                                124          7766          3207         0.413          62.6        0.0296         0.245
+ -> GMT                                       12          5816           860         0.148           485        0.0222          1.89
+ -> GTexpert                                 338         37297         33972         0.911           110         0.142         0.431
+ -> L1TdeRCT                                 131         90091         14992         0.166           688         0.344          2.69
+ -> RCT                                       12           654           140         0.214          54.5       0.00249         0.213
+ -> RPC                                       12          9798           717        0.0732           816        0.0374          3.19
+ -> common                                     4            41            23         0.561          10.2      0.000156          0.04
+    SUBSYSTEM TOTAL                          680        267493         56130          0.21           393          1.04          1.54
+..........................................................................................
+MessageLogger
+ -> Errors                                     3           837           836         0.999           279       0.00319          1.09
+ -> Warnings                                   3           837           836         0.999           279       0.00319          1.09
+    SUBSYSTEM TOTAL                            6          1674          1672         0.999           279       0.00654          1.09
+..........................................................................................
+Muons
+ -> DTSegmentsMonitor                          6           920           136         0.148           153       0.00351         0.599
+ -> DiMuonHistograms                          24          8000          7966         0.996           333        0.0305           1.3
+ -> EfficiencyAnalyzer                        37           398           398             1          10.8       0.00152         0.042
+ -> EventInfo                                 65          2130          1560         0.732          32.8          0.01         0.158
+ -> MuonEnergyDepositAnalyzer                 19          2600          2355         0.906           137       0.00992         0.535
+ -> MuonIdDQM                                214         18383         17333         0.943          85.9        0.0701         0.336
+ -> MuonKinVsEtaAnalyzer                     168         16800         15530         0.924           100        0.0641         0.391
+ -> MuonPFAnalyzer                            21          1959          1728         0.882          93.3       0.00747         0.364
+ -> MuonRecoAnalyzer                         101        625789         22592        0.0361       6.2e+03          2.39          24.2
+ -> MuonRecoOneHLT                            25          1206          1206             1          48.2        0.0046         0.188
+ -> MuonSeedsAnalyzer                         21        162685          4319        0.0265      7.75e+03         0.621          30.3
+ -> SegmentTrackAnalyzer                      27         48368          3075        0.0636      1.79e+03         0.185             7
+ -> globalMuons                               67         27565          2443        0.0886           411         0.109          1.66
+ -> standAloneMuonsUpdatedAtVtx               30          5398          5034         0.933           180        0.0225         0.769
+    SUBSYSTEM TOTAL                          825        922201         85675        0.0929      1.12e+03          3.61          4.38
+..........................................................................................
+OfflinePV
+ -> Alignment                                 17          1632          1164         0.713            96       0.00711         0.428
+ -> offlineBeamSpot                            9           804           796          0.99          89.3       0.00307         0.349
+ -> offlinePrimaryVertices                    37         62554          2749        0.0439      1.69e+03         0.239           6.6
+    SUBSYSTEM TOTAL                           63         64990          4709        0.0725      1.03e+03         0.255          4.04
+..........................................................................................
+Physics
+ -> B2G                                      112          5875          5230          0.89          52.5        0.0224         0.205
+ -> BPhysics                                  15          9190          9135         0.994           613        0.0351          2.39
+ -> EwkElecDQM                                44          4686          2343           0.5           106        0.0179         0.416
+ -> EwkMuDQM                                  56          4234          3979          0.94          75.6        0.0162         0.295
+ -> EwkMuLumiMonitorDQM                       13         13500         13500             1      1.04e+03        0.0515          4.06
+ -> Exotica                                   20           930           604         0.649          46.5       0.00355         0.182
+ -> Higgs                                     39          2387          1966         0.824          61.2       0.00911         0.239
+ -> QcdPhotons                                28           389           387         0.995          13.9       0.00148        0.0543
+ -> Susy                                      28         23370          1706         0.073           835        0.0891          3.26
+ -> Top                                     1347        348811        239766         0.687           259          1.33          1.01
+    SUBSYSTEM TOTAL                         1702        413372        278616         0.674           243          1.61         0.949
+..........................................................................................
+PhysicsHWW
+ -> PhysicsHWW                                 1            21            20         0.952            21      8.01e-05         0.082
+ -> PhysicsHWW                                 1            21            20         0.952            21      8.01e-05         0.082
+ -> PhysicsHWW                                 1            21            20         0.952            21      8.01e-05         0.082
+ -> PhysicsHWW                                 1            21            20         0.952            21      8.01e-05         0.082
+    SUBSYSTEM TOTAL                            4            84            80         0.952            21      0.000328         0.082
+..........................................................................................
+Pixel
+ -> Pixel                                      1            40             0             0            40      0.000153         0.156
+ -> Pixel                                      1          5000          4999             1         5e+03        0.0191          19.5
+ -> Pixel                                      1          5000          4999             1         5e+03        0.0191          19.5
+ -> Pixel                                      1           500           500             1           500       0.00191          1.95
+ -> Pixel                                      1           500           500             1           500       0.00191          1.95
+ -> Pixel                                      1           500           500             1           500       0.00191          1.95
+ -> Pixel                                      1           500           499         0.998           500       0.00191          1.95
+ -> Pixel                                      1          5000          4999             1         5e+03        0.0191          19.5
+ -> Pixel                                      1          3565          3469         0.973      3.56e+03        0.0136          13.9
+ -> AdditionalPixelErrors                    405         15522         11905         0.767          38.3        0.0592          0.15
+ -> Barrel                                  6416        291588        177385         0.608          45.4          1.11         0.178
+ -> Clusters                                 117        221906         13575        0.0612       1.9e+03         0.847          7.41
+ -> Endcap                                  3137        141124        101920         0.722            45         0.538         0.176
+ -> EventInfo                                  1            14             4         0.286            14      5.34e-05        0.0547
+ -> FEDIntegrity                               3           120            78          0.65            40      0.000458         0.156
+ -> Tracks                                     2             6             0             0             3      2.29e-05        0.0117
+    SUBSYSTEM TOTAL                        10090        690885        325332         0.471          68.5           2.7         0.267
+..........................................................................................
+RPC
+ -> AllHits                                 4845        315663        170156         0.539          65.2           1.2         0.255
+ -> DCSInfo                                    2           348           349             1           174       0.00133          0.68
+ -> EventInfo                                  4           720            72           0.1           180       0.00275         0.703
+ -> FEDIntegrity                               3             9             6         0.667             3      3.43e-05        0.0117
+ -> Muon                                    4897        321275        176674          0.55          65.6          1.23         0.256
+ -> RPCEfficiency                           4787        231199        228329         0.988          48.3         0.882         0.189
+    SUBSYSTEM TOTAL                        14538        869214        575586         0.662          59.8           3.4         0.234
+..........................................................................................
+RecoTauV
+ -> EventInfo                                  0             0             0          -nan             -             0             -
+ -> hpsPFTauProducerRealData_Ma...             8           102           102             1          12.8      0.000389        0.0498
+ -> hpsPFTauProducerRealData_Re...             4            51            51             1          12.8      0.000195        0.0498
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealData_hp...            28           592           592             1          21.1       0.00226        0.0826
+ -> hpsPFTauProducerRealElectro...             8            72            72             1             9      0.000275        0.0352
+ -> hpsPFTauProducerRealElectro...             4            36            36             1             9      0.000137        0.0352
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealElectro...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...             8            72            72             1             9      0.000275        0.0352
+ -> hpsPFTauProducerRealMuonsDa...             4            36            36             1             9      0.000137        0.0352
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+ -> hpsPFTauProducerRealMuonsDa...            28           562           562             1          20.1       0.00214        0.0784
+    SUBSYSTEM TOTAL                         4824         98181         98181             1          20.4         0.384        0.0795
+..........................................................................................
+Reference
+ -> Egamma                                   236        769924         52826        0.0686      3.26e+03          3.08          13.3
+ -> Physics                                   79          4596          3578         0.779          58.2        0.0175         0.227
+ -> SiStrip                                   66         12750          2974         0.233           193        0.0486         0.755
+ -> Tracking                                   6           506           191         0.377          84.3       0.00193         0.329
+    SUBSYSTEM TOTAL                          387        787776         59569        0.0756      2.04e+03          3.22          8.32
+..........................................................................................
+SiStrip
+ -> EventInfo                                  2           108            14          0.13            54      0.000412         0.211
+ -> FEDIntegrity                               3          1320          1320             1           440       0.00504          1.72
+ -> MechanicalView                           962        424144         46021         0.109           441          2.64          2.81
+ -> ReadoutView                               41        100539         16177         0.161      2.45e+03           0.4          9.98
+    SUBSYSTEM TOTAL                         1008        526111         63532         0.121           522          3.12          3.09
+..........................................................................................
+Tracking
+ -> EventInfo                                  2             8             8             1             4      3.05e-05        0.0156
+ -> MessageLog                                 5           106            50         0.472          21.2      0.000404        0.0828
+ -> TrackParameters                          242        840525         26662        0.0317      3.47e+03          3.27          13.8
+ -> dEdx                                      15          1023           578         0.565          68.2        0.0039         0.266
+    SUBSYSTEM TOTAL                          264        841662         27298        0.0324      3.19e+03          3.35          12.7
+..........................................................................................
+
+------------------------------------------------------------------------------------------
+Grand total FOR ALL ME:
+------------------------------------------------------------------------------------------
+Number of subsystems: 33
+Total number of histograms: 52433 with: 17497172 bins alltogether
+Total memory occupied by histograms (excl. overhead): 72.9 MB
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- End of output FOR ALL ME.
+===========================================================================================
+
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- Dumping stats results FOR LUMI PRODUCTS ONLY
+===========================================================================================
+
+------------------------------------------------------------------------------------------
+Configuration:
+------------------------------------------------------------------------------------------
+ > running on run end.
+ > pathNameMatch = "*"
+
+------------------------------------------------------------------------------------------
+Top level folder tree:
+------------------------------------------------------------------------------------------
+AlcaBeamMonitor (subsystem)
+  |--> Service (subfolder)
+DT (subsystem)
+  |--> EventInfo (subfolder)
+Ecal (subsystem)
+  |--> EventInfo (subfolder)
+EcalBarrel (subsystem)
+  |--> EBIntegrityTask (subfolder)
+  |--> EBRawDataTask (subfolder)
+  |--> EBStatusFlagsTask (subfolder)
+EcalEndcap (subsystem)
+  |--> EEIntegrityTask (subfolder)
+  |--> EERawDataTask (subfolder)
+  |--> EEStatusFlagsTask (subfolder)
+EcalPreshower (subsystem)
+  |--> ESIntegrityTask (subfolder)
+Hcal (subsystem)
+  |--> LSbyLS_Hcal (subfolder)
+Info (subsystem)
+  |--> DcsInfo (subfolder)
+Pixel (subsystem)
+  |--> Pixel (subfolder)
+  |--> AdditionalPixelErrors (subfolder)
+RPC (subsystem)
+  |--> DCSInfo (subfolder)
+SiStrip (subsystem)
+  |--> EventInfo (subfolder)
+  |--> ReadoutView (subfolder)
+Tracking (subsystem)
+  |--> TrackParameters (subfolder)
+
+------------------------------------------------------------------------------------------
+Detailed ressource usage information FOR LUMI PRODUCTS ONLY
+------------------------------------------------------------------------------------------
+subsystem/folder                          histograms       bins        Empty bins     Empty/Total      bins per       MB         kB per
+                                           (total)        (total)        (total)                      histogram     (total)    histogram  
+------------------------------------------------------------------------------------------
+AlcaBeamMonitor
+ -> Service                                    1           162            92         0.568           162       0.00124          1.27
+    SUBSYSTEM TOTAL                            1           162            92         0.568           162       0.00127          1.27
+..........................................................................................
+DT
+ -> EventInfo                                  5            10             0             0             2      3.81e-05       0.00781
+    SUBSYSTEM TOTAL                            5            10             0             0             2      3.91e-05       0.00781
+..........................................................................................
+Ecal
+ -> EventInfo                                  0             0             0          -nan             -             0             -
+    SUBSYSTEM TOTAL                            0             0             0          -nan          -nan             0          -nan
+..........................................................................................
+EcalBarrel
+ -> EBIntegrityTask                            1            36            33         0.917            36      0.000137         0.141
+ -> EBRawDataTask                              1            36            36             1            36      0.000137         0.141
+ -> EBStatusFlagsTask                          1            36            32         0.889            36      0.000137         0.141
+    SUBSYSTEM TOTAL                            3           108           101         0.935            36      0.000422         0.141
+..........................................................................................
+EcalEndcap
+ -> EEIntegrityTask                            1            18            18             1            18      6.87e-05        0.0703
+ -> EERawDataTask                              1            18            18             1            18      6.87e-05        0.0703
+ -> EEStatusFlagsTask                          1            18            17         0.944            18      6.87e-05        0.0703
+    SUBSYSTEM TOTAL                            3            54            53         0.981            18      0.000211        0.0703
+..........................................................................................
+EcalPreshower
+ -> ESIntegrityTask                            1             9             3         0.333             9      3.43e-05        0.0352
+    SUBSYSTEM TOTAL                            1             9             3         0.333             9      3.52e-05        0.0352
+..........................................................................................
+Hcal
+ -> LSbyLS_Hcal                                1             7             8          1.14             7      2.67e-05        0.0273
+    SUBSYSTEM TOTAL                            1             7             8          1.14             7      2.73e-05        0.0273
+..........................................................................................
+Info
+ -> DcsInfo                                    1            25            25             1            25      9.54e-05        0.0977
+    SUBSYSTEM TOTAL                            1            25            25             1            25      9.77e-05        0.0977
+..........................................................................................
+Pixel
+ -> Pixel                                      1            40             0             0            40      0.000153         0.156
+ -> AdditionalPixelErrors                      1             2             2             1             2      7.63e-06       0.00781
+    SUBSYSTEM TOTAL                            2            42             2        0.0476            21      0.000164         0.082
+..........................................................................................
+RPC
+ -> DCSInfo                                    1             1             1             1             1      3.81e-06       0.00391
+    SUBSYSTEM TOTAL                            1             1             1             1             1      3.91e-06       0.00391
+..........................................................................................
+SiStrip
+ -> EventInfo                                  0             0             0          -nan             -             0             -
+ -> ReadoutView                                1             6             1         0.167             6      2.29e-05        0.0234
+    SUBSYSTEM TOTAL                            1             6             1         0.167             6      2.34e-05        0.0234
+..........................................................................................
+Tracking
+ -> TrackParameters                           15          3310          3094         0.935           221        0.0126         0.862
+    SUBSYSTEM TOTAL                           15          3310          3094         0.935           221        0.0129         0.862
+..........................................................................................
+
+------------------------------------------------------------------------------------------
+Grand total FOR LUMI PRODUCTS ONLY:
+------------------------------------------------------------------------------------------
+Number of subsystems: 12
+Total number of histograms: 34 with: 3734 bins alltogether
+Total memory occupied by histograms (excl. overhead): 0.0152 MB
+
+===========================================================================================
+[DQMStoreStats::calcstats] -- End of output FOR LUMI PRODUCTS ONLY.
+===========================================================================================
+
+
+------------------------------------------------------------------------------------------
+Memory profile:
+------------------------------------------------------------------------------------------
+Approx. maximum total virtual memory size of job: (could not be determined)
+
+
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 0 passed = 0 failed = 0
+
+TrigReport ---------- Path   Summary ------------
+TrigReport  Trig Bit#        Run     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 edmtome_step
+TrigReport     1    1          0          0          0          0 dqmHarvesting
+TrigReport     1    2          0          0          0          0 dqmsave_step
+
+TrigReport -------End-Path   Summary ------------
+TrigReport  Trig Bit#        Run     Passed     Failed      Error Name
+TrigReport     0    0          0          0          0          0 stats
+
+TrigReport ---------- Modules in Path: edmtome_step ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 EDMtoMEConverter
+
+TrigReport ---------- Modules in Path: dqmHarvesting ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 dqmRefHistoRootFileGetter
+TrigReport     1    1          0          0          0          0 dqmDcsInfoClient
+TrigReport     1    2          0          0          0          0 ecalMonitorClient
+TrigReport     1    3          0          0          0          0 ecalzmassclient
+TrigReport     1    4          0          0          0          0 ecalMEFormatter
+TrigReport     1    5          0          0          0          0 hcalClient
+TrigReport     1    6          0          0          0          0 zdcClient
+TrigReport     1    7          0          0          0          0 siStripQTester
+TrigReport     1    8          0          0          0          0 siStripOfflineAnalyser
+TrigReport     1    9          0          0          0          0 sipixelQTester
+TrigReport     1   10          0          0          0          0 sipixelEDAClient
+TrigReport     1   11          0          0          0          0 segmentTest
+TrigReport     1   12          0          0          0          0 dtResolutionAnalysisTest
+TrigReport     1   13          0          0          0          0 dtChamberEfficiencyClient
+TrigReport     1   14          0          0          0          0 triggerEffTest
+TrigReport     1   15          0          0          0          0 blockedROChannelTest
+TrigReport     1   16          0          0          0          0 dtRunConditionVarClient
+TrigReport     1   17          0          0          0          0 dtOfflineSummaryClients
+TrigReport     1   18          0          0          0          0 dtResolutionAnalysisTestAlca
+TrigReport     1   19          0          0          0          0 qTesterRPC
+TrigReport     1   20          0          0          0          0 rpcdqmclient
+TrigReport     1   21          0          0          0          0 rpcdqmMuonclient
+TrigReport     1   22          0          0          0          0 rpcrechitprobabilityclient
+TrigReport     1   23          0          0          0          0 rpcChamberQuality
+TrigReport     1   24          0          0          0          0 rpcMuonChamberQuality
+TrigReport     1   25          0          0          0          0 rpcDcsInfoClient
+TrigReport     1   26          0          0          0          0 rpcEfficiencySecond
+TrigReport     1   27          0          0          0          0 rpcEventSummary
+TrigReport     1   28          0          0          0          0 rpcEfficiencyShiftHisto
+TrigReport     1   29          0          0          0          0 rpcEfficiencyPerRingLayer
+TrigReport     1   30          0          0          0          0 dqmCSCOfflineClient
+TrigReport     1   31          0          0          0          0 ecalPreshowerMonitorClient
+TrigReport     1   32          0          0          0          0 hcalNoiseRatesClient
+TrigReport     1   33          0          0          0          0 hcalRecHitsDQMClient
+TrigReport     1   34          0          0          0          0 calotowersDQMClient
+TrigReport     1   35          0          0          0          0 dqmFEDIntegrity
+TrigReport     1   36          0          0          0          0 dqmQTestDQMFED
+TrigReport     1   37          0          0          0          0 trackingQTester
+TrigReport     1   38          0          0          0          0 trackingOfflineAnalyser
+TrigReport     1   39          0          0          0          0 muonSourcesQualityTests
+TrigReport     1   40          0          0          0          0 muTrackResidualsTest
+TrigReport     1   41          0          0          0          0 effPlotter
+TrigReport     1   42          0          0          0          0 muRecoTest
+TrigReport     1   43          0          0          0          0 muonClientsQualityTests
+TrigReport     1   44          0          0          0          0 muonComp2RefQualityTests
+TrigReport     1   45          0          0          0          0 muonComp2RefKolmoQualityTests
+TrigReport     1   46          0          0          0          0 muonTestSummary
+TrigReport     1   47          0          0          0          0 photonOfflineClient
+TrigReport     1   48          0          0          0          0 stdPhotonOfflineClient
+TrigReport     1   49          0          0          0          0 dqmElectronClientAllElectrons
+TrigReport     1   50          0          0          0          0 dqmElectronClientSelectionEt
+TrigReport     1   51          0          0          0          0 dqmElectronClientSelectionEtIso
+TrigReport     1   52          0          0          0          0 dqmElectronClientTagAndProbe
+TrigReport     1   53          0          0          0          0 egHLTOffDQMClient
+TrigReport     1   54          0          0          0          0 hltMuonEfficiencies
+TrigReport     1   55          0          0          0          0 jetMETHLTOfflineClient
+TrigReport     1   56          0          0          0          0 HLTTauPostAnalysis_Inclusive
+TrigReport     1   57          0          0          0          0 HLTTauPostAnalysis_Inclusive2
+TrigReport     1   58          0          0          0          0 HLTTauPostAnalysis_PFTaus
+TrigReport     1   59          0          0          0          0 HLTTauPostAnalysis_PFTaus2
+TrigReport     1   60          0          0          0          0 qTesterMuonHLT
+TrigReport     1   61          0          0          0          0 muonHLTCertSummary
+TrigReport     1   62          0          0          0          0 egHLTOffQTester
+TrigReport     1   63          0          0          0          0 egHLTOffDQMSummaryClient
+TrigReport     1   64          0          0          0          0 HLTOverallSummary
+TrigReport     1   65          0          0          0          0 hltTauOfflineCertification
+TrigReport     1   66          0          0          0          0 HLTOverallSummary
+TrigReport     1   67          0          0          0          0 hltInclusiveVBFClient
+TrigReport     1   68          0          0          0          0 bTagCollectorDATA
+TrigReport     1   69          0          0          0          0 AlcaBeamMonitorClient
+TrigReport     1   70          0          0          0          0 SusyPostProcessor
+TrigReport     1   71          0          0          0          0 efficienciesRealData
+TrigReport     1   72          0          0          0          0 efficienciesRealElectronsData
+TrigReport     1   73          0          0          0          0 efficienciesRealMuonsData
+TrigReport     1   74          0          0          0          0 normalizePlotsRealMuonsData
+TrigReport     1   75          0          0          0          0 DQMMessageLoggerClient
+TrigReport     1   76          0          0          0          0 dqmMessageLoggerQTester
+TrigReport     1   77          0          0          0          0 dqmFastTimerServiceClient
+TrigReport     1   78          0          0          0          0 dtDAQInfo
+TrigReport     1   79          0          0          0          0 rpcDaqInfo
+TrigReport     1   80          0          0          0          0 ecalDaqInfoTask
+TrigReport     1   81          0          0          0          0 siStripDaqInfo
+TrigReport     1   82          0          0          0          0 cscDaqInfo
+TrigReport     1   83          0          0          0          0 sipixelDaqInfo
+TrigReport     1   84          0          0          0          0 hcalDAQInfo
+TrigReport     1   85          0          0          0          0 ecalPreshowerDaqInfoTask
+TrigReport     1   86          0          0          0          0 siStripDcsInfo
+TrigReport     1   87          0          0          0          0 sipixelDcsInfo
+TrigReport     1   88          0          0          0          0 ecalDcsInfoTask
+TrigReport     1   89          0          0          0          0 dtDCSByLumiSummary
+TrigReport     1   90          0          0          0          0 hcalDCSInfo
+TrigReport     1   91          0          0          0          0 rpcDCSSummary
+TrigReport     1   92          0          0          0          0 cscDcsInfo
+TrigReport     1   93          0          0          0          0 ecalPreshowerDcsInfoTask
+TrigReport     1   94          0          0          0          0 siStripCertificationInfo
+TrigReport     1   95          0          0          0          0 sipixelCertification
+TrigReport     1   96          0          0          0          0 ecalCertification
+TrigReport     1   97          0          0          0          0 hcalDataCertification
+TrigReport     1   98          0          0          0          0 dtCertificationSummary
+TrigReport     1   99          0          0          0          0 rpcDataCertification
+TrigReport     1  100          0          0          0          0 cscCertificationInfo
+TrigReport     1  101          0          0          0          0 ecalPreshowerDataCertificationTask
+TrigReport     1  102          0          0          0          0 trackingCertificationInfo
+TrigReport     1  103          0          0          0          0 qTesterJet
+TrigReport     1  104          0          0          0          0 qTesterMET
+TrigReport     1  105          0          0          0          0 dataCertificationJetMET
+TrigReport     1  106          0          0          0          0 photonDataCertification
+TrigReport     1  107          0          0          0          0 qTesterMuonHLT
+TrigReport     1  108          0          0          0          0 muonHLTCertSummary
+TrigReport     1  109          0          0          0          0 egHLTOffQTester
+TrigReport     1  110          0          0          0          0 egHLTOffDQMSummaryClient
+TrigReport     1  111          0          0          0          0 HLTOverallSummary
+TrigReport     1  112          0          0          0          0 hltTauOfflineCertification
+TrigReport     1  113          0          0          0          0 HLTOverallSummary
+
+TrigReport ---------- Modules in Path: dqmsave_step ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0          0          0          0          0 dqmSaver
+
+TrigReport ------ Modules in End-Path: stats ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     0    0          0          0          0          0 dqmStoreStats
+
+TrigReport ---------- Module Summary ------------
+TrigReport    Visited        Run     Passed     Failed      Error Name
+TrigReport          0          0          0          0          0 EDMtoMEConverter
+TrigReport          0          0          0          0          0 dqmRefHistoRootFileGetter
+TrigReport          0          0          0          0          0 dqmDcsInfoClient
+TrigReport          0          0          0          0          0 ecalMonitorClient
+TrigReport          0          0          0          0          0 ecalzmassclient
+TrigReport          0          0          0          0          0 ecalMEFormatter
+TrigReport          0          0          0          0          0 hcalClient
+TrigReport          0          0          0          0          0 zdcClient
+TrigReport          0          0          0          0          0 siStripQTester
+TrigReport          0          0          0          0          0 siStripOfflineAnalyser
+TrigReport          0          0          0          0          0 sipixelQTester
+TrigReport          0          0          0          0          0 sipixelEDAClient
+TrigReport          0          0          0          0          0 segmentTest
+TrigReport          0          0          0          0          0 dtResolutionAnalysisTest
+TrigReport          0          0          0          0          0 dtChamberEfficiencyClient
+TrigReport          0          0          0          0          0 triggerEffTest
+TrigReport          0          0          0          0          0 blockedROChannelTest
+TrigReport          0          0          0          0          0 dtRunConditionVarClient
+TrigReport          0          0          0          0          0 dtOfflineSummaryClients
+TrigReport          0          0          0          0          0 dtResolutionAnalysisTestAlca
+TrigReport          0          0          0          0          0 qTesterRPC
+TrigReport          0          0          0          0          0 rpcdqmclient
+TrigReport          0          0          0          0          0 rpcdqmMuonclient
+TrigReport          0          0          0          0          0 rpcrechitprobabilityclient
+TrigReport          0          0          0          0          0 rpcChamberQuality
+TrigReport          0          0          0          0          0 rpcMuonChamberQuality
+TrigReport          0          0          0          0          0 rpcDcsInfoClient
+TrigReport          0          0          0          0          0 rpcEfficiencySecond
+TrigReport          0          0          0          0          0 rpcEventSummary
+TrigReport          0          0          0          0          0 rpcEfficiencyShiftHisto
+TrigReport          0          0          0          0          0 rpcEfficiencyPerRingLayer
+TrigReport          0          0          0          0          0 dqmCSCOfflineClient
+TrigReport          0          0          0          0          0 ecalPreshowerMonitorClient
+TrigReport          0          0          0          0          0 hcalNoiseRatesClient
+TrigReport          0          0          0          0          0 hcalRecHitsDQMClient
+TrigReport          0          0          0          0          0 calotowersDQMClient
+TrigReport          0          0          0          0          0 dqmFEDIntegrity
+TrigReport          0          0          0          0          0 dqmQTestDQMFED
+TrigReport          0          0          0          0          0 trackingQTester
+TrigReport          0          0          0          0          0 trackingOfflineAnalyser
+TrigReport          0          0          0          0          0 muonSourcesQualityTests
+TrigReport          0          0          0          0          0 muTrackResidualsTest
+TrigReport          0          0          0          0          0 effPlotter
+TrigReport          0          0          0          0          0 muRecoTest
+TrigReport          0          0          0          0          0 muonClientsQualityTests
+TrigReport          0          0          0          0          0 muonComp2RefQualityTests
+TrigReport          0          0          0          0          0 muonComp2RefKolmoQualityTests
+TrigReport          0          0          0          0          0 muonTestSummary
+TrigReport          0          0          0          0          0 photonOfflineClient
+TrigReport          0          0          0          0          0 stdPhotonOfflineClient
+TrigReport          0          0          0          0          0 dqmElectronClientAllElectrons
+TrigReport          0          0          0          0          0 dqmElectronClientSelectionEt
+TrigReport          0          0          0          0          0 dqmElectronClientSelectionEtIso
+TrigReport          0          0          0          0          0 dqmElectronClientTagAndProbe
+TrigReport          0          0          0          0          0 egHLTOffDQMClient
+TrigReport          0          0          0          0          0 hltMuonEfficiencies
+TrigReport          0          0          0          0          0 jetMETHLTOfflineClient
+TrigReport          0          0          0          0          0 HLTTauPostAnalysis_Inclusive
+TrigReport          0          0          0          0          0 HLTTauPostAnalysis_Inclusive2
+TrigReport          0          0          0          0          0 HLTTauPostAnalysis_PFTaus
+TrigReport          0          0          0          0          0 HLTTauPostAnalysis_PFTaus2
+TrigReport          0          0          0          0          0 qTesterMuonHLT
+TrigReport          0          0          0          0          0 muonHLTCertSummary
+TrigReport          0          0          0          0          0 egHLTOffQTester
+TrigReport          0          0          0          0          0 egHLTOffDQMSummaryClient
+TrigReport          0          0          0          0          0 HLTOverallSummary
+TrigReport          0          0          0          0          0 hltTauOfflineCertification
+TrigReport          0          0          0          0          0 hltInclusiveVBFClient
+TrigReport          0          0          0          0          0 bTagCollectorDATA
+TrigReport          0          0          0          0          0 AlcaBeamMonitorClient
+TrigReport          0          0          0          0          0 SusyPostProcessor
+TrigReport          0          0          0          0          0 efficienciesRealData
+TrigReport          0          0          0          0          0 efficienciesRealElectronsData
+TrigReport          0          0          0          0          0 efficienciesRealMuonsData
+TrigReport          0          0          0          0          0 normalizePlotsRealMuonsData
+TrigReport          0          0          0          0          0 DQMMessageLoggerClient
+TrigReport          0          0          0          0          0 dqmMessageLoggerQTester
+TrigReport          0          0          0          0          0 dqmFastTimerServiceClient
+TrigReport          0          0          0          0          0 dtDAQInfo
+TrigReport          0          0          0          0          0 rpcDaqInfo
+TrigReport          0          0          0          0          0 ecalDaqInfoTask
+TrigReport          0          0          0          0          0 siStripDaqInfo
+TrigReport          0          0          0          0          0 cscDaqInfo
+TrigReport          0          0          0          0          0 sipixelDaqInfo
+TrigReport          0          0          0          0          0 hcalDAQInfo
+TrigReport          0          0          0          0          0 ecalPreshowerDaqInfoTask
+TrigReport          0          0          0          0          0 siStripDcsInfo
+TrigReport          0          0          0          0          0 sipixelDcsInfo
+TrigReport          0          0          0          0          0 ecalDcsInfoTask
+TrigReport          0          0          0          0          0 dtDCSByLumiSummary
+TrigReport          0          0          0          0          0 hcalDCSInfo
+TrigReport          0          0          0          0          0 rpcDCSSummary
+TrigReport          0          0          0          0          0 cscDcsInfo
+TrigReport          0          0          0          0          0 ecalPreshowerDcsInfoTask
+TrigReport          0          0          0          0          0 siStripCertificationInfo
+TrigReport          0          0          0          0          0 sipixelCertification
+TrigReport          0          0          0          0          0 ecalCertification
+TrigReport          0          0          0          0          0 hcalDataCertification
+TrigReport          0          0          0          0          0 dtCertificationSummary
+TrigReport          0          0          0          0          0 rpcDataCertification
+TrigReport          0          0          0          0          0 cscCertificationInfo
+TrigReport          0          0          0          0          0 ecalPreshowerDataCertificationTask
+TrigReport          0          0          0          0          0 trackingCertificationInfo
+TrigReport          0          0          0          0          0 qTesterJet
+TrigReport          0          0          0          0          0 qTesterMET
+TrigReport          0          0          0          0          0 dataCertificationJetMET
+TrigReport          0          0          0          0          0 photonDataCertification
+TrigReport          0          0          0          0          0 dqmSaver
+TrigReport          0          0          0          0          0 TriggerResults
+TrigReport          0          0          0          0          0 dqmStoreStats
+
+TimeReport ---------- Event  Summary ---[sec]----
+TimeReport CPU/event = 0.000000 Real/event = 0.000000
+
+TimeReport ---------- Path   Summary ---[sec]----
+TimeReport             per event          per path-run 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 edmtome_step
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmHarvesting
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmsave_step
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event          per path-run 
+
+TimeReport -------End-Path   Summary ---[sec]----
+TimeReport             per event       per endpath-run 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 stats
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event       per endpath-run 
+
+TimeReport ---------- Modules in Path: edmtome_step ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 EDMtoMEConverter
+
+TimeReport ---------- Modules in Path: dqmHarvesting ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmRefHistoRootFileGetter
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmDcsInfoClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalMonitorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalzmassclient
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalMEFormatter
+TimeReport   0.000000   0.000000   0.000000   0.000000 hcalClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 zdcClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 siStripQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000 siStripOfflineAnalyser
+TimeReport   0.000000   0.000000   0.000000   0.000000 sipixelQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000 sipixelEDAClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 segmentTest
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtResolutionAnalysisTest
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtChamberEfficiencyClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 triggerEffTest
+TimeReport   0.000000   0.000000   0.000000   0.000000 blockedROChannelTest
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtRunConditionVarClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtOfflineSummaryClients
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtResolutionAnalysisTestAlca
+TimeReport   0.000000   0.000000   0.000000   0.000000 qTesterRPC
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcdqmclient
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcdqmMuonclient
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcrechitprobabilityclient
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcChamberQuality
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcMuonChamberQuality
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcDcsInfoClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcEfficiencySecond
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcEventSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcEfficiencyShiftHisto
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcEfficiencyPerRingLayer
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmCSCOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalPreshowerMonitorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 hcalNoiseRatesClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 hcalRecHitsDQMClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 calotowersDQMClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmFEDIntegrity
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmQTestDQMFED
+TimeReport   0.000000   0.000000   0.000000   0.000000 trackingQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000 trackingOfflineAnalyser
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonSourcesQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000 muTrackResidualsTest
+TimeReport   0.000000   0.000000   0.000000   0.000000 effPlotter
+TimeReport   0.000000   0.000000   0.000000   0.000000 muRecoTest
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonClientsQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonComp2RefQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonComp2RefKolmoQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonTestSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 photonOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 stdPhotonOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmElectronClientAllElectrons
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmElectronClientSelectionEt
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmElectronClientSelectionEtIso
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmElectronClientTagAndProbe
+TimeReport   0.000000   0.000000   0.000000   0.000000 egHLTOffDQMClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltMuonEfficiencies
+TimeReport   0.000000   0.000000   0.000000   0.000000 jetMETHLTOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_Inclusive
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_Inclusive2
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_PFTaus
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_PFTaus2
+TimeReport   0.000000   0.000000   0.000000   0.000000 qTesterMuonHLT
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonHLTCertSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 egHLTOffQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000 egHLTOffDQMSummaryClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTOverallSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltTauOfflineCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTOverallSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltInclusiveVBFClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 bTagCollectorDATA
+TimeReport   0.000000   0.000000   0.000000   0.000000 AlcaBeamMonitorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 SusyPostProcessor
+TimeReport   0.000000   0.000000   0.000000   0.000000 efficienciesRealData
+TimeReport   0.000000   0.000000   0.000000   0.000000 efficienciesRealElectronsData
+TimeReport   0.000000   0.000000   0.000000   0.000000 efficienciesRealMuonsData
+TimeReport   0.000000   0.000000   0.000000   0.000000 normalizePlotsRealMuonsData
+TimeReport   0.000000   0.000000   0.000000   0.000000 DQMMessageLoggerClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmMessageLoggerQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmFastTimerServiceClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtDAQInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalDaqInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000 siStripDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 cscDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 sipixelDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 hcalDAQInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalPreshowerDaqInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000 siStripDcsInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 sipixelDcsInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalDcsInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtDCSByLumiSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 hcalDCSInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcDCSSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 cscDcsInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalPreshowerDcsInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000 siStripCertificationInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 sipixelCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 hcalDataCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 dtCertificationSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 rpcDataCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 cscCertificationInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 ecalPreshowerDataCertificationTask
+TimeReport   0.000000   0.000000   0.000000   0.000000 trackingCertificationInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000 qTesterJet
+TimeReport   0.000000   0.000000   0.000000   0.000000 qTesterMET
+TimeReport   0.000000   0.000000   0.000000   0.000000 dataCertificationJetMET
+TimeReport   0.000000   0.000000   0.000000   0.000000 photonDataCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 qTesterMuonHLT
+TimeReport   0.000000   0.000000   0.000000   0.000000 muonHLTCertSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 egHLTOffQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000 egHLTOffDQMSummaryClient
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTOverallSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000 hltTauOfflineCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000 HLTOverallSummary
+
+TimeReport ---------- Modules in Path: dqmsave_step ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmSaver
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event      per module-visit 
+
+TimeReport ------ Modules in End-Path: stats ---[sec]----
+TimeReport             per event      per module-visit 
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000 dqmStoreStats
+TimeReport        CPU       Real        CPU       Real Name
+TimeReport             per event      per module-visit 
+
+TimeReport ---------- Module Summary ---[sec]----
+TimeReport             per event        per module-run      per module-visit 
+TimeReport        CPU       Real        CPU       Real        CPU       Real Name
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 TriggerResults
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 EDMtoMEConverter
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmRefHistoRootFileGetter
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmDcsInfoClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalMonitorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalzmassclient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalMEFormatter
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hcalClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 zdcClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 siStripQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 siStripOfflineAnalyser
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 sipixelQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 sipixelEDAClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 segmentTest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtResolutionAnalysisTest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtChamberEfficiencyClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 triggerEffTest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 blockedROChannelTest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtRunConditionVarClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtOfflineSummaryClients
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtResolutionAnalysisTestAlca
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 qTesterRPC
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcdqmclient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcdqmMuonclient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcrechitprobabilityclient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcChamberQuality
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcMuonChamberQuality
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcDcsInfoClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcEfficiencySecond
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcEventSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcEfficiencyShiftHisto
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcEfficiencyPerRingLayer
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmCSCOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalPreshowerMonitorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hcalNoiseRatesClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hcalRecHitsDQMClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 calotowersDQMClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmFEDIntegrity
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmQTestDQMFED
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 trackingQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 trackingOfflineAnalyser
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muonSourcesQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muTrackResidualsTest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 effPlotter
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muRecoTest
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muonClientsQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muonComp2RefQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muonComp2RefKolmoQualityTests
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muonTestSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 photonOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 stdPhotonOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmElectronClientAllElectrons
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmElectronClientSelectionEt
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmElectronClientSelectionEtIso
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmElectronClientTagAndProbe
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 egHLTOffDQMClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltMuonEfficiencies
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 jetMETHLTOfflineClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_Inclusive
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_Inclusive2
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_PFTaus
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTTauPostAnalysis_PFTaus2
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 qTesterMuonHLT
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 muonHLTCertSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 egHLTOffQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 egHLTOffDQMSummaryClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 HLTOverallSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltTauOfflineCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hltInclusiveVBFClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 bTagCollectorDATA
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 AlcaBeamMonitorClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 SusyPostProcessor
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 efficienciesRealData
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 efficienciesRealElectronsData
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 efficienciesRealMuonsData
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 normalizePlotsRealMuonsData
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 DQMMessageLoggerClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmMessageLoggerQTester
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmFastTimerServiceClient
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtDAQInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalDaqInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 siStripDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 cscDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 sipixelDaqInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hcalDAQInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalPreshowerDaqInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 siStripDcsInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 sipixelDcsInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalDcsInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtDCSByLumiSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hcalDCSInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcDCSSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 cscDcsInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalPreshowerDcsInfoTask
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 siStripCertificationInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 sipixelCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 hcalDataCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dtCertificationSummary
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 rpcDataCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 cscCertificationInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 ecalPreshowerDataCertificationTask
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 trackingCertificationInfo
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 qTesterJet
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 qTesterMET
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dataCertificationJetMET
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 photonDataCertification
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmSaver
+TimeReport   0.000000   0.000000   0.000000   0.000000   0.000000   0.000000 dqmStoreStats
+TimeReport        CPU       Real        CPU       Real        CPU       Real Name
+TimeReport             per event        per module-run      per module-visit 
+
+T---Report end!
+
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 QTestConfigure       -w QualityTester:mu                       1        1
+    2 QTestConfigure       -w QualityTester:qT                       3        3
+    3 QTestConfigure       -w QualityTester:qT                       3        3
+    4 fileAction           -s AfterModBeginStr                       2        2
+    5 fileAction           -s DQMFileSaver:dqm                       1        1
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 QTestConfigure       pre-events                        
+    2 QTestConfigure       pre-events       pre-events       pre-events
+    3 QTestConfigure       pre-events       pre-events       pre-events
+    4 fileAction           BeforeEvents     BeforeEvents     
+    5 fileAction           Run: 165633 Lumi                  
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 7                   7
+System                  3                   3
+17-Oct-2014 20:10:17 CEST  Closed file file:test_11_a_1_RAW2DIGI_RECO_DQM.root

@@ -1,0 +1,28 @@
+Fri Oct 17 19:25:45 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver9a.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9/driver9a.sh 
+Fri Oct 17 19:25:45 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9/driver9a.shFri Oct 17 19:26:40 2014After running CMSSW, this is the exit code 0Fri Oct 17 19:26:40 2014
+ GEN,SIM,RECO,EI,HLT:@fake,VALIDATION
+We have determined that this is simulation (if not, rerun cmsDriver.py with --data)
+Step: GEN Spec: 
+Loading generator fragment from Configuration.Generator.TTbar_Tauola_8TeV_cfi
+Step: SIM Spec: 
+Step: RECO Spec: 
+Step: EI Spec: 
+Step: HLT Spec: ['@fake']
+Step: VALIDATION Spec: 
+ in preparing validation
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+customising the process with setVertexGeneratorPileUpProducer from FastSimulation/Configuration/MixingModule_Full2Fast
+customising the process with customizeHLTforMC from HLTrigger/Configuration/customizeHLTforMC
+Config file test_9_a_1.py created
+Fri Oct 17 19:26:40 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver9b.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9/driver9b.sh 
+Fri Oct 17 19:26:40 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9/driver9b.shFri Oct 17 19:26:57 2014After running CMSSW, this is the exit code 0Fri Oct 17 19:26:57 2014
+ HARVESTING:validationHarvestingFS
+entry file:test_9_a_1_inDQM.root
+Step: HARVESTING Spec: ['validationHarvestingFS']
+['HLT_Mu17_TkMu8', 'HLT_DoublePhoton70', 'HLT_Ele27_WP80', 'HLT_Ele80_CaloIdVT_GsfTrkIdT', 'HLT_MET120_HBHENoiseCleaned', 'HLT_Photon155', 'HLT_L2Mu20_NoVertex_3Sta_NoBPTX3BX_NoHalo', 'HLT_Photon135', 'HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_Mu38NoFiltersNoVtx_Photon38_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW', 'HLT_HT900', 'HLT_Ele95_CaloIdVT_GsfTrkIdT', 'HLT_Mu8_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL', 'HLT_PFNoPUHT750_4Jet', 'HLT_PFHT900', 'HLT_Mu22_TkMu8', 'HLT_L2Mu20_NoVertex_2Cha_NoBPTX3BX_NoHalo', 'HLT_PFJet260', 'HLT_MonoCentralPFJet80_PFMETnoMu105_NHEF0p95', 'HLT_DoubleMu33NoFiltersNoVtx', 'HLT_Ele27_WP85_Gsf', 'HLT_DoubleMu38NoFiltersNoVtx', 'HLT_PFMET180_NoiseCleaned', 'HLT_DoublePho85', 'HLT_JetE50_NoBPTX3BX_NoHalo', 'HLT_HT750', 'HLT_Mu42NoFiltersNoVtx_Photon42_CaloIdL', 'HLT_DoubleEle33_CaloIdL_GsfTrkIdVL', 'HLT_Mu30_TkMu11HLT_Mu17_Mu8', 'HLT_L2DoubleMu28_NoVertex_2Cha_Angle2p5_Mass10']
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+customising the process with customise from DQMServices/Components/test/customHarvesting
+Config file test_9_b_1.py created
+Fri Oct 17 19:26:57 2014 cp -p /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/driver9c.sh /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9/driver9c.sh 
+Fri Oct 17 19:26:57 2014 cd /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9 && source /data/sdonato/CMSSW_7_2_0_pre8/src/DQMServices/Components/test/1413566745/9/driver9c.shFri Oct 17 19:26:57 2014After running CMSSW, this is the exit code 0Fri Oct 17 19:26:57 2014
+ 
