@@ -228,7 +228,7 @@ hltHiggsValidator = cms.EDAnalyzer("HLTHiggsValidator",
         jetTagLabel  = cms.string("pfCombinedSecondaryVertexBJetTags"),
         # -- Analysis specific cuts
         minCandidates = cms.uint32(4), 
-        NminOneCuts = cms.untracked.vdouble(0, 0, 0, 0.5, 0.5 , 0.5, 0, 0, 0, 0, 90, 0, 45), #dEtaqq, mqq, dPhibb, CSV1, maxCSV_jets, maxCSV_E, MET, pt1, pt2, pt3, pt4
+        NminOneCuts = cms.untracked.vdouble(0, 0, 0, 0.5, 0.5 , 0.5, 0, 0, 0, 90, 90, 45, 45), #dEtaqq, mqq, dPhibb, CSV1, maxCSV_jets, maxCSV_E, MET, pt1, pt2, pt3, pt4
 #        NminOneCuts = cms.untracked.vdouble(0, 0, 999, 0.7, 0.7 , 0.7, 0, 0, 0, 0, 90, 0, 50), #dEtaqq, mqq, dPhibb, CSV1, maxCSV_jets, maxCSV_E, MET, pt1, pt2, pt3, pt4
 #        NminOneCuts = cms.untracked.vdouble(0, 0, 999, 0.3, 0, 0, 0, 45, 45, 45, 45), #dEtaqq, mqq, dPhibb, CSV1, maxCSV_jets, maxCSV_E, MET, pt1, pt2, pt3, pt4
         ),
