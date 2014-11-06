@@ -102,12 +102,20 @@ HLTHiggsSubAnalysis::HLTHiggsSubAnalysis(const edm::ParameterSet & pset,
     if( anpset.existsAs<std::vector<double>>( "NminOneCuts" , false) )
     {
         _NminOneCuts = anpset.getUntrackedParameter<std::vector<double> >("NminOneCuts"); 
+<<<<<<< HEAD
         if( _NminOneCuts.size() < 7 + _minCandidates ) {
+=======
+        if( _NminOneCuts.size() < 9 + _minCandidates ) {
+>>>>>>> interface/HLTHiggsPlotter.h
             edm::LogError("HiggsValidation") << "In HLTHiggsSubAnalysis::HLTHiggsSubAnalysis, " 
                         << "Incoherence found in the python configuration file!!\nThe SubAnalysis '" 
                         << _analysisname << "' has a vector NminOneCuts with size "
                         << _NminOneCuts.size() << ", while it needs to be at least of size " 
+<<<<<<< HEAD
                         <<  (7 + _minCandidates) << ".";
+=======
+                        <<  (9 + _minCandidates) << ".";
+>>>>>>> interface/HLTHiggsPlotter.h
             exit(-1);
         }
         for(std::vector<double>::const_iterator it = _NminOneCuts.begin(); it != _NminOneCuts.end(); ++it)
@@ -165,8 +173,36 @@ void HLTHiggsSubAnalysis::beginRun(const edm::Run & iRun, const edm::EventSetup 
         edm::LogError("HiggsValidations") << "HLTHiggsSubAnalysis::beginRun: "
             << "Initializtion of HLTConfigProvider failed!!";
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> interface/HLTHiggsPlotter.h
 
+    // Parse the input paths to get them if there are in the table 
+    // and associate them the last filter of the path (in order to extract the
+    _hltPaths.clear();
+    for(size_t i = 0; i < _hltPathsToCheck.size(); ++i)
+    {
+        bool found = false;
+        TPRegexp pattern(_hltPathsToCheck[i]);
+        for(size_t j = 0 ; j < _hltConfig.triggerNames().size(); ++j)
+        {
+            std::string thetriggername = _hltConfig.triggerNames()[j];
+            if(TString(thetriggername).Contains(pattern))
+            {
+                _hltPaths.insert(thetriggername);
+                found = true;
+            }
+        }
+        if( ! found )
+        {
+            LogDebug("HiggsValidations") << "HLTHiggsSubAnalysis::beginRun, In "
+                << _analysisname << " subfolder NOT found the path: '" 
+                << _hltPathsToCheck[i] << "*'" ;
+        }
+    }
+
+<<<<<<< HEAD
     // Parse the input paths to get them if there are in the table 
     // and associate them the last filter of the path (in order to extract the
     _hltPaths.clear();
@@ -208,6 +244,25 @@ void HLTHiggsSubAnalysis::beginRun(const edm::Run & iRun, const edm::EventSetup 
         }
         _shortpath2long[shortpath] = path;
 
+=======
+    LogTrace("HiggsValidation") << "SubAnalysis: " << _analysisname 
+        << "\nHLT Trigger Paths found >>>"; 
+        // Initialize the plotters (analysers for each trigger path)
+    _analyzers.clear();
+    for(std::set<std::string>::iterator iPath = _hltPaths.begin(); 
+            iPath != _hltPaths.end(); ++iPath) 
+    {
+        // Avoiding the dependence of the version number for
+        // the trigger paths
+        std::string path = * iPath;
+        std::string shortpath = path;
+            if(path.rfind("_v") < path.length())
+        {
+            shortpath = path.substr(0, path.rfind("_v"));
+        }
+        _shortpath2long[shortpath] = path;
+
+>>>>>>> interface/HLTHiggsPlotter.h
         // Objects needed by the HLT path
         const std::vector<unsigned int> objsNeedHLT = this->getObjectsType(shortpath);
         // Sanity check: the object needed by a trigger path should be
@@ -269,9 +324,17 @@ void HLTHiggsSubAnalysis::bookHistograms(DQMStore::IBooker &ibooker)
                     if( _NminOneCuts[1] ) bookHist(source, objStr, "mqq", ibooker);
                     if( _NminOneCuts[2] ) bookHist(source, objStr, "dPhibb", ibooker);
                     if( _NminOneCuts[3] ) {
+<<<<<<< HEAD
                         if ( _NminOneCuts[4] ) bookHist(source, objStr, "maxCSV", ibooker);
                         else bookHist(source, objStr, "CSV1", ibooker);
                     }
+=======
+                        if ( _NminOneCuts[6] ) bookHist(source, objStr, "maxCSV", ibooker);
+                        else bookHist(source, objStr, "CSV1", ibooker);
+                    }
+                    if( _NminOneCuts[4] ) bookHist(source, objStr, "CSV2", ibooker);
+                    if( _NminOneCuts[5] ) bookHist(source, objStr, "CSV3", ibooker);
+>>>>>>> interface/HLTHiggsPlotter.h
                 }
             }
             
@@ -362,6 +425,7 @@ void HLTHiggsSubAnalysis::analyze(const edm::Event & iEvent, const edm::EventSet
     for(std::map<unsigned int,std::string>::iterator it = _recLabels.begin();
             it != _recLabels.end(); ++it)
     {
+<<<<<<< HEAD
         
         // Use genJets for jet matchstructs
         if( it->first == EVTColContainer::PFJET)
@@ -505,6 +569,160 @@ void HLTHiggsSubAnalysis::analyze(const edm::Event & iEvent, const edm::EventSet
             continue;
         }
         
+=======
+        
+        // Use genJets for jet matchstructs
+        if( it->first == EVTColContainer::PFJET)
+        {
+            // Skip genJets for N-1 plots
+            if( ! _useNminOneCuts ) 
+            {
+                // Initialize selectors when first event
+                if(!_genJetSelector) 
+                {
+                    _genJetSelector = new StringCutObjectSelector<reco::GenJet>(_genCut[it->first]);
+                }
+                for(size_t i = 0; i < cols->genJets->size(); ++i)
+                {
+                    if(_genJetSelector->operator()(cols->genJets->at(i)))
+                    {
+                        matches->push_back(MatchStruct(&cols->genJets->at(i),it->first));
+                    }
+                }
+            }
+        }
+        // Use genParticles
+        else
+        {
+        // Avoiding the TkMu and Mu case
+/*      if( alreadyMu )
+        {
+            continue;
+        }*/
+        // Initialize selectors when first event
+        if(!_genSelectorMap[it->first]) 
+        {
+            _genSelectorMap[it->first] = new StringCutObjectSelector<reco::GenParticle>(_genCut[it->first]);
+        }
+
+        for(size_t i = 0; i < cols->genParticles->size(); ++i)
+        {
+            if(_genSelectorMap[it->first]->operator()(cols->genParticles->at(i)))
+            {
+                matches->push_back(MatchStruct(&cols->genParticles->at(i),it->first));
+            }
+        }
+/*      if( it->first == EVTColContainer::MUON || it->first == EVTColContainer::TRACK )
+        {
+            alreadyMu = true;
+        }*/
+        }
+    }
+    // Sort the MatchStructs by pT for later filling of turn-on curve
+    std::sort(matches->begin(), matches->end(), matchesByDescendingPt());
+    
+    // Map to reference the source (gen/reco) with the recoCandidates
+    std::map<unsigned int,std::vector<MatchStruct> > sourceMatchMap;  // To be a pointer to delete
+    // --- Storing the generating candidates
+    sourceMatchMap[GEN] = *matches;
+    
+    // Reuse the vector
+    matches->clear();
+    // --- same for RECO objects
+    
+    // Different treatment for jets (b-tag)
+    std::map<std::string,bool> nMinOne;
+    std::map<std::string,bool> jetCutResult;
+    float dEtaqq;
+    float mqq;
+    float dPhibb;
+    float CSV1;
+    float CSV2;
+    float CSV3;
+    bool passAllCuts = false;
+    if( _recLabels.find(EVTColContainer::PFJET) != _recLabels.end() ) {
+        // Initialize jet selector
+        this->InitSelector(EVTColContainer::PFJET);
+        // Initialize and insert pfJets
+        this->initAndInsertJets(iEvent, cols, matches);
+        // Make sure to skip events that don't have enough jets
+        if( matches->size() < NptPlots ) {
+            delete matches;  
+            return;
+        }
+        // Cuts on multiple jet events (RECO)
+        if ( _useNminOneCuts ) {
+            this->passJetCuts(matches, jetCutResult, dEtaqq, mqq, dPhibb, CSV1, CSV2, CSV3);
+        }
+    }
+    // Extraction of the objects candidates 
+    for(std::map<unsigned int,std::string>::iterator it = _recLabels.begin();
+            it != _recLabels.end(); ++it)
+    {
+        // Reco selectors (the function takes into account if it was instantiated 
+        // before or not
+        this->InitSelector(it->first);
+        // -- Storing the matches 
+        this->insertcandidates(it->first,cols,matches);
+    }
+    
+    // Sort the MatchStructs by pT for later filling of turn-on curve
+    std::sort(matches->begin(), matches->end(), matchesByDescendingPt());
+    
+    if ( _useNminOneCuts ) {
+        // Check non-jet N-1 Cuts
+        this->passOtherCuts(*matches,jetCutResult); 
+        
+        // Make N-1 booleans from jetCutResults 
+        for(std::map<std::string,bool>::const_iterator it = jetCutResult.begin(); it != jetCutResult.end(); ++it)
+        {
+            nMinOne[it->first] = true;
+            for(std::map<std::string,bool>::const_iterator it2 = jetCutResult.begin(); it2 != jetCutResult.end(); ++it2)
+            {
+				//ignore CSV2,CSV3 cut plotting CSV1
+            	if( it->first=="CSV1" && it2->first=="CSV3") continue;
+            	if( it->first=="CSV1" && it2->first=="CSV2") continue;
+
+				//ignore CSV3 plotting cut CSV2
+            	if( it->first=="CSV2" && it2->first=="CSV3") continue;
+
+                if( it->first != it2->first && !(it2->second) ) {
+                    nMinOne[it->first] = false;
+                    break;
+                }
+            }
+        }
+        bool temp = false;
+        for(std::map<std::string,bool>::const_iterator it = nMinOne.begin(); it != nMinOne.end(); ++it)
+        {
+            if( temp && it->second ) {
+                passAllCuts = true;
+                break;
+            }
+            if( it->second ) temp = true;
+        }
+    }
+    
+    // --- Storing the reco candidates
+    sourceMatchMap[RECO] = *matches;
+    // --- All the objects are in place
+    delete matches;  
+    
+    // -- Trigger Results
+    const edm::TriggerNames trigNames = iEvent.triggerNames(*(cols->triggerResults));
+
+    // Filling the histograms if pass the minimum amount of candidates needed by the analysis:
+    // GEN + RECO CASE in the same loop
+    for(std::map<unsigned int,std::vector<MatchStruct> >::iterator it = sourceMatchMap.begin(); 
+            it != sourceMatchMap.end(); ++it)
+    {
+        // it->first: gen/reco   it->second: matches (std::vector<MatchStruc>)
+        if( it->second.size() < _minCandidates )   // FIXME: A bug is potentially here: what about the mixed channels?
+        {
+            continue;
+        }
+        
+>>>>>>> interface/HLTHiggsPlotter.h
         // Filling the gen/reco objects (eff-denominators): 
         // Just the first two different ones, if there are more
         std::map<unsigned int,int> * countobjects = new std::map<unsigned int,int>;
@@ -527,7 +745,11 @@ void HLTHiggsSubAnalysis::analyze(const edm::Event & iEvent, const edm::EventSet
             float phi = (it->second)[j].phi;
             
             // PFMET N-1 cut
+<<<<<<< HEAD
             if( _useNminOneCuts && objType == EVTColContainer::PFMET && _NminOneCuts[6] && ! nMinOne["PFMET"] ) {
+=======
+            if( _useNminOneCuts && objType == EVTColContainer::PFMET && _NminOneCuts[8] && ! nMinOne["PFMET"] ) {
+>>>>>>> interface/HLTHiggsPlotter.h
                 continue;
             }
             
@@ -589,9 +811,21 @@ void HLTHiggsSubAnalysis::analyze(const edm::Event & iEvent, const edm::EventSet
             }
             if( _NminOneCuts[3] ) {
                 std::string nameCSVplot = "CSV1";
+<<<<<<< HEAD
                 if ( _NminOneCuts[4] ) nameCSVplot = "maxCSV";
                 if ( nMinOne[nameCSVplot] ) this->fillHist(u2str[it->first],EVTColContainer::getTypeString(EVTColContainer::PFJET),nameCSVplot,CSV1);
             }
+=======
+                if ( _NminOneCuts[6] ) nameCSVplot = "maxCSV";
+                if ( nMinOne[nameCSVplot] ) this->fillHist(u2str[it->first],EVTColContainer::getTypeString(EVTColContainer::PFJET),nameCSVplot,CSV1);
+            }
+            if( _NminOneCuts[4] && nMinOne["CSV2"] ) {
+            this->fillHist(u2str[it->first],EVTColContainer::getTypeString(EVTColContainer::PFJET),"CSV2",CSV2);
+            }
+            if( _NminOneCuts[5] && nMinOne["CSV3"] ) {
+            this->fillHist(u2str[it->first],EVTColContainer::getTypeString(EVTColContainer::PFJET),"CSV3",CSV3);
+            }
+>>>>>>> interface/HLTHiggsPlotter.h
         }
 
         //fill the efficiency vs nb of interactions
@@ -609,7 +843,11 @@ void HLTHiggsSubAnalysis::analyze(const edm::Event & iEvent, const edm::EventSet
             const bool ispassTrigger =  cols->triggerResults->accept(trigNames.triggerIndex(hltPath));
             
             if( _useNminOneCuts ) {
+<<<<<<< HEAD
                 an->analyze(ispassTrigger,source,it->second, nMinOne, dEtaqq, mqq, dPhibb, CSV1, passAllCuts);
+=======
+                an->analyze(ispassTrigger,source,it->second, nMinOne, dEtaqq, mqq, dPhibb, CSV1, CSV2, CSV3, passAllCuts);
+>>>>>>> interface/HLTHiggsPlotter.h
             }
             else {
                 an->analyze(ispassTrigger,source,it->second, _minCandidates);
@@ -656,7 +894,11 @@ const std::vector<unsigned int> HLTHiggsSubAnalysis::getObjectsType(const std::s
         // Check if it is needed this object for this trigger
         if( ! TString(hltPath).Contains(objTypeStr) )
         {
+<<<<<<< HEAD
             if( (objtriggernames[i] == EVTColContainer::PFJET && TString(hltPath).Contains("BTagCSV")) ||   // fix for ZnnHbb PFJET            
+=======
+            if( (objtriggernames[i] == EVTColContainer::PFJET && TString(hltPath).Contains("CSV") ) ||   // fix for ZnnHbb PFJET            
+>>>>>>> interface/HLTHiggsPlotter.h
                 (objtriggernames[i] == EVTColContainer::PFMET && TString(hltPath).Contains("MHT")) )        // fix for ZnnHbb PFMET
                 objsType.insert(objtriggernames[i]);
            continue;
@@ -894,6 +1136,23 @@ void HLTHiggsSubAnalysis::bookHist(const std::string & source,
             double max   = 1;
             h = new TH1F(name.c_str(), title.c_str(), nBins, min, max);
         } 
+<<<<<<< HEAD
+=======
+        else if ( variable == "CSV2" ){
+            std::string title  = "CSV2 of " + sourceUpper + " " + objType;
+            int    nBins = 20;
+            double min   = 0;
+            double max   = 1;
+            h = new TH1F(name.c_str(), title.c_str(), nBins, min, max);
+        } 
+        else if ( variable == "CSV3" ){
+            std::string title  = "CSV3 of " + sourceUpper + " " + objType;
+            int    nBins = 20;
+            double min   = 0;
+            double max   = 1;
+            h = new TH1F(name.c_str(), title.c_str(), nBins, min, max);
+        } 
+>>>>>>> interface/HLTHiggsPlotter.h
         else if ( variable == "maxCSV" ){
             std::string title  = "max CSV of " + sourceUpper + " " + objType;
             int    nBins = 20;
@@ -1002,8 +1261,13 @@ void HLTHiggsSubAnalysis::initAndInsertJets(const edm::Event & iEvent, EVTColCon
     }
 }
 
+<<<<<<< HEAD
 void HLTHiggsSubAnalysis::passJetCuts(std::vector<MatchStruct> * matches, std::map<std::string,bool> & jetCutResult, float & dEtaqq, float & mqq, float & dPhibb, float & CSV1) 
 { //dEtaqq, mqq, dPhibb, CSV1, maxCSV_jets, maxCSV_E, PFMET, pt1, pt2, pt3, pt4
+=======
+void HLTHiggsSubAnalysis::passJetCuts(std::vector<MatchStruct> * matches, std::map<std::string,bool> & jetCutResult, float & dEtaqq, float & mqq, float & dPhibb, float & CSV1, float & CSV2, float & CSV3) 
+{ //dEtaqq, mqq, dPhibb, CSV1, CSV2, CSV3, maxCSV_jets, maxCSV_E, PFMET, pt1, pt2, pt3, pt4
+>>>>>>> interface/HLTHiggsPlotter.h
     
     // Perform pt cuts
     std::sort(matches->begin(), matches->end(), matchesByDescendingPt());
@@ -1012,7 +1276,11 @@ void HLTHiggsSubAnalysis::passJetCuts(std::vector<MatchStruct> * matches, std::m
     {
         maxPt = "MaxPt";
         maxPt += i+1;
+<<<<<<< HEAD
         if( (*matches)[i].pt > _NminOneCuts[7+i] ) jetCutResult[maxPt.Data()] = true;
+=======
+        if( (*matches)[i].pt > _NminOneCuts[9+i] ) jetCutResult[maxPt.Data()] = true;
+>>>>>>> interface/HLTHiggsPlotter.h
         else jetCutResult[maxPt.Data()] = false;
     }  
     
@@ -1038,14 +1306,41 @@ void HLTHiggsSubAnalysis::passJetCuts(std::vector<MatchStruct> * matches, std::m
         if( dPhibb < _NminOneCuts[2] ) jetCutResult["dPhibb"] = true;
         else jetCutResult["dPhibb"] = false;
     }
+<<<<<<< HEAD
     if( _NminOneCuts[3] ) {
         CSV1 = (*matches)[0].bTag;
         std::string nameCSVplot = "CSV1";
         if ( _NminOneCuts[4] ) nameCSVplot = "maxCSV";
+=======
+
+    if( _NminOneCuts[4] ) {
+        CSV2 = (*matches)[1].bTag;
+        std::string nameCSV2plot = "CSV2";
+
+        if( CSV2 > _NminOneCuts[4] ) jetCutResult[nameCSV2plot] = true;
+        else jetCutResult[nameCSV2plot] = false;
+        }
+
+    if( _NminOneCuts[5] ) {
+        CSV3 = (*matches)[2].bTag;
+        std::string nameCSV3plot = "CSV3";
+
+        if( CSV3 > _NminOneCuts[5] ) jetCutResult[nameCSV3plot] = true;
+        else jetCutResult[nameCSV3plot] = false;
+        }
+
+
+    if( _NminOneCuts[3] ) {
+        CSV1 = (*matches)[0].bTag;
+        std::string nameCSVplot = "CSV1";
+        if ( _NminOneCuts[6] ) nameCSVplot = "maxCSV";
+
+>>>>>>> interface/HLTHiggsPlotter.h
         if( CSV1 > _NminOneCuts[3] ) jetCutResult[nameCSVplot] = true;
         else jetCutResult[nameCSVplot] = false;
         
         // max(CSV)
+<<<<<<< HEAD
         if( _NminOneCuts[4] ) {
             std::sort(matches->begin(), matches->end(), matchesByDescendingPt());
             CSV1 = (*matches)[0].bTag;
@@ -1053,18 +1348,35 @@ void HLTHiggsSubAnalysis::passJetCuts(std::vector<MatchStruct> * matches, std::m
             if ( _NminOneCuts[4] > matches->size()) Njets = matches->size();
             for(unsigned int i=1; i < (unsigned int) Njets ; ++i) {
                 if( (*matches)[i].bTag > CSV1 && (*matches)[i].pt > _NminOneCuts[5] ) CSV1 = (*matches)[i].bTag;
+=======
+        if( _NminOneCuts[6] ) {
+            std::sort(matches->begin(), matches->end(), matchesByDescendingPt());
+            CSV1 = (*matches)[0].bTag;
+            unsigned int Njets = (unsigned int) _NminOneCuts[6];
+            if ( _NminOneCuts[6] > matches->size()) Njets = matches->size();
+            for(unsigned int i=1; i < (unsigned int) Njets ; ++i) {
+                if( (*matches)[i].bTag > CSV1 && (*matches)[i].pt > _NminOneCuts[7] ) CSV1 = (*matches)[i].bTag;
+>>>>>>> interface/HLTHiggsPlotter.h
             }
         }
     }    
 } 
 
 void HLTHiggsSubAnalysis::passOtherCuts(const std::vector<MatchStruct> & matches, std::map<std::string,bool> & jetCutResult){
+<<<<<<< HEAD
     if( _NminOneCuts[6] ) {
+=======
+    if( _NminOneCuts[8] ) {
+>>>>>>> interface/HLTHiggsPlotter.h
         jetCutResult["PFMET"] = false;
         for(std::vector<MatchStruct>::const_iterator it = matches.begin(); it != matches.end(); ++it)
         {
             if( it->objType == EVTColContainer::PFMET ) {
+<<<<<<< HEAD
                 if( it->pt > _NminOneCuts[6] ) jetCutResult["PFMET"] = true;
+=======
+                if( it->pt > _NminOneCuts[8] ) jetCutResult["PFMET"] = true;
+>>>>>>> interface/HLTHiggsPlotter.h
                 break;
             }
         }

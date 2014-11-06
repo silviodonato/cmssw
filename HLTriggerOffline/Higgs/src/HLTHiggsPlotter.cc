@@ -88,9 +88,17 @@ void HLTHiggsPlotter::bookHistograms(DQMStore::IBooker &ibooker, const bool & us
                     if( _NminOneCuts[1] ) bookHist(source, objTypeStr, "mqq", ibooker);
                     if( _NminOneCuts[2] ) bookHist(source, objTypeStr, "dPhibb", ibooker);
                     if( _NminOneCuts[3] ) {
+<<<<<<< HEAD
                         if ( _NminOneCuts[4] ) bookHist(source, objTypeStr, "maxCSV", ibooker);
                         else bookHist(source, objTypeStr, "CSV1", ibooker);
                     }
+=======
+                        if ( _NminOneCuts[6] ) bookHist(source, objTypeStr, "maxCSV", ibooker);
+                        else bookHist(source, objTypeStr, "CSV1", ibooker);
+                    }
+                    if( _NminOneCuts[4] ) bookHist(source, objTypeStr, "CSV2", ibooker);
+                    if( _NminOneCuts[5] ) bookHist(source, objTypeStr, "CSV3", ibooker);
+>>>>>>> interface/HLTHiggsPlotter.h
                 }
             }
             
@@ -120,6 +128,7 @@ void HLTHiggsPlotter::analyze(const bool & isPassTrigger,
     // Initializing the count of the used object
     for(std::set<unsigned int>::iterator co = _objectsType.begin();
         co != _objectsType.end(); ++co)
+<<<<<<< HEAD
     {
         countobjects[*co] = 0;
     }
@@ -197,6 +206,85 @@ void HLTHiggsPlotter::analyze(const bool & isPassTrigger, const std::string & so
             continue;
         }
 
+=======
+    {
+        countobjects[*co] = 0;
+    }
+        
+    int counttotal = 0;
+    const int totalobjectssize2 = _NptPlots*countobjects.size();
+    // Fill the histos if pass the trigger (just the two with higher pt)
+    for (size_t j = 0; j < matches.size(); ++j)
+    {
+        // Is this object owned by this trigger? If not we are not interested...
+        if ( _objectsType.find( matches[j].objType) == _objectsType.end() )
+        {
+            continue;
+        }
+
+        const unsigned int objType = matches[j].objType;
+        const std::string objTypeStr = EVTColContainer::getTypeString(matches[j].objType);
+            
+        float pt  = matches[j].pt;
+        float eta = matches[j].eta;
+        float phi = matches[j].phi;
+        
+        TString maxPt;
+        if( (unsigned)countobjects[objType] < _NptPlots )
+        {
+            maxPt = "MaxPt";
+            maxPt += (countobjects[objType]+1);
+            this->fillHist(isPassTrigger,source,objTypeStr,maxPt.Data(),pt);
+            // Filled the high pt ...
+            ++(countobjects[objType]);
+            ++counttotal;
+        }
+        else {
+            if( (unsigned)countobjects[objType] < minCandidates ) { // To get correct results for HZZ
+                ++(countobjects[objType]);
+                ++counttotal;
+            }
+            else continue; //   Otherwise too many entries in Eta and Phi distributions
+        }
+        
+        this->fillHist(isPassTrigger,source,objTypeStr,"Eta",eta);
+        this->fillHist(isPassTrigger,source,objTypeStr,"Phi",phi);
+
+        if ( counttotal == totalobjectssize2 ) 
+        {
+            break;
+        }				
+    }
+}
+
+void HLTHiggsPlotter::analyze(const bool & isPassTrigger, const std::string & source, const std::vector<MatchStruct> & matches,
+                std::map<std::string,bool> & nMinOne, const float & dEtaqq, const float & mqq, const float & dPhibb, const float & CSV1, const float & CSV2, const float & CSV3, const bool & passAllCuts)
+{
+    if ( !isPassTrigger )
+    {
+        return;
+    }
+    std::map<unsigned int,int> countobjects;
+    // Initializing the count of the used object
+    for(std::set<unsigned int>::iterator co = _objectsType.begin();
+        co != _objectsType.end(); ++co)
+    {
+        if( !(*co == EVTColContainer::PFJET && source == "gen") ) // genJets are not there
+            countobjects[*co] = 0;
+    }
+        
+    int counttotal = 0;
+    const int totalobjectssize2 = _NptPlots*countobjects.size();
+    // Fill the histos if pass the trigger (just the two with higher pt)
+    for (size_t j = 0; j < matches.size(); ++j)
+    { 
+        // Is this object owned by this trigger? If not we are not interested...
+        if ( _objectsType.find( matches[j].objType) == _objectsType.end() )
+        {
+            continue;
+        }
+
+>>>>>>> interface/HLTHiggsPlotter.h
         const unsigned int objType = matches[j].objType;
         const std::string objTypeStr = EVTColContainer::getTypeString(matches[j].objType);
             
@@ -205,7 +293,11 @@ void HLTHiggsPlotter::analyze(const bool & isPassTrigger, const std::string & so
         float phi = matches[j].phi;
         
         // PFMET N-1 cut
+<<<<<<< HEAD
         if( objType == EVTColContainer::PFMET && _NminOneCuts[6] && ! nMinOne["PFMET"] ) continue;
+=======
+        if( objType == EVTColContainer::PFMET && _NminOneCuts[8] && ! nMinOne["PFMET"] ) continue;
+>>>>>>> interface/HLTHiggsPlotter.h
         
         TString maxPt;
         if( (unsigned)(countobjects)[objType] < _NptPlots )
@@ -217,9 +309,15 @@ void HLTHiggsPlotter::analyze(const bool & isPassTrigger, const std::string & so
             }
             ++(countobjects[objType]);
             ++counttotal;
+<<<<<<< HEAD
         }
         else continue;  // if not needed (minCandidates == _NptPlots if _useNminOneCuts 
         
+=======
+        } 
+        else continue; // if not needed (minCandidates == _NptPlots if _useNminOneCuts 
+
+>>>>>>> interface/HLTHiggsPlotter.h
         if( ! objType == EVTColContainer::PFJET || passAllCuts ) {
             this->fillHist(isPassTrigger,source,objTypeStr,"Eta",eta);
             this->fillHist(isPassTrigger,source,objTypeStr,"Phi",phi);
@@ -242,9 +340,21 @@ void HLTHiggsPlotter::analyze(const bool & isPassTrigger, const std::string & so
         }
         if( _NminOneCuts[3] ) {
             std::string nameCSVplot = "CSV1";
+<<<<<<< HEAD
             if ( _NminOneCuts[4] ) nameCSVplot = "maxCSV";
             if ( nMinOne[nameCSVplot] ) this->fillHist(isPassTrigger,source,EVTColContainer::getTypeString(EVTColContainer::PFJET),nameCSVplot,CSV1);
         }
+=======
+            if ( _NminOneCuts[6] ) nameCSVplot = "maxCSV";
+            if ( nMinOne[nameCSVplot] ) this->fillHist(isPassTrigger,source,EVTColContainer::getTypeString(EVTColContainer::PFJET),nameCSVplot,CSV1);
+        }
+        if( _NminOneCuts[4] && nMinOne["CSV2"] ) {
+            this->fillHist(isPassTrigger,source,EVTColContainer::getTypeString(EVTColContainer::PFJET),"CSV2",CSV2);
+        }
+        if( _NminOneCuts[5] && nMinOne["CSV3"] ) {
+            this->fillHist(isPassTrigger,source,EVTColContainer::getTypeString(EVTColContainer::PFJET),"CSV3",CSV3);
+        }
+>>>>>>> interface/HLTHiggsPlotter.h
     }
 }
 
@@ -328,6 +438,23 @@ void HLTHiggsPlotter::bookHist(const std::string & source,
             double max   = 1;
             h = new TH1F(name.c_str(), title.c_str(), nBins, min, max);
         } 
+<<<<<<< HEAD
+=======
+        else if ( variable == "CSV2" ){
+            std::string title  = "CSV2 of " + sourceUpper + " " + objType;
+            int    nBins = 20;
+            double min   = 0;
+            double max   = 1;
+            h = new TH1F(name.c_str(), title.c_str(), nBins, min, max);
+        } 
+        else if ( variable == "CSV3" ){
+            std::string title  = "CSV3 of " + sourceUpper + " " + objType;
+            int    nBins = 20;
+            double min   = 0;
+            double max   = 1;
+            h = new TH1F(name.c_str(), title.c_str(), nBins, min, max);
+        } 
+>>>>>>> interface/HLTHiggsPlotter.h
         else if ( variable == "maxCSV" ){
             std::string title  = "max CSV of " + sourceUpper + " " + objType;
             int    nBins = 20;
