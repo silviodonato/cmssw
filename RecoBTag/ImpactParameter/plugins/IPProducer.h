@@ -246,6 +246,26 @@ IPProducer<Container,Base,Helper>::fillDescriptions(edm::ConfigurationDescriptio
   impactParameterTagInfos.add<bool>("useTrackQuality",false);
   impactParameterTagInfos.add<double>("maximumChiSquared",5.0);
   descriptions.add("impactParameterTagInfos",impactParameterTagInfos);
+
+  edm::ParameterSetDescription pfImpactParameterTagInfos;
+  pfImpactParameterTagInfos.add<double>("maximumTransverseImpactParameter",0.2);
+  pfImpactParameterTagInfos.add<int>("minimumNumberOfHits",8);
+  pfImpactParameterTagInfos.add<double>("minimumTransverseMomentum",1.0);
+  pfImpactParameterTagInfos.add<edm::InputTag>("primaryVertex",edm::InputTag("offlinePrimaryVertices"));
+  pfImpactParameterTagInfos.add<double>("maximumLongitudinalImpactParameter",17.0);
+  pfImpactParameterTagInfos.add<bool>("computeGhostTrack",true);
+  pfImpactParameterTagInfos.add<double>("ghostTrackPriorDeltaR",0.03);
+  pfImpactParameterTagInfos.add<edm::InputTag>("jetTracks",edm::InputTag("ak4JetTracksAssociatorAtVertexPF"));
+  pfImpactParameterTagInfos.add<bool>("jetDirectionUsingGhostTrack",false);
+  pfImpactParameterTagInfos.add<int>("minimumNumberOfPixelHits",2);
+  pfImpactParameterTagInfos.add<bool>("jetDirectionUsingTracks",false);
+  pfImpactParameterTagInfos.add<bool>("computeProbabilities",true);
+  pfImpactParameterTagInfos.add<bool>("useTrackQuality",false);
+  pfImpactParameterTagInfos.add<double>("maximumChiSquared",5.0);
+  pfImpactParameterTagInfos.add<edm::InputTag>("jets",edm::InputTag("ak4PFJetsCHS"));
+  pfImpactParameterTagInfos.add<edm::InputTag>("candidates",edm::InputTag("particleFlow"));
+  pfImpactParameterTagInfos.add<double>("maxDeltaR",0.4);
+  descriptions.add("pfImpactParameterTagInfos",pfImpactParameterTagInfos);
 }
 
 
