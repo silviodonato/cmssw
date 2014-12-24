@@ -109,6 +109,7 @@ class TemplatedSecondaryVertexProducer : public edm::stream::EDProducer<> {
 	typedef typename IPTI::input_container::value_type input_item;
 	typedef typename std::vector<reco::btag::IndexedTrackData> TrackDataVector;
 	virtual void produce(edm::Event &event, const edm::EventSetup &es) override;
+	static void fillDescriptions(edm::ConfigurationDescriptions & descriptions);  
 
     private:
         template<class CONTAINER>
@@ -831,6 +832,170 @@ void TemplatedSecondaryVertexProducer<IPTI,VTX>::produce(edm::Event &event,
 	}
 
 	event.put(tagInfos);
+}
+
+template <class IPTI,class VTX>
+void
+TemplatedSecondaryVertexProducer<IPTI,VTX>::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+  edm::ParameterSetDescription desc;
+  desc.add<double>("extSVDeltaRToJet",0.3);
+  desc.add<edm::InputTag>("beamSpotTag",edm::InputTag("offlineBeamSpot"));
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<double>("primcut",1.8);
+    psd0.add<double>("seccut",6.0);
+    psd0.add<bool>("smoothing",false);
+    psd0.add<double>("weightthreshold",0.001);
+    psd0.add<double>("minweight",0.5);
+    psd0.add<std::string>("finder","avr");
+    desc.add<edm::ParameterSetDescription>("vertexReco",psd0);
+  }
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<std::string>("sortCriterium","dist3dError");
+    desc.add<edm::ParameterSetDescription>("vertexSelection",psd0);
+  }
+  desc.add<std::string>("constraint","BeamSpot");
+  desc.add<edm::InputTag>("trackIPTagInfos",edm::InputTag("impactParameterTagInfos"));
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<double>("distSig3dMax",99999.9);
+    psd0.add<double>("fracPV",0.65);
+    psd0.add<double>("distVal2dMax",2.5);
+    psd0.add<bool>("useTrackWeights",true);
+    psd0.add<double>("maxDeltaRToJetAxis",0.4);
+    {
+      edm::ParameterSetDescription psd1;
+      psd1.add<double>("k0sMassWindow",0.05);
+      psd0.add<edm::ParameterSetDescription>("v0Filter",psd1);
+    }
+    psd0.add<double>("distSig2dMin",3.0);
+    psd0.add<unsigned int>("multiplicityMin",2);
+    psd0.add<double>("distVal2dMin",0.01);
+    psd0.add<double>("distSig2dMax",99999.9);
+    psd0.add<double>("distVal3dMax",99999.9);
+    psd0.add<double>("minimumTrackWeight",0.5);
+    psd0.add<double>("distVal3dMin",-99999.9);
+    psd0.add<double>("massMax",6.5);
+    psd0.add<double>("distSig3dMin",-99999.9);
+    desc.add<edm::ParameterSetDescription>("vertexCuts",psd0);
+  }
+  desc.add<bool>("useExternalSV",false);
+  desc.add<double>("minimumTrackWeight",0.5);
+  desc.add<bool>("usePVError",true);
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<double>("b_pT",0.3684);
+    psd0.add<double>("max_pT",500);
+    psd0.add<bool>("useVariableJTA",false);
+    psd0.add<double>("maxDecayLen",99999.9);
+    psd0.add<double>("sip3dValMin",-99999.9);
+    psd0.add<double>("max_pT_dRcut",0.1);
+    psd0.add<double>("a_pT",0.005263);
+    psd0.add<unsigned int>("totalHitsMin",8);
+    psd0.add<double>("jetDeltaRMax",0.3);
+    psd0.add<double>("a_dR",-0.001053);
+    psd0.add<double>("maxDistToAxis",0.2);
+    psd0.add<double>("ptMin",1.0);
+    psd0.add<std::string>("qualityClass","any");
+    psd0.add<unsigned int>("pixelHitsMin",2);
+    psd0.add<double>("sip2dValMax",99999.9);
+    psd0.add<double>("max_pT_trackPTcut",3);
+    psd0.add<double>("sip2dValMin",-99999.9);
+    psd0.add<double>("normChi2Max",99999.9);
+    psd0.add<double>("sip3dValMax",99999.9);
+    psd0.add<double>("sip3dSigMin",-99999.9);
+    psd0.add<double>("min_pT",120);
+    psd0.add<double>("min_pT_dRcut",0.5);
+    psd0.add<double>("sip2dSigMax",99999.9);
+    psd0.add<double>("sip3dSigMax",99999.9);
+    psd0.add<double>("sip2dSigMin",-99999.9);
+    psd0.add<double>("b_dR",0.6263);
+    desc.add<edm::ParameterSetDescription>("trackSelection",psd0);
+  }
+  desc.add<std::string>("trackSort","sip3dSig");
+  desc.add<edm::InputTag>("extSVCollection",edm::InputTag("secondaryVertices"));
+  descriptions.add("secondaryVertexTagInfos",desc);
+
+  edm::ParameterSetDescription descGhost;
+  descGhost.add<double>("extSVDeltaRToJet",0.3);
+  descGhost.add<edm::InputTag>("beamSpotTag",edm::InputTag("offlineBeamSpot"));
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<double>("seccut",4.0);
+    psd0.add<double>("primcut",2.0);
+    psd0.add<double>("maxFitChi2",10.0);
+    psd0.add<std::string>("fitType","RefitGhostTrackWithVertices");
+    psd0.add<double>("mergeThreshold",3.0);
+    psd0.add<std::string>("finder","gtvr");
+    descGhost.add<edm::ParameterSetDescription>("vertexReco",psd0);
+  }
+  descGhost.add<std::string>("constraint","BeamSpot");
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<std::string>("sortCriterium","dist3dError");
+    descGhost.add<edm::ParameterSetDescription>("vertexSelection",psd0);
+  }
+  descGhost.add<bool>("useExternalSV",false);
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<double>("fracPV",0.65);
+    psd0.add<double>("distSig3dMax",99999.9);
+    psd0.add<double>("distVal2dMax",2.5);
+    psd0.add<bool>("useTrackWeights",true);
+    psd0.add<double>("maxDeltaRToJetAxis",0.4);
+    {
+      edm::ParameterSetDescription psd1;
+      psd1.add<double>("k0sMassWindow",0.05);
+      psd0.add<edm::ParameterSetDescription>("v0Filter",psd1);
+    }
+    psd0.add<double>("distSig2dMin",3.0);
+    psd0.add<unsigned int>("multiplicityMin",1);
+    psd0.add<double>("massMax",6.5);
+    psd0.add<double>("distSig2dMax",99999.9);
+    psd0.add<double>("distVal3dMax",99999.9);
+    psd0.add<double>("minimumTrackWeight",0.5);
+    psd0.add<double>("distVal3dMin",-99999.9);
+    psd0.add<double>("distVal2dMin",0.01);
+    psd0.add<double>("distSig3dMin",-99999.9);
+    descGhost.add<edm::ParameterSetDescription>("vertexCuts",psd0);
+  }
+  descGhost.add<edm::InputTag>("trackIPTagInfos",edm::InputTag("impactParameterTagInfos"));
+  descGhost.add<double>("minimumTrackWeight",0.5);
+  descGhost.add<bool>("usePVError",true);
+  {
+    edm::ParameterSetDescription psd0;
+    psd0.add<double>("b_pT",0.3684);
+    psd0.add<double>("max_pT",500);
+    psd0.add<bool>("useVariableJTA",false);
+    psd0.add<double>("maxDecayLen",99999.9);
+    psd0.add<double>("sip3dValMin",-99999.9);
+    psd0.add<double>("max_pT_dRcut",0.1);
+    psd0.add<double>("a_pT",0.005263);
+    psd0.add<unsigned int>("totalHitsMin",8);
+    psd0.add<double>("jetDeltaRMax",0.3);
+    psd0.add<double>("a_dR",-0.001053);
+    psd0.add<double>("maxDistToAxis",0.2);
+    psd0.add<double>("ptMin",1.0);
+    psd0.add<std::string>("qualityClass","any");
+    psd0.add<unsigned int>("pixelHitsMin",2);
+    psd0.add<double>("sip2dValMax",99999.9);
+    psd0.add<double>("max_pT_trackPTcut",3);
+    psd0.add<double>("sip2dValMin",-99999.9);
+    psd0.add<double>("normChi2Max",99999.9);
+    psd0.add<double>("sip3dValMax",99999.9);
+    psd0.add<double>("sip3dSigMin",-99999.9);
+    psd0.add<double>("sip3dSigMax",99999.9);
+    psd0.add<double>("min_pT_dRcut",0.5);
+    psd0.add<double>("sip2dSigMax",99999.9);
+    psd0.add<double>("min_pT",120);
+    psd0.add<double>("sip2dSigMin",-99999.9);
+    psd0.add<double>("b_dR",0.6263);
+    descGhost.add<edm::ParameterSetDescription>("trackSelection",psd0);
+  }
+  descGhost.add<std::string>("trackSort","sip3dSig");
+  descGhost.add<edm::InputTag>("extSVCollection",edm::InputTag("secondaryVertices"));
+  descriptions.add("ghostTrackVertexTagInfos",descGhost);
 }
 
 //Need specialized template because reco::Vertex iterators are TrackBase and it is a mess to make general

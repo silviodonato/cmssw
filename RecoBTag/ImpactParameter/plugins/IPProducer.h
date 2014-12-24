@@ -142,6 +142,7 @@ class IPProducer : public edm::stream::EDProducer<> {
       ~IPProducer();
 
       virtual void produce(edm::Event&, const edm::EventSetup&);
+      static void fillDescriptions(edm::ConfigurationDescriptions & descriptions);  
    private:
     void  checkEventSetup(const edm::EventSetup & iSetup);
 
@@ -222,6 +223,51 @@ template <class Container, class Base, class Helper> IPProducer<Container,Base,H
 template <class Container, class Base, class Helper> IPProducer<Container,Base,Helper>::~IPProducer()
 {
 }
+
+
+//template <class Container, class Base, class Helper> void
+//IPProducer<Container,Base,Helper>::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+
+template <class Container, class Base, class Helper> void
+IPProducer<Container,Base,Helper>::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+  edm::ParameterSetDescription impactParameterTagInfos;
+  impactParameterTagInfos.add<double>("maximumTransverseImpactParameter",0.2);
+  impactParameterTagInfos.add<int>("minimumNumberOfHits",8);
+  impactParameterTagInfos.add<double>("minimumTransverseMomentum",1.0);
+  impactParameterTagInfos.add<edm::InputTag>("primaryVertex",edm::InputTag("offlinePrimaryVertices"));
+  impactParameterTagInfos.add<double>("maximumLongitudinalImpactParameter",17.0);
+  impactParameterTagInfos.add<bool>("computeGhostTrack",true);
+  impactParameterTagInfos.add<double>("ghostTrackPriorDeltaR",0.03);
+  impactParameterTagInfos.add<edm::InputTag>("jetTracks",edm::InputTag("ak4JetTracksAssociatorAtVertexPF"));
+  impactParameterTagInfos.add<bool>("jetDirectionUsingGhostTrack",false);
+  impactParameterTagInfos.add<int>("minimumNumberOfPixelHits",2);
+  impactParameterTagInfos.add<bool>("jetDirectionUsingTracks",false);
+  impactParameterTagInfos.add<bool>("computeProbabilities",true);
+  impactParameterTagInfos.add<bool>("useTrackQuality",false);
+  impactParameterTagInfos.add<double>("maximumChiSquared",5.0);
+  descriptions.add("impactParameterTagInfos",impactParameterTagInfos);
+
+  edm::ParameterSetDescription pfImpactParameterTagInfos;
+  pfImpactParameterTagInfos.add<double>("maximumTransverseImpactParameter",0.2);
+  pfImpactParameterTagInfos.add<int>("minimumNumberOfHits",8);
+  pfImpactParameterTagInfos.add<double>("minimumTransverseMomentum",1.0);
+  pfImpactParameterTagInfos.add<edm::InputTag>("primaryVertex",edm::InputTag("offlinePrimaryVertices"));
+  pfImpactParameterTagInfos.add<double>("maximumLongitudinalImpactParameter",17.0);
+  pfImpactParameterTagInfos.add<bool>("computeGhostTrack",true);
+  pfImpactParameterTagInfos.add<double>("ghostTrackPriorDeltaR",0.03);
+  pfImpactParameterTagInfos.add<edm::InputTag>("jetTracks",edm::InputTag("ak4JetTracksAssociatorAtVertexPF"));
+  pfImpactParameterTagInfos.add<bool>("jetDirectionUsingGhostTrack",false);
+  pfImpactParameterTagInfos.add<int>("minimumNumberOfPixelHits",2);
+  pfImpactParameterTagInfos.add<bool>("jetDirectionUsingTracks",false);
+  pfImpactParameterTagInfos.add<bool>("computeProbabilities",true);
+  pfImpactParameterTagInfos.add<bool>("useTrackQuality",false);
+  pfImpactParameterTagInfos.add<double>("maximumChiSquared",5.0);
+  pfImpactParameterTagInfos.add<edm::InputTag>("jets",edm::InputTag("ak4PFJetsCHS"));
+  pfImpactParameterTagInfos.add<edm::InputTag>("candidates",edm::InputTag("particleFlow"));
+  pfImpactParameterTagInfos.add<double>("maxDeltaR",0.4);
+  descriptions.add("pfImpactParameterTagInfos",pfImpactParameterTagInfos);
+}
+
 
 //
 // member functions

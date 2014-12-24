@@ -63,6 +63,46 @@ JetTagProducer::~JetTagProducer()
 {
 }
 
+void
+JetTagProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+  edm::ParameterSetDescription desc;
+  desc.add<std::string>("jetTagComputer","combinedMVAComputer");
+  {
+    std::vector<edm::InputTag> temp1(0);
+    temp1.push_back(edm::InputTag("impactParameterTagInfos"));
+    temp1.push_back(edm::InputTag("inclusiveSecondaryVertexFinderTagInfos"));
+    temp1.push_back(edm::InputTag("softPFMuonsTagInfos"));
+    temp1.push_back(edm::InputTag("softPFElectronsTagInfos"));
+    desc.add<std::vector<edm::InputTag> >("tagInfos",temp1);
+  }
+  descriptions.add("combinedMVABJetTags",desc);
+
+  edm::ParameterSetDescription descNeg;
+  descNeg.add<std::string>("jetTagComputer","positiveCombinedMVAComputer");
+  {
+    std::vector<edm::InputTag> temp1(0);
+    temp1.push_back(edm::InputTag("impactParameterTagInfos"));
+    temp1.push_back(edm::InputTag("inclusiveSecondaryVertexFinderTagInfos"));
+    temp1.push_back(edm::InputTag("softPFMuonsTagInfos"));
+    temp1.push_back(edm::InputTag("softPFElectronsTagInfos"));
+    descNeg.add<std::vector<edm::InputTag> >("tagInfos",temp1);
+  }
+  descriptions.add("negativeCombinedMVAComputer",descNeg);
+
+  edm::ParameterSetDescription descPos;
+  descPos.add<std::string>("jetTagComputer","negativeCombinedMVAComputer");
+  {
+    std::vector<edm::InputTag> temp1(0);
+    temp1.push_back(edm::InputTag("impactParameterTagInfos"));
+    temp1.push_back(edm::InputTag("inclusiveSecondaryVertexFinderNegativeTagInfos"));
+    temp1.push_back(edm::InputTag("softPFMuonsTagInfos"));
+    temp1.push_back(edm::InputTag("softPFElectronsTagInfos"));
+    descPos.add<std::vector<edm::InputTag> >("tagInfos",temp1);
+  }
+  descriptions.add("positiveCombinedMVABJetTags",descPos);
+
+}
+
 //
 // member functions
 //

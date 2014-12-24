@@ -27,6 +27,8 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
+#include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 #include "DataFormats/Common/interface/RefToBase.h"
 #include "DataFormats/Math/interface/Vector3D.h"
 #include "DataFormats/GeometryVector/interface/GlobalVector.h"
@@ -51,7 +53,7 @@ class SoftLepton : public edm::stream::EDProducer<> {
 public:
   explicit SoftLepton(const edm::ParameterSet& iConfig);
   ~SoftLepton();
-
+  static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
   struct TrackCompare :
     public std::binary_function<edm::RefToBase<reco::Track>,
                                 edm::RefToBase<reco::Track>, bool> {
@@ -123,5 +125,9 @@ private:
   // nominal beam spot position
   static const reco::Vertex s_nominalBeamSpot;
 };
+
+
+
+
 
 #endif // RecoBTag_SoftLepton_SoftLepton_h
