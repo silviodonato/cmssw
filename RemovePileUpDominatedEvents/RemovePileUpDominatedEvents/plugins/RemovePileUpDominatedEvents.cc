@@ -126,10 +126,10 @@ void RemovePileUpDominatedEvents::endJob() {}
 void RemovePileUpDominatedEvents::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   edm::ParameterSetDescription desc;
   desc.add<edm::InputTag> ("genjets",edm::InputTag("ak5GenJets"));
-  desc.add<edm::InputTag> ("l1centraljets",edm::InputTag("l1extraParticles","Central",""));
-  desc.add<edm::InputTag> ("l1forwardjets",edm::InputTag("l1extraParticles","Forward",""));
-  desc.add<edm::InputTag> ("l1taujets",edm::InputTag("l1extraParticles","Tau",""));
-  desc.add<edm::InputTag> ("l1muonjets",edm::InputTag("l1extraParticles","",""));  
+  desc.add<edm::InputTag> ("l1centraljets",edm::InputTag("hltL1extraParticles","Central",""));
+  desc.add<edm::InputTag> ("l1forwardjets",edm::InputTag("hltL1extraParticles","Forward",""));
+  desc.add<edm::InputTag> ("l1taujets",edm::InputTag("hltL1extraParticles","Tau",""));
+  desc.add<edm::InputTag> ("l1muonjets",edm::InputTag("hltL1extraParticles","",""));  
   desc.add<double> ("deltaR",0.5);
   desc.add<double> ("minGenjetPt",10);
   descriptions.addDefault(desc);
