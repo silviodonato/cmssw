@@ -19,7 +19,6 @@ HLTBTagHarvestingAnalyzer::~HLTBTagHarvestingAnalyzer()
 HLTBTagHarvestingAnalyzer::dqmEndJob(DQMStore::IBooker & ibooker, DQMStore::IGetter & igetter)
 {
 	using namespace edm;
-	Exception excp(errors::LogicError);
 	std::string dqmFolder_hist;
 
 	//for each hltPath and for each flavour, do the "b-tag efficiency vs jet pt" and "b-tag efficiency vs mistag rate" plots
@@ -77,10 +76,8 @@ bool HLTBTagHarvestingAnalyzer::GetNumDenumerators(DQMStore::IBooker& ibooker, D
 	
 	if ( denME == NULL || numME == NULL ) 
 	{
-		excp << "Plots not found:\n";
-		if(denME == NULL) excp << den << "\n";
-		if(numME == NULL) excp << num << "\n";
-		excp.raise();
+		edm::LogInfo("NoPlot") <<  "Plots not found:\n" << ((denME == NULL)?den:"") << ((numME == NULL)?num:"");
+		return false;
 	}
 	
 	if (type==0) //efficiency_vs_discr: fill "ptrnum" with the cumulative function of the DQM plots contained in "num" and "ptrden" with a flat function

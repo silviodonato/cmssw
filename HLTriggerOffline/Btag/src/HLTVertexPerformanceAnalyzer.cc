@@ -63,16 +63,15 @@ void HLTVertexPerformanceAnalyzer::analyze(const edm::Event& iEvent, const edm::
 
 	//get triggerResults
 	Handle<TriggerResults> TriggerResulsHandler;
-	Exception excp(errors::LogicError);
 	if ( hlTriggerResults_Label == "" || hlTriggerResults_Label == "NULL" ) {
-		excp << "TriggerResults ==> Empty";
-		excp.raise();
+		edm::LogInfo("NoTriggerResults") << "TriggerResults ==> Empty";
+		return;
 	}
 	try {
 		iEvent.getByToken(hlTriggerResults_, TriggerResulsHandler);
 		if (TriggerResulsHandler.isValid())   trigRes=true;
 	}  catch (...) { }
-	if ( !trigRes ) {    excp << "TriggerResults ==> not readable";            excp.raise(); }
+	if ( !trigRes ) { edm::LogInfo("NoTriggerResults") << "TriggerResults ==> not readable"; return;}
 	const TriggerResults & triggerResults = *(TriggerResulsHandler.product());
 
 	//get simVertex

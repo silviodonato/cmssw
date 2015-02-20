@@ -95,17 +95,16 @@ void HLTBTagPerformanceAnalyzer::analyze(const edm::Event& iEvent, const edm::Ev
 	//get triggerResults
 	Handle<TriggerResults> TriggerResulsHandler;
 	Handle<reco::JetFlavourMatchingCollection> h_mcPartons;
-	Exception excp(errors::LogicError);
 	if ( hlTriggerResults_Label == "" || hlTriggerResults_Label == "NULL" ) 
 	{
-		excp << "TriggerResults ==> Empty";
-		excp.raise();
+		edm::LogInfo("NoTriggerResults") << "TriggerResults ==> Empty";
+		return;
 	}
 	try {
 		iEvent.getByToken(hlTriggerResults_, TriggerResulsHandler);
 		if (TriggerResulsHandler.isValid())   trigRes=true;
-	}  catch (...) {	}
-	if ( !trigRes ) {    excp << "TriggerResults ==> not readable";            excp.raise(); }
+	}  catch (...) {	} 
+	if ( !trigRes ) { edm::LogInfo("NoTriggerResults") << "TriggerResults ==> not readable"; return;}
 	const TriggerResults & triggerResults = *(TriggerResulsHandler.product());
 
 	//get partons
@@ -139,8 +138,7 @@ void HLTBTagPerformanceAnalyzer::analyze(const edm::Event& iEvent, const edm::Ev
 			JetTag.insert(JetTagMap::value_type(iter->first, iter->second));
 		}
 		else {
-		  excp << "Collection " << JetTagCollection_Label[ind] <<  " ==> not found";            
-			excp.raise(); 
+		    edm::LogInfo("NoCollection") << "Collection " << JetTagCollection_Label[ind] <<  " ==> not found"; return;
 		}
 
 		for (auto & BtagJT: JetTag) {
