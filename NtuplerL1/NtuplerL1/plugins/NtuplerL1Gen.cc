@@ -680,16 +680,17 @@ void NtuplerL1Gen::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
             b2_found=true;}
         else cout<<"something wrong:" << endl;
     }
-    if(abs(it->pdgId())==11 && abs(it->mother()->pdgId())==24 ){
+    if(abs(it->pdgId())==11 && abs(it->mother()->pdgId())==24  && it->mother()->mass()>50 ) {
         if (!W_found){
             W_found=true;
             W = (gPart) it->mother();
             cout<< "*";
-        }
+        
         e_found=true;
         e = &(*(it));
+    	}
     }
-    if(abs(it->pdgId())==13 && abs(it->mother()->pdgId())==24 ){
+    if(abs(it->pdgId())==13 && abs(it->mother()->pdgId())==24  && it->mother()->mass()>50 ){
         if (!W_found){
             W_found=true;
             W = (gPart) it->mother();
@@ -698,14 +699,15 @@ void NtuplerL1Gen::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
         mu_found=true;
         mu = &(*(it));
     }
-    if( (abs(it->pdgId())==12 || abs(it->pdgId())==14 || abs(it->pdgId())==16)&& abs(it->mother()->pdgId())==24 ){
+    if( (abs(it->pdgId())==12 || abs(it->pdgId())==14 || abs(it->pdgId())==16)&& abs(it->mother()->pdgId())==24 && it->mother()->mass()>50 ){
         if (!W_found){
             W_found=true;
             W = (gPart) it->mother();
             cout<< "*";
-        }
+        
         v_found=true;
         v = &(*(it));
+        }
     }
     if(H_found && b1_found && b2_found && W_found && (e_found || mu_found) && v_found ) all_found = true;
     }
@@ -723,7 +725,7 @@ void NtuplerL1Gen::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
     cout<< "e_found "<< e_found << endl; 
     cout<< "v_found "<< v_found << endl; 
 
-    if(all_found)
+//    if(all_found)
     {
         HPt = H->pt();
         HEta = H->eta();
