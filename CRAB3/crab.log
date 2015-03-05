@@ -1,0 +1,9 @@
+Unable to load Configuration File:
+/afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab3_ZnnHbbAOD.py
+Due to error:
+name 'confiL' is not definedTraceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc5_amd64_gcc461/cms/crabclient/3.3.7.patch2/lib/python2.6/site-packages/WMCore/Configuration.py", line 552, in loadConfigurationFile
+    modPath[1], modPath[2])
+  File "/afs/cern.ch/work/s/sdonato/NtupleL1July14/CMSSW_7_0_4/src/CRAB3/crab3_ZnnHbbAOD.py", line 12, in <module>
+    confiL.section_("Data")
+NameError: name 'confiL' is not defined
