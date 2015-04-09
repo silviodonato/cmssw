@@ -1,0 +1,396 @@
+// -*- C++ -*-
+//
+// Package:    NtuplerL1Reco/NtuplerL1Reco
+// Class:      NtuplerL1Reco
+// 
+/**\class NtuplerL1Reco NtuplerL1Reco.cc NtuplerL1Reco/NtuplerL1Reco/plugins/NtuplerL1Reco.cc
+
+ Description: [one line class summary]
+
+ Implementation:
+     [Notes on implementation]
+*/
+//
+// Original Author:  root
+//         Created:  Tue, 15 Apr 2014 14:59:49 GMT
+//
+//
+
+
+// system include files
+#include <memory>
+
+// user include files
+#include "FWCore/Framework/interface/Frameworkfwd.h"
+#include "FWCore/Framework/interface/EDAnalyzer.h"
+
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
+
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+
+#include "DataFormats/L1Trigger/interface/L1JetParticle.h"
+#include "DataFormats/L1Trigger/interface/L1JetParticleFwd.h"
+
+#include "DataFormats/L1Trigger/interface/L1EtMissParticle.h"
+#include "DataFormats/L1Trigger/interface/L1EtMissParticleFwd.h"
+
+#include "DataFormats/Math/interface/deltaR.h"
+
+#include "NtuplerL1/NtuplerL1/interface/Match.h"
+
+//************************************************************************
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "FWCore/Utilities/interface/InputTag.h"
+#include "TTree.h"
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#define N_jet       10  
+#define N_jetoffline       1000  
+//************************************************************************
+
+
+//
+// class declaration
+//
+
+class NtuplerL1Reco : public edm::EDAnalyzer {
+   public:
+      explicit NtuplerL1Reco(const edm::ParameterSet&);
+      ~NtuplerL1Reco();
+
+      static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+
+
+   private:
+      virtual void beginJob() override;
+      virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
+      virtual void endJob() override;
+
+      //virtual void beginRun(edm::Run const&, edm::EventSetup const&) override;
+      //virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
+      //virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) override;
+      //virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) override;
+
+      // ----------member data ---------------------------
+      
+      int nevent;
+
+      int ncjets,cjetMatched[N_jet];
+      float cjetPt[N_jet],cjetEta[N_jet],cjetPhi[N_jet];
+
+      int nfwjets,fwjetMatched[N_jet];
+      float fwjetPt[N_jet],fwjetEta[N_jet],fwjetPhi[N_jet];
+
+      int njets,jetMatched[2*N_jet];
+      float jetPt[2*N_jet],jetEta[2*N_jet],jetPhi[2*N_jet];
+
+      int njetsOffline,jetOfflineCMatched[N_jetoffline],jetOfflineFwMatched[N_jetoffline];
+      float jetPtOffline[N_jetoffline],jetEtaOffline[N_jetoffline],jetPhiOffline[N_jetoffline];
+
+      float metPt,metEta,metPhi;
+
+      float mhtPt,mhtEta,mhtPhi;
+
+      float metPtOffline,metEtaOffline,metPhiOffline;
+
+
+
+	TTree *tree;
+  	edm::Service<TFileService> file;	
+
+};
+
+//
+// constants, enums and typedefs
+//
+
+//
+// static data member definitions
+//
+
+//
+// constructors and destructor
+//
+NtuplerL1Reco::NtuplerL1Reco(const edm::ParameterSet& iConfig)
+
+{
+
+	tree=file->make<TTree>("tree","tree");
+	tree->Branch("nevent",&nevent,"nevent/I");
+
+	tree->Branch("ncjets",&ncjets,"ncjets/I");
+	tree->Branch("cjetPt",cjetPt,"cjetPt[ncjets]/F");
+	tree->Branch("cjetEta",cjetEta,"cjetEta[ncjets]/F");
+	tree->Branch("cjetPhi",cjetPhi,"cjetPhi[ncjets]/F");
+	tree->Branch("cjetMatched",cjetMatched,"cjetMatched[ncjets]/I");
+
+	tree->Branch("nfwjets",&nfwjets,"nfwjets/I");
+	tree->Branch("fwjetPt",fwjetPt,"fwjetPt[nfwjets]/F");
+	tree->Branch("fwjetEta",fwjetEta,"fwjetEta[nfwjets]/F");
+	tree->Branch("fwjetPhi",fwjetPhi,"fwjetPhi[nfwjets]/F");
+	tree->Branch("fwjetMatched",fwjetMatched,"fwjetMatched[nfwjets]/I");
+
+	tree->Branch("njets",&njets,"njets/I");
+	tree->Branch("jetPt",jetPt,"jetPt[njets]/F");
+	tree->Branch("jetEta",jetEta,"jetEta[njets]/F");
+	tree->Branch("jetPhi",jetPhi,"jetPhi[njets]/F");
+	tree->Branch("jetMatched",jetMatched,"jetMatched[njets]/I");
+
+	tree->Branch("metPt",&metPt,"metPt/F");
+	tree->Branch("metEta",&metEta,"metEta/F");
+	tree->Branch("metPhi",&metPhi,"metPhi/F");
+
+	tree->Branch("mhtPt",&mhtPt,"mhtPt/F");
+	tree->Branch("mhtEta",&mhtEta,"mhtEta/F");
+	tree->Branch("mhtPhi",&mhtPhi,"mhtPhi/F");
+
+	tree->Branch("njetsOffline",&njetsOffline,"njetsOffline/I");
+	tree->Branch("jetPtOffline",jetPtOffline,"jetPtOffline[njetsOffline]/F");
+	tree->Branch("jetEtaOffline",jetEtaOffline,"jetEtaOffline[njetsOffline]/F");
+	tree->Branch("jetPhiOffline",jetPhiOffline,"jetPhiOffline[njetsOffline]/F");
+	tree->Branch("jetOfflineCMatched",jetOfflineCMatched,"jetOfflineCMatched[njetsOffline]/I");
+	tree->Branch("jetOfflineFwMatched",jetOfflineFwMatched,"jetOfflineFwMatched[njetsOffline]/I");
+
+	tree->Branch("metPtOffline",&metPtOffline,"metPtOffline/F");
+	tree->Branch("metEtaOffline",&metEtaOffline,"metEtaOffline/F");
+	tree->Branch("metPhiOffline",&metPhiOffline,"metPhiOffline/F");
+
+   //now do what ever initialization is needed
+
+}
+
+
+NtuplerL1Reco::~NtuplerL1Reco()
+{
+ 
+   // do anything here that needs to be done at desctruction time
+   // (e.g. close files, deallocate resources etc.)
+
+}
+
+
+//
+// member functions
+//
+
+// ------------ method called for each event  -----------
+const float OfflinePtThreshold = 30;
+
+//int Match(const reco::Candidate & candidate, const edm::View<reco::Candidate> & collection)
+//{
+//typedef math::XYZTLorentzVector 	LorentzVector;
+//int idx=-1;
+////const LorentzVector& cand = candidate.p4();
+//float mindR=999;
+//for(edm::View<reco::Candidate>::const_iterator it=collection.begin(); it!=collection.end(); it++)
+//{
+//	if(it->pt()<OfflinePtThreshold) continue;
+//	float dR = reco::deltaR(*it,candidate);
+//	if(dR<mindR)
+//	{
+//		mindR=dR;
+//		idx=abs(it-collection.begin());
+//	}
+//}
+
+void
+NtuplerL1Reco::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+{
+   using namespace reco;
+   using namespace std;
+   using namespace edm;
+
+  nevent=iEvent.id().event();
+  nfwjets=0;
+  ncjets=0;
+  njets=0;
+  njetsOffline=0;
+
+  edm::Handle< edm::View<reco::Candidate> > jetParticleCentralH;
+  iEvent.getByLabel(edm::InputTag("l1extraParticlesUCT","Central","ReRunningL1"),jetParticleCentralH);
+  const edm::View<reco::Candidate> & jetParticleCentrals = *jetParticleCentralH.product();
+  
+  edm::Handle< edm::View<reco::Candidate> > jetParticleForwardH;
+  iEvent.getByLabel(edm::InputTag("l1extraParticlesUCT","Forward","ReRunningL1"),jetParticleForwardH);
+  const edm::View<reco::Candidate> & jetParticleForwards = *jetParticleForwardH.product();
+
+
+  edm::Handle< edm::View<reco::Candidate> > metParticleH;
+  iEvent.getByLabel(edm::InputTag("l1extraParticlesUCT","MET","ReRunningL1"),metParticleH);
+  const edm::View<reco::Candidate> & metParticle = *metParticleH.product();
+
+  edm::Handle< edm::View<reco::Candidate> > mhtParticleH;
+  iEvent.getByLabel(edm::InputTag("l1extraParticlesUCT","MHT","ReRunningL1"),mhtParticleH);
+  const edm::View<reco::Candidate> & mhtParticle = *mhtParticleH.product();
+
+//  edm::Handle< edm::View<reco::Candidate> > 
+  edm::Handle< edm::View<reco::Candidate> > pfMetH;
+  iEvent.getByLabel(edm::InputTag("pfMet"), pfMetH);
+  const edm::View<reco::Candidate> & pfMets = *pfMetH.product();
+//  cout<<"pfMet="<<pfMets.begin()->et()<<endl;
+
+  edm::Handle< edm::View<reco::Candidate> > pfJetH;
+  iEvent.getByLabel(edm::InputTag("ak4PFJetsCHS"), pfJetH);
+  const edm::View<reco::Candidate> & pfJets = *pfJetH.product();
+//  cout<<"pfJet="<<pfJets.begin()->et()<<endl;
+
+
+//  edm::Handle< std::vector<reco::PFJet> > pfJets_;
+//  iEvent.getByLabel(edm::InputTag("ak4PFJetsCHS"), pfJets_);
+//  const edm::View<reco::Candidate> & mhtParticle = *mhtParticleH.product();
+
+//recoPFMETs_pfMet__RECO.
+//recoPFJets_ak4PFJetsCHS__RECO.
+
+
+  if(metParticle.size()<=0) {cout<<endl<<"metParticle.size<=0 !!"<<endl; return;}
+  if(mhtParticle.size()<=0) {cout<<endl<<"mhtParticle.size<=0 !!"<<endl; return;}
+
+  metPt=metParticle.begin()->pt();
+  metEta=metParticle.begin()->eta();
+  metPhi=metParticle.begin()->phi();
+
+  mhtPt=mhtParticle.begin()->pt();
+  mhtEta=mhtParticle.begin()->eta();
+  mhtPhi=mhtParticle.begin()->phi();
+
+  metPtOffline=pfMets.begin()->pt();
+  metEtaOffline=pfMets.begin()->eta();
+  metPhiOffline=pfMets.begin()->phi();
+
+
+  for( edm::View<reco::Candidate>::const_iterator jetOffline=pfJets.begin(); jetOffline!=pfJets.end(); jetOffline++ )
+  {
+	if(jetOffline->pt()<OfflinePtThreshold) continue;
+  	if(njetsOffline<N_jetoffline)
+  	{  	
+
+	  	jetPtOffline[njetsOffline]=jetOffline->pt();
+	  	jetEtaOffline[njetsOffline]=jetOffline->eta();
+	  	jetPhiOffline[njetsOffline]=jetOffline->phi();
+	  	jetOfflineCMatched[njetsOffline]=Match(*jetOffline,jetParticleCentrals);
+	  	jetOfflineFwMatched[njetsOffline]=Match(*jetOffline,jetParticleForwards);
+	  	njetsOffline++;
+	  	  	}
+  	else
+  	{
+  	cout<<endl<<"N_jetoffline>=njetsOffline !!"<<endl;
+  	}
+  }
+
+  for(edm::View<reco::Candidate>::const_iterator cjet=jetParticleCentrals.begin(); cjet!=jetParticleCentrals.end(); cjet++ )
+  {
+  	if(ncjets<N_jet)
+  	{  	
+	  	cjetPt[ncjets]=cjet->pt();
+	  	cjetEta[ncjets]=cjet->eta();
+	  	cjetPhi[ncjets]=cjet->phi();
+	  	cjetMatched[ncjets]=Match(*cjet,pfJets);
+	  	ncjets++;
+
+	  	jetPt[njets]=cjet->pt();
+	  	jetEta[njets]=cjet->eta();
+	  	jetPhi[njets]=cjet->phi();
+	  	jetMatched[ncjets]=Match(*cjet,pfJets);
+	  	njets++;
+	  	  	}
+  	else
+  	{
+  	cout<<endl<<"N_jet>=ncjets !!"<<endl;
+  	}
+  }
+  
+  for(edm::View<reco::Candidate>::const_iterator fwjet=jetParticleForwards.begin(); fwjet!=jetParticleForwards.end(); fwjet++ )
+  {
+  	if(nfwjets<N_jet)
+  	{  	
+	  	fwjetPt[nfwjets]=fwjet->pt();
+	  	fwjetEta[nfwjets]=fwjet->eta();
+	  	fwjetPhi[nfwjets]=fwjet->phi();
+	  	fwjetMatched[ncjets]=Match(*fwjet,pfJets);
+	  	nfwjets++;
+
+	  	jetPt[njets]=fwjet->pt();
+	  	jetEta[njets]=fwjet->eta();
+	  	jetPhi[njets]=fwjet->phi();
+	  	jetMatched[ncjets]=Match(*fwjet,pfJets);
+	  	njets++;
+	  	
+  	}
+  	else
+  	{
+  	cout<<endl<<"N_jet>=nfwjets !!"<<endl;
+  	}
+  }
+  
+
+  tree->Fill();
+
+#ifdef THIS_IS_AN_EVENT_EXAMPLE
+   Handle<ExampleData> pIn;
+   iEvent.getByLabel("example",pIn);
+#endif
+   
+#ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
+   ESHandle<SetupData> pSetup;
+   iSetup.get<SetupRecord>().get(pSetup);
+#endif
+}
+
+
+// ------------ method called once each job just before starting event loop  ------------
+void 
+NtuplerL1Reco::beginJob()
+{
+}
+
+// ------------ method called once each job just after ending the event loop  ------------
+void 
+NtuplerL1Reco::endJob() 
+{
+}
+
+// ------------ method called when starting to processes a run  ------------
+/*
+void 
+NtuplerL1Reco::beginRun(edm::Run const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method called when ending the processing of a run  ------------
+/*
+void 
+NtuplerL1Reco::endRun(edm::Run const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method called when starting to processes a luminosity block  ------------
+/*
+void 
+NtuplerL1Reco::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method called when ending the processing of a luminosity block  ------------
+/*
+void 
+NtuplerL1Reco::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+{
+}
+*/
+
+// ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
+void
+NtuplerL1Reco::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+  //The following says we do not know what parameters are allowed so do no validation
+  // Please change this to state exactly what you do use, even if it is no parameters
+  edm::ParameterSetDescription desc;
+  desc.setUnknown();
+  descriptions.addDefault(desc);
+}
+
+//define this as a plug-in
+DEFINE_FWK_MODULE(NtuplerL1Reco);
