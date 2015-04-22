@@ -47,6 +47,7 @@ pileupSummaryInfos_(    consumes<std::vector<PileupSummaryInfo> >(iConfig.getPar
 generatorInfo_(         consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("generatorInfo"))                     ),
 bunchCrossing_(         iConfig.getParameter<int>("bunchCrossing")                                                              )
 {
+produces<float>();
 }
 
 RemovePileUpDominatedEventsGen::~RemovePileUpDominatedEventsGen() {}
@@ -74,12 +75,12 @@ bool RemovePileUpDominatedEventsGen::filter(edm::Event& iEvent, const edm::Event
    
    for(const auto& pu_pT_hat : puSummary_onTime.getPU_pT_hats()) if (pu_pT_hat>pu_pT_hat_max) pu_pT_hat_max = pu_pT_hat;
 
-   if(generatorInfo->hasBinningValues()) signal_pT_hat = generatorInfo->binningValues()[0];
-   else{
-        edm::LogInfo("RemovePileUpDominatedEventsGen") << "Signal has no pt hat! Pile-up filter will be ignored." << endl;
-        return true;
-    }
-   
+
+
+   signal_pT_hat = generatorInfo->qScale();
+   std::auto_ptr<float> pOut(new float());
+   *pOut=signal_pT_hat-pu_pT_hat_max;   
+   iEvent.put(pOut);
    if (signal_pT_hat>pu_pT_hat_max) return true;
    return false;
 }

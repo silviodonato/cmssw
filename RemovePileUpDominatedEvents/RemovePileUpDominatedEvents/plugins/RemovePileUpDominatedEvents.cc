@@ -56,6 +56,8 @@ RemovePileUpDominatedEvents::RemovePileUpDominatedEvents(const edm::ParameterSet
    l1forwardjetsToken_ = consumes<vector<l1extra::L1JetParticle> >(iConfig.getParameter<edm::InputTag>("l1forwardjets"));
    l1tausToken_ = consumes<vector<l1extra::L1JetParticle> >(iConfig.getParameter<edm::InputTag>("l1taujets"));
    l1muonsToken_ = consumes<vector<l1extra::L1MuonParticle> >(iConfig.getParameter<edm::InputTag>("l1muonjets"));
+
+   produces<float>();
 }
 
 RemovePileUpDominatedEvents::~RemovePileUpDominatedEvents() {}
@@ -116,6 +118,9 @@ bool RemovePileUpDominatedEvents::filter(edm::Event& iEvent, const edm::EventSet
    			if(tmp<dR) dR=tmp;
    		}
    }
+   std::auto_ptr<float> pOut(new float());
+   *pOut=dR;
+   iEvent.put(pOut);
    if (dR<deltaR_) return true;
    return false;
 }
