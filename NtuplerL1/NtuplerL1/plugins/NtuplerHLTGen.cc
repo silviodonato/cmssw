@@ -47,6 +47,8 @@
 
 
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
+#include "SimDataFormats/Vertex/interface/SimVertex.h"
+
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
@@ -57,9 +59,11 @@
 #include "DataFormats/JetReco/interface/CaloJetCollection.h"
 #include "DataFormats/BTauReco/interface/JetTag.h"
 #include "DataFormats/BTauReco/interface/JetTag.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/HLTReco/interface/TriggerFilterObjectWithRefs.h"
 #include <DataFormats/RecoCandidate/interface/RecoEcalCandidate.h>
 
+#include <DataFormats/PatCandidates/interface/MET.h>
 #include <DataFormats/PatCandidates/interface/Jet.h>
 #include <DataFormats/PatCandidates/interface/Electron.h>
 
@@ -75,8 +79,8 @@
 
 float sumpt(float pt1,float phi1,float pt2,float phi2){
     float px1 = pt1 * cos(phi1);
-    float px2 = pt2 * cos(phi2);
     float py1 = pt1 * sin(phi1);
+    float px2 = pt2 * cos(phi2);
     float py2 = pt2 * sin(phi2);
     return std::sqrt((px1+px2)*(px1+px2)+(py1+py2)*(py1+py2));
 }
@@ -155,6 +159,7 @@ class NtuplerHLTGen : public edm::EDAnalyzer {
       float vPt,vEta,vPhi;
 
     float pfmet, pfmetPhi, pfmht, pfmhtPhi; 
+    float patmet, patmetPhi; 
 
     int nCSVPF;
     float CSVPF[N_jet], CSVPF_jetPt[N_jet],CSVPF_jetEta[N_jet],CSVPF_jetPhi[N_jet];
@@ -168,6 +173,12 @@ class NtuplerHLTGen : public edm::EDAnalyzer {
     int neleWP85s;
     float eleWP85Pt[N_jet],eleWP85Eta[N_jet],eleWP85Phi[N_jet];
 
+    int neleWPTights;
+    float eleWPTightPt[N_jet],eleWPTightEta[N_jet],eleWPTightPhi[N_jet];
+
+    int neleWPLooses;
+    float eleWPLoosePt[N_jet],eleWPLooseEta[N_jet],eleWPLoosePhi[N_jet];
+
     int nnoelepfjets;
     float noelepfjetPt[N_jet],noelepfjetEta[N_jet],noelepfjetPhi[N_jet];
 
@@ -178,6 +189,9 @@ class NtuplerHLTGen : public edm::EDAnalyzer {
 
     int npatjets;
     float patjetPt[N_jet],patjetEta[N_jet],patjetPhi[N_jet],patjetCSV[N_jet];
+
+    float genPVz, PVz, offlinePVz;
+
     
 	TTree *tree;
   	edm::Service<TFileService> file;	
@@ -218,6 +232,9 @@ NtuplerHLTGen::NtuplerHLTGen(const edm::ParameterSet& iConfig)
     tree->Branch("pfmet",&pfmet,"pfmet/F");
     tree->Branch("pfmetPhi",&pfmetPhi,"pfmetPhi/F"); 
 
+    tree->Branch("patmet",&patmet,"patmet/F");
+    tree->Branch("patmetPhi",&patmetPhi,"patmetPhi/F"); 
+
     tree->Branch("pfmht",&pfmht,"pfmht/F");
     tree->Branch("pfmhtPhi",&pfmhtPhi,"pfmhtPhi/F"); 
 
@@ -235,6 +252,16 @@ NtuplerHLTGen::NtuplerHLTGen(const edm::ParameterSet& iConfig)
     tree->Branch("eleWP75Pt",eleWP75Pt,"eleWP75Pt[neleWP75s]/F");
     tree->Branch("eleWP75Eta",eleWP75Eta,"eleWP75Eta[neleWP75s]/F");
     tree->Branch("eleWP75Phi",eleWP75Phi,"eleWP75Phi[neleWP75s]/F");
+
+    tree->Branch("neleWPLooses",&neleWPLooses,"neleWPLooses/I");
+    tree->Branch("eleWPLoosePt",eleWPLoosePt,"eleWPLoosePt[neleWPLooses]/F");
+    tree->Branch("eleWPLooseEta",eleWPLooseEta,"eleWPLooseEta[neleWPLooses]/F");
+    tree->Branch("eleWPLoosePhi",eleWPLoosePhi,"eleWPLoosePhi[neleWPLooses]/F");
+
+    tree->Branch("neleWPTights",&neleWPTights,"neleWPTights/I");
+    tree->Branch("eleWPTightPt",eleWPTightPt,"eleWPTightPt[neleWPTights]/F");
+    tree->Branch("eleWPTightEta",eleWPTightEta,"eleWPTightEta[neleWPTights]/F");
+    tree->Branch("eleWPTightPhi",eleWPTightPhi,"eleWPTightPhi[neleWPTights]/F");
 
     tree->Branch("nnoelepfjets",&nnoelepfjets,"nnoelepfjets/I");
     tree->Branch("noelepfjetPt",noelepfjetPt,"noelepfjetPt[nnoelepfjets]/F");
@@ -364,6 +391,10 @@ NtuplerHLTGen::NtuplerHLTGen(const edm::ParameterSet& iConfig)
     tree->Branch("patjetPhi",patjetPhi,"patjetPhi[npatjets]/F");
     tree->Branch("patjetCSV",patjetCSV,"patjetCSV[npatjets]/F");
 
+    tree->Branch("genPVz",&genPVz,"genPVz/F");
+    tree->Branch("PVz",&PVz,"PVz/F");
+    tree->Branch("offlinePVz",&offlinePVz,"offlinePVz/F");
+
 
 
    //now do what ever initialization is needed
@@ -453,6 +484,9 @@ void NtuplerHLTGen::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
  pfmht=-1;
  pfmhtPhi=-1; 
 
+ patmet=-1;
+ patmetPhi=-1;
+
  nCSVPF=0;
  npfjets=0;
  nnoelepfjets=0;
@@ -460,6 +494,8 @@ void NtuplerHLTGen::analyze(const edm::Event& iEvent, const edm::EventSetup& iSe
  WPtMHT_reco=-1;
  WPt_reco=-1;
  HPt_reco=-1;
+ 
+ genPVz=0;
     
   // Jets: Central, Forward, Tau, IsoTau
   
@@ -922,7 +958,7 @@ if(!candidates.failedToGet() && candidates.isValid() && candidates->size()>0){
 }
 
 nnoelepfjets=0;
-iEvent.getByLabel(edm::InputTag("hltJetFilterSingleTopEle27"),triggerFilterWithRefs);
+iEvent.getByLabel(edm::InputTag("hltJetFilterEle27WP85Barrel"),triggerFilterWithRefs);
 if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*triggerFilterWithRefs.product()).pfjetRefs().size()>0){
     for(const auto& candidate : (*triggerFilterWithRefs.product()).pfjetRefs() ){
         if(nnoelepfjets>=N_jet) continue;
@@ -934,7 +970,7 @@ if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*
 }
 
 neleWP75s=0;
-iEvent.getByLabel(edm::InputTag("hltEle27WP75GsfTrackIsoFilter"),triggerFilterWithRefs);
+iEvent.getByLabel(edm::InputTag("hltEle27WP75NoErGsfTrackIsoFilter"),triggerFilterWithRefs);
 if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*triggerFilterWithRefs.product()).photonRefs().size()>0){
     for(const auto& candidate : (*triggerFilterWithRefs.product()).photonRefs() ){
         if(neleWP75s>=N_jet) continue;
@@ -946,7 +982,7 @@ if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*
 }
 
 neleWP85s=0;
-iEvent.getByLabel(edm::InputTag("hltL1EGHttEle27WP85GsfTrackIsoFilter"),triggerFilterWithRefs);
+iEvent.getByLabel(edm::InputTag("hltEle27WP85BarrelGsfTrackIsoFilter"),triggerFilterWithRefs);
 if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*triggerFilterWithRefs.product()).photonRefs().size()>0){
     for(const auto& candidate : (*triggerFilterWithRefs.product()).photonRefs() ){
         if(neleWP85s>=N_jet) continue;
@@ -954,6 +990,30 @@ if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*
         eleWP85Eta[neleWP85s]=candidate.get()->eta();
         eleWP85Phi[neleWP85s]=candidate.get()->phi();
         neleWP85s++;
+    }
+}
+
+neleWPTights=0;
+iEvent.getByLabel(edm::InputTag("hltEle32WPTightGsfTrackIsoFilter"),triggerFilterWithRefs);
+if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*triggerFilterWithRefs.product()).photonRefs().size()>0){
+    for(const auto& candidate : (*triggerFilterWithRefs.product()).photonRefs() ){
+        if(neleWPTights>=N_jet) continue;
+        eleWPTightPt[neleWPTights]=candidate.get()->pt();
+        eleWPTightEta[neleWPTights]=candidate.get()->eta();
+        eleWPTightPhi[neleWPTights]=candidate.get()->phi();
+        neleWPTights++;
+    }
+}
+
+neleWPLooses=0;
+iEvent.getByLabel(edm::InputTag("hltEle32WPLooseGsfTrackIsoFilter"),triggerFilterWithRefs);
+if(!triggerFilterWithRefs.failedToGet() && triggerFilterWithRefs.isValid() && (*triggerFilterWithRefs.product()).photonRefs().size()>0){
+    for(const auto& candidate : (*triggerFilterWithRefs.product()).photonRefs() ){
+        if(neleWPLooses>=N_jet) continue;
+        eleWPLoosePt[neleWPLooses]=candidate.get()->pt();
+        eleWPLooseEta[neleWPLooses]=candidate.get()->eta();
+        eleWPLoosePhi[neleWPLooses]=candidate.get()->phi();
+        neleWPLooses++;
     }
 }
 
@@ -975,6 +1035,7 @@ if(!candidates.failedToGet() && candidates.isValid() && candidates->size()>0){
     HPt =  candidates->begin()->pt();
     HEta =  candidates->begin()->eta();
     HPhi =  candidates->begin()->phi();
+    genPVz =  candidates->begin()->vertex().z();
 }
 iEvent.getByLabel(edm::InputTag("genSelectorBs"),candidates);
 if(!candidates.failedToGet() && candidates.isValid() && candidates->size()>0){
@@ -1053,6 +1114,12 @@ if(neleWP85s>0)
 } else if(neleWP75s>0){
     WPt_reco = sumpt(pfmet,pfmetPhi,eleWP75Pt[0],eleWP75Phi[0]);
     WPtMHT_reco = sumpt(pfmht,pfmhtPhi,eleWP75Pt[0],eleWP75Phi[0]);
+} else if(neleWPLooses>0){
+    WPt_reco = sumpt(pfmet,pfmetPhi,eleWPLoosePt[0],eleWPLoosePhi[0]);
+    WPtMHT_reco = sumpt(pfmht,pfmhtPhi,eleWPLoosePt[0],eleWPLoosePhi[0]);
+} else if(neleWPTights>0){
+    WPt_reco = sumpt(pfmet,pfmetPhi,eleWPTightPt[0],eleWPTightPhi[0]);
+    WPtMHT_reco = sumpt(pfmht,pfmhtPhi,eleWPTightPt[0],eleWPTightPhi[0]);
 }
 
 
@@ -1086,6 +1153,40 @@ if(!patjets.failedToGet() && patjets.isValid() && (*patjets.product()).size()>0)
         npatjets++;
     }
 }
+
+Handle< edm::View< pat::MET> > patMETs;
+iEvent.getByLabel(edm::InputTag("slimmedMETs"),patMETs);
+
+
+
+Handle< edm::View< reco::Vertex> > vertexs;
+offlinePVz=0;
+iEvent.getByLabel(edm::InputTag("offlineSlimmedPrimaryVertices"),vertexs);
+if(!vertexs.failedToGet() && vertexs.isValid() && (*vertexs.product()).size()>0){
+    offlinePVz=(*vertexs.product()).begin()->z();
+}
+
+PVz=0;
+iEvent.getByLabel(edm::InputTag("hltVerticesPF"),vertexs);
+if(!vertexs.failedToGet() && vertexs.isValid() && (*vertexs.product()).size()>0){
+    PVz=(*vertexs.product()).begin()->z();
+}
+
+
+//Handle< edm::View< SimVertex> > simvertexs;
+//genPVz=0;
+//iEvent.getByLabel(edm::InputTag("g4SimHits"),simvertexs);
+//if(!simvertexs.failedToGet() && simvertexs.isValid() && (*simvertexs.product()).size()>2){
+//    genPVz=(*simvertexs.product()).at(2).position().z();
+//}
+
+    
+//iEvent.getByLabel(edm::InputTag("hltPFMETProducer"),candidates);
+//if(!candidates.failedToGet() && candidates.isValid() && candidates->size()>0){
+//    pfmet = candidates->begin()->pt();
+//    pfmetPhi = candidates->begin()->phi();
+//}
+
 
 //  PtSorter(jetPt,jetEta,jetPhi,njets);
   tree->Fill();

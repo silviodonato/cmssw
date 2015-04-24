@@ -4,6 +4,7 @@
 <use name="DataFormats/L1Trigger"/>
 <use name="PhysicsTools/UtilAlgos"/>
 <use name="SimDataFormats/PileupSummaryInfo"/>
+<use name="SimDataFormats/Vertex"/>
 <use name="DataFormats/HepMCCandidate"/>
 
 
@@ -26,6 +27,7 @@
 <use name="DataFormats/TrackerRecHit2D"/>
 <use name="DataFormats/RecoCandidate"/>
 <use name="DataFormats/HLTReco"/>
+<use name="DataFormats/VertexReco"/>
 
 
 
