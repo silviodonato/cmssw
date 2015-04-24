@@ -3,4 +3,7 @@
 <use name="FWCore/ParameterSet"/>
 <use name="SimDataFormats/PileupSummaryInfo"/>
 <use name="SimDataFormats/GeneratorProducts"/>
+<use name="PhysicsTools/UtilAlgos"/>
+<use name="FWCore/ServiceRegistry"/>
+<use name="SimDataFormats/Vertex"/>
 <flags EDM_PLUGIN="1"/>
