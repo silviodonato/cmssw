@@ -39,14 +39,15 @@ class RemovePileUpDominatedEventsGen : public edm::EDFilter {
 
       const edm::EDGetTokenT<std::vector<PileupSummaryInfo> > pileupSummaryInfos_;
       const edm::EDGetTokenT<GenEventInfoProduct > generatorInfo_;
-      const unsigned int bunchCrossing_;
+      unsigned int bunchCrossing;
 };
 
 RemovePileUpDominatedEventsGen::RemovePileUpDominatedEventsGen(const edm::ParameterSet& iConfig):
 pileupSummaryInfos_(    consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("pileupSummaryInfos"))    ),
 generatorInfo_(         consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("generatorInfo"))                     ),
-bunchCrossing_(         iConfig.getParameter<int>("bunchCrossing")                                                              )
+bunchCrossing(         iConfig.getParameter<int>("bunchCrossing")                                                              )
 {
+bunchCrossing=0;
 produces<float>();
 }
 
@@ -62,37 +63,48 @@ bool RemovePileUpDominatedEventsGen::filter(edm::Event& iEvent, const edm::Event
    edm::Handle<std::vector<PileupSummaryInfo> > pileupSummaryInfos;
    iEvent.getByToken(pileupSummaryInfos_,pileupSummaryInfos);
    
-   if(bunchCrossing_>=pileupSummaryInfos.product()->size()){
-        edm::LogInfo("RemovePileUpDominatedEventsGen") << "Number of bunch crossing out of size!" << endl;
-        return true;
-    }
+   //find in-time pile-up
+   if(bunchCrossing>=pileupSummaryInfos.product()->size() || pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing()!=0)
+   {
+       bool found=false;
+       for(bunchCrossing=0; bunchCrossing<pileupSummaryInfos.product()->size() && !found; bunchCrossing++)
+       {
+           if( pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing() == 0 ) found=true;
+       }
+       if(!found){
+            edm::LogInfo("RemovePileUpDominatedEventsGen") << "In-time pile-up not found!" << endl;
+            return true;
+       }
+   }
 
-   PileupSummaryInfo puSummary_onTime = pileupSummaryInfos.product()->at(bunchCrossing_);
-   if(puSummary_onTime.getBunchCrossing()!=0) edm::LogInfo("RemovePileUpDominatedEventsGen") << "You are considering the pile-up bunch crossing " << puSummary_onTime.getBunchCrossing() << " please fix it." << endl;
-   
+   //get the PU pt-hat max
    float signal_pT_hat = -1;
    float pu_pT_hat_max = -1;
    
+   PileupSummaryInfo puSummary_onTime = pileupSummaryInfos.product()->at(bunchCrossing);   
    for(const auto& pu_pT_hat : puSummary_onTime.getPU_pT_hats()) if (pu_pT_hat>pu_pT_hat_max) pu_pT_hat_max = pu_pT_hat;
 
-
-
+   //get the signal pt-hat
    signal_pT_hat = generatorInfo->qScale();
+
+   //save PU - signal pt-hat
    std::auto_ptr<float> pOut(new float());
    *pOut=signal_pT_hat-pu_pT_hat_max;   
    iEvent.put(pOut);
+
+   //filter the event
    if (signal_pT_hat>pu_pT_hat_max) return true;
    return false;
 }
 
-void RemovePileUpDominatedEventsGen::beginJob(){}
+void RemovePileUpDominatedEventsGen::beginJob(){
+}
 void RemovePileUpDominatedEventsGen::endJob() {}
 
 void RemovePileUpDominatedEventsGen::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   edm::ParameterSetDescription desc;
   desc.add<edm::InputTag> ("pileupSummaryInfos",edm::InputTag("addPileupInfo"));
   desc.add<edm::InputTag> ("generatorInfo",edm::InputTag("generator"));
-  desc.add<int> ("bunchCrossing",12); //12 correspond to in-time pile-up
   descriptions.addDefault(desc);
 }
 
