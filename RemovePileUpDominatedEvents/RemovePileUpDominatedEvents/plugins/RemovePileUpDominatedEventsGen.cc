@@ -44,8 +44,7 @@ class RemovePileUpDominatedEventsGen : public edm::EDFilter {
 
 RemovePileUpDominatedEventsGen::RemovePileUpDominatedEventsGen(const edm::ParameterSet& iConfig):
 pileupSummaryInfos_(    consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("pileupSummaryInfos"))    ),
-generatorInfo_(         consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("generatorInfo"))                     ),
-bunchCrossing(         iConfig.getParameter<int>("bunchCrossing")                                                              )
+generatorInfo_(         consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("generatorInfo"))                     )
 {
 bunchCrossing=0;
 produces<float>();
@@ -81,7 +80,7 @@ bool RemovePileUpDominatedEventsGen::filter(edm::Event& iEvent, const edm::Event
    float signal_pT_hat = -1;
    float pu_pT_hat_max = -1;
    
-   PileupSummaryInfo puSummary_onTime = pileupSummaryInfos.product()->at(bunchCrossing);   
+   PileupSummaryInfo puSummary_onTime = pileupSummaryInfos.product()->at(bunchCrossing);
    for(const auto& pu_pT_hat : puSummary_onTime.getPU_pT_hats()) if (pu_pT_hat>pu_pT_hat_max) pu_pT_hat_max = pu_pT_hat;
 
    //get the signal pt-hat
