@@ -22,7 +22,7 @@
 #include "FWCore/Framework/interface/EDFilter.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-
+#include <iostream>
 #include <SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h>
 #include <SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h>
 
@@ -64,17 +64,23 @@ bool RemovePileUpDominatedEventsGen::filter(edm::Event& iEvent, const edm::Event
    
    //find in-time pile-up
    if(bunchCrossing>=pileupSummaryInfos.product()->size() || pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing()!=0)
-   {
+    {
        bool found=false;
-       for(bunchCrossing=0; bunchCrossing<pileupSummaryInfos.product()->size() && !found; bunchCrossing++)
+       for(bunchCrossing=0; bunchCrossing<pileupSummaryInfos.product()->size() && !found; ++bunchCrossing)
        {
-           if( pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing() == 0 ) found=true;
+            if( pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing() == 0 ){
+                found=true;
+                bunchCrossing--;
+            }
        }
        if(!found){
             edm::LogInfo("RemovePileUpDominatedEventsGen") << "In-time pile-up not found!" << endl;
             return true;
        }
    }
+   
+//   cout << "Using "<<bunchCrossing<<endl;
+//   cout << "pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing() "<<pileupSummaryInfos.product()->at(bunchCrossing).getBunchCrossing()<<endl;
 
    //get the PU pt-hat max
    float signal_pT_hat = -1;
