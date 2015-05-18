@@ -34,6 +34,7 @@
 #include "DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerObjectMap.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"  
 
 #include "DataFormats/TauReco/interface/PFTauDiscriminator.h"
 
@@ -101,6 +102,7 @@ private:
   edm::EDGetTokenT<reco::PFJetCollection>                recoPFJetsToken_; 
   edm::EDGetTokenT<reco::CandidateView>                  mctruthToken_;
   edm::EDGetTokenT<GenEventInfoProduct>                  genEventInfoToken_;
+  edm::EDGetTokenT<std::vector<PileupSummaryInfo> >      pileupInfoToken_;
   edm::EDGetTokenT<std::vector<SimTrack> >               simTracksToken_;
   edm::EDGetTokenT<std::vector<SimVertex> >              simVerticesToken_;
   edm::EDGetTokenT<reco::MuonCollection>                 muonToken_;
@@ -244,6 +246,8 @@ private:
   edm::InputTag m_l1extrataujet;
   edm::InputTag m_l1extramet;
   edm::InputTag m_l1extramht;
+
+  edm::InputTag pileupInfo_;
 
   edm::InputTag particleMapSource_,mctruth_,simhits_; 
   edm::InputTag gtReadoutRecord_,gtObjectMap_; 

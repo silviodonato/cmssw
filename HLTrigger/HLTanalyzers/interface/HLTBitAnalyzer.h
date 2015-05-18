@@ -10,6 +10,8 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
+#include "FWCore/ParameterSet/interface/Registry.h"
+
 #include "DataFormats/Common/interface/Handle.h"
 
 #include "DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerReadoutRecord.h"
@@ -19,6 +21,9 @@
 #include "DataFormats/L1GlobalTrigger/interface/L1GlobalTriggerObjectMap.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"  
+#include "HLTrigger/HLTanalyzers/interface/HLTMCtruth.h" 
+#include "HLTrigger/HLTanalyzers/interface/RECOVertex.h" 
 
 /** \class HLTBitAnalyzer
   *  
@@ -47,6 +52,9 @@ private:
   EventHeader evt_header_;
   HLTInfo     hlt_analysis_;
 
+  HLTMCtruth  mct_analysis_;
+  RECOVertex  vrt_analysisOffline0_;
+
   edm::InputTag hltresults_,genEventInfo_;
   std::string l1extramc_, l1extramu_;
   edm::InputTag m_l1extramu;
@@ -62,6 +70,10 @@ private:
   edm::InputTag gtReadoutRecord_,gtObjectMap_; 
   edm::InputTag gctBitCounts_,gctRingSums_;
 
+  edm::InputTag mctruth_,simhits_; 
+  edm::InputTag VertexTagOffline0_;
+  edm::InputTag pileupInfo_;
+
   edm::EDGetTokenT<edm::TriggerResults>                  hltresultsToken_;
   edm::EDGetTokenT<GenEventInfoProduct>                  genEventInfoToken_;
   edm::EDGetTokenT<l1extra::L1MuonParticleCollection>    l1extramuToken_;
@@ -73,6 +85,12 @@ private:
   edm::EDGetTokenT<L1GlobalTriggerObjectMapRecord>       gtObjectMapToken_;
   edm::EDGetTokenT< L1GctHFBitCountsCollection >         gctBitCountsToken_;
   edm::EDGetTokenT< L1GctHFRingEtSumsCollection >        gctRingSumsToken_;
+
+  edm::EDGetTokenT<reco::CandidateView>                     mctruthToken_;
+  edm::EDGetTokenT<std::vector<SimTrack> >                  simtracksToken_;
+  edm::EDGetTokenT<std::vector<SimVertex> >                 simverticesToken_;
+  edm::EDGetTokenT<std::vector<PileupSummaryInfo> >         pileupInfoToken_;
+  edm::EDGetTokenT<reco::VertexCollection>                  VertexTagOffline0Token_;
 
   int errCnt;
   static int errMax() { return 5; }

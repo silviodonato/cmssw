@@ -51,6 +51,7 @@ HLTAnalyzer::HLTAnalyzer(edm::ParameterSet const& conf) {
     pfmuon_             = conf.getParameter<edm::InputTag> ("pfmuon");
     mctruth_            = conf.getParameter<edm::InputTag> ("mctruth");
     genEventInfo_       = conf.getParameter<edm::InputTag> ("genEventInfo");
+    pileupInfo_         = conf.getParameter<edm::InputTag> ("addPileupInfo");
     simhits_            = conf.getParameter<edm::InputTag> ("simhits");
     xSection_           = conf.getUntrackedParameter<double> ("xSection",1.);
     filterEff_          = conf.getUntrackedParameter<double> ("filterEff",1.);
@@ -261,6 +262,7 @@ HLTAnalyzer::HLTAnalyzer(edm::ParameterSet const& conf) {
     simTracksToken_ = consumes<std::vector<SimTrack> >(simhits_);
     simVerticesToken_ = consumes<std::vector<SimVertex> >(simhits_);
     genEventInfoToken_ = consumes<GenEventInfoProduct>(genEventInfo_);
+    pileupInfoToken_ = consumes<std::vector<PileupSummaryInfo> >(pileupInfo_);
 
     MuCandTag2Token_ = consumes<reco::RecoChargedCandidateCollection>(MuCandTag2_);
     MuNoVtxCandTag2Token_ = consumes<reco::RecoChargedCandidateCollection>(MuNoVtxCandTag2_);
@@ -416,6 +418,7 @@ void HLTAnalyzer::analyze(edm::Event const& iEvent, edm::EventSetup const& iSetu
     edm::Handle<reco::PFJetCollection>                recoPFJets; 
     edm::Handle<reco::CandidateView>                  mctruth;
     edm::Handle<GenEventInfoProduct>                  genEventInfo;
+    edm::Handle<std::vector<PileupSummaryInfo> >      pileupInfo;
     edm::Handle<std::vector<SimTrack> >               simTracks;
     edm::Handle<std::vector<SimVertex> >              simVertices;
     edm::Handle<reco::MuonCollection>                 muon;
@@ -557,6 +560,9 @@ void HLTAnalyzer::analyze(edm::Event const& iEvent, edm::EventSetup const& iSetu
    
     //    edm::ESHandle<L1CaloGeometry> l1CaloGeom ;
     //    iSetup.get<L1CaloGeometryRecord>().get(l1CaloGeom) ;
+
+
+    edm::Handle<std::vector< PileupSummaryInfo > >    pupInfo; 
    
     
     // extract the collections from the event, check their validity and log which are missing
@@ -616,6 +622,7 @@ void HLTAnalyzer::analyze(edm::Event const& iEvent, edm::EventSetup const& iSetu
     getCollection( iEvent, missing, simTracks,       simhits_,           simTracksToken_,         kSimhit );
     getCollection( iEvent, missing, simVertices,     simhits_,           simVerticesToken_,       kSimhit );
     getCollection( iEvent, missing, genEventInfo,    genEventInfo_,      genEventInfoToken_,      kGenEventInfo );
+    getCollection( iEvent, missing, pupInfo,         pileupInfo_,   pileupInfoToken_,      kPileupInfo );
     getCollection( iEvent, missing, mucands2,        MuCandTag2_,        MuCandTag2Token_,        kMucands2 );
     getCollection( iEvent, missing, munovtxcands2,   MuNoVtxCandTag2_,   MuNoVtxCandTag2Token_,   kMunovtxcands2 );
     getCollection( iEvent, missing, mucands3,        MuCandTag3_,        MuCandTag3Token_,        kMucands3 );
@@ -714,6 +721,7 @@ void HLTAnalyzer::analyze(edm::Event const& iEvent, edm::EventSetup const& iSetu
     double ptHat=-1.;
     if (genEventInfo.isValid()) {ptHat=genEventInfo->qScale();}
     
+    double weight = genEventInfo->weight();
     
     // print missing collections
     if (not missing.empty() and (errCnt < errMax())) {
@@ -830,8 +838,10 @@ void HLTAnalyzer::analyze(edm::Event const& iEvent, edm::EventSetup const& iSetu
     mct_analysis_.analyze(
                           mctruth,
                           ptHat,
+                          weight,
                           simTracks,
                           simVertices,
+                          pupInfo,
                           HltTree);
     track_analysis_.analyze( 
                             isopixeltracksL3, 
