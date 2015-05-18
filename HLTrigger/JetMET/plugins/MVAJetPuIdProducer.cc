@@ -172,9 +172,25 @@
  
  void
  MVAJetPuIdProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
-         edm::ParameterSetDescription desc;
-     desc.setUnknown();
-     descriptions.addDefault(desc);
+        edm::ParameterSetDescription desc;
+
+        edm::FileInPath filePath;
+        std::vector<edm::ParameterSet> parameterSets;
+        desc.add<bool>("runMvas",true);
+        desc.add<bool>("produceJetIds",true);
+        desc.add<edm::InputTag>("jets",edm::InputTag("cambiami!!!"));
+        desc.add<edm::InputTag>("vertexes",edm::InputTag("cambiami!!!"));
+        desc.add<edm::InputTag>("jetids",edm::InputTag("cambiami!!!"));
+        desc.add<bool>("inputIsCorrected",true);
+        desc.add<bool>("applyJec",true);
+        desc.add<std::string>("jec","cambiami!!!");
+        desc.add<edm::InputTag>("rho",edm::InputTag("cambiami!!!"));
+        desc.add<bool>("residualsFromTxt",true);
+        desc.add<edm::FileInPath>("residualsTxt",filePath);
+//        desc.add<std::vector<edm::ParameterSet> >("algos",parameterSets);
+
+        desc.add<std::string>("label","cambiami!!!");
+        descriptions.add("MVAJetPuIdProducer",desc);
  }
 /* 
  

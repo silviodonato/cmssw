@@ -1,5 +1,5 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -19,7 +19,7 @@
 
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 
-class MVAJetPuIdProducer : public edm::EDProducer {
+class MVAJetPuIdProducer : public edm::stream::EDProducer <> {
 public:
    explicit MVAJetPuIdProducer(const edm::ParameterSet&);
    ~MVAJetPuIdProducer();
