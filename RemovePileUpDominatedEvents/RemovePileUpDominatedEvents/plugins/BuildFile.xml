@@ -5,6 +5,7 @@
 <use name="SimDataFormats/GeneratorProducts"/>
 <use name="PhysicsTools/UtilAlgos"/>
 <use name="DataFormats/JetReco"/>
+<use name="DataFormats/Provenance"/>
 <use name="FWCore/ServiceRegistry"/>
 <use name="SimDataFormats/Vertex"/>
 <flags EDM_PLUGIN="1"/>
