@@ -2,7 +2,7 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'NtuplePU_v2'
+config.General.requestName = 'NtuplePU_v3'
 config.General.workArea = 'crab_projects'
 
 config.section_("JobType")
@@ -16,7 +16,7 @@ config.Data.inputDataset = '/MinBias_TuneCUETP8M1_13TeV-pythia8/RunIIWinter15GS-
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.publication = True
-config.Data.unitsPerJob = 400
+config.Data.unitsPerJob = 200
 config.Data.totalUnits = -1
 config.Data.publishDataName = config.General.requestName
 config.section_("Site")
