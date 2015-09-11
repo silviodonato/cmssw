@@ -82,9 +82,9 @@ fileListFolder_(         iConfig.getParameter< std::string  >("fileListFolder") 
 
 RemovePileUpDominatedEventsGenV2::~RemovePileUpDominatedEventsGenV2() {
    using namespace std;
-   cout<< "Total genJetPtPU searched: "<<countPUTotal<<endl;
-   cout<< "Missing genJetPtPU (replaced with pt-hat): "<<countPUMissing<<endl;
-   cout<< "Missing genJetPtPU (percentage): "<< 100 * float(countPUMissing)/countPUTotal <<endl;
+   cout<< "RemovePileUpDominatedEventsGenV2: Total genJetPtPU searched: "<<countPUTotal<<endl;
+   cout<< "RemovePileUpDominatedEventsGenV2: Missing genJetPtPU (replaced with pt-hat): "<<countPUMissing<<endl;
+   cout<< "RemovePileUpDominatedEventsGenV2: Missing genJetPtPU (percentage): "<< 100 * float(countPUMissing)/countPUTotal <<endl;
 }
 
 bool RemovePileUpDominatedEventsGenV2::filter(edm::Event& iEvent, const edm::EventSetup& iSetup) {
