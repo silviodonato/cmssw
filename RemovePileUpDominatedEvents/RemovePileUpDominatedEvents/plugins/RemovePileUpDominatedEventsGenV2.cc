@@ -130,10 +130,10 @@ bool RemovePileUpDominatedEventsGenV2::filter(edm::Event& iEvent, const edm::Eve
         if (pu_genJetPt<0) pu_genJetPt = PUptHat; //use pt-hat as fallback solution
         if(pu_genJetPt>pu_genJetPt_max) pu_genJetPt_max = pu_genJetPt;
    } 
-   //get the signal pt-hat
+   //get the signal genJetPt
    if(genJets.product()->size()>0) signal_genJetPt = genJets.product()->at(0).pt();
 
-   //save PU - signal pt-hat
+   //save PU - signal genJetPt
    std::auto_ptr<float> pOut(new float());
    *pOut=signal_genJetPt-pu_genJetPt_max;   
    iEvent.put(pOut);
@@ -146,6 +146,7 @@ bool RemovePileUpDominatedEventsGenV2::filter(edm::Event& iEvent, const edm::Eve
 void RemovePileUpDominatedEventsGenV2::LoadFile(std::string newFileName) {
    using namespace std;
    if(newFileName!=fileName){
+        genPtMap.clear();
         fileName = newFileName;
         theFile.close();
         cout << "Opening " << fileName << endl; 
