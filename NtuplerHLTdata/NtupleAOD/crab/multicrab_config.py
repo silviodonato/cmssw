@@ -30,11 +30,11 @@ datasets=[
     '/ZeroBias/Run2015D-PromptReco-v3/AOD',
     '/ZeroBias/Run2015D-PromptReco-v4/AOD',
     
-    '/ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
-    '/ZH_HToBB_ZToNuNu_M130_13TeV_powheg_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
-    '/WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
-    '/VBFHToBB_M-130_13TeV_powheg_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v2/AODSIM',
-    '/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v2/AODSIM',
+    '/ZH_HToBB_ZToLL_M125_13TeV_amcatnloFXFX_madspin_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
+    '/ZH_HToBB_ZToNuNu_M125_13TeV_amcatnloFXFX_madspin_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
+    '/WH_HToBB_WToLNu_M125_13TeV_amcatnloFXFX_madspin_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
+    '/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
+    '/TT_TuneCUETP8M1_13TeV-amcatnlo-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/AODSIM',
 ]
 if __name__ == '__main__':
     from CRABAPI.RawCommand import crabCommand
@@ -49,7 +49,8 @@ if __name__ == '__main__':
         config.section_("General")
         config.General.workArea = 'crab_'+name
         config.General.transferLogs=True
-        config.General.requestName = name+"_"+dataset.split('/')[1]
+        config.General.requestName = name+"_"+dataset.replace('/',"_")
+#        config.General.requestName = name+"_"+dataset.split('/')[1]
 
         config.section_("JobType")
         config.JobType.pluginName = 'Analysis'
