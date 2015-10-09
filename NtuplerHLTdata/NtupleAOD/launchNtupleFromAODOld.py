@@ -1,34 +1,8 @@
 from math import sqrt, pi, log10, log, exp
 
-def printLabelFilters(triggerEv):
-    print "Filters:"
-    for i in range(triggerEv.sizeFilters()):
-        print "\t",triggerEv.filterLabel(i)
-    print
-
-def printLabelCollections(triggerEv):
-    print "Collection:"
-    for i in range(triggerEv.sizeCollections()):
-        print "\t",triggerEv.collectionTagEncoded(i)
-    print
-
-def getSizeFilter(triggerEv,inputTag):
-    filterIndex = triggerEv.filterIndex(inputTag)
-    if filterIndex >= triggerEv.sizeFilters():
-        return -1
-    else:
-        return len(triggerEv.filterKeys(filterIndex))
-
-def goodEvent(run,lumi):
-    JSONlist={"251244": [[85, 86], [88, 93], [96, 121], [123, 156], [158, 428], [430, 442]],
-     "251251": [[1, 31], [33, 97], [99, 167]],
-     "251252": [[1, 283], [285, 505], [507, 554]],
-     "251561": [[1, 94]],
-     "251562": [[1, 439], [443, 691]],
-     "251643": [[1, 216], [222, 606]],
-     "251721": [[21, 36]],
-     "251883": [[56, 56], [58, 60], [62, 144], [156, 437]]}
-
+def goodEvent(run,lumi): #https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-257599_13TeV_PromptReco_Collisions15_25ns_JSON.txt
+    JSONlist={"254231": [[1, 24]], "254232": [[1, 81]], "254790": [[90, 90], [93, 630], [633, 697], [701, 715], [719, 784]], "254852": [[47, 94]], "254879": [[52, 52], [54, 140]], "254906": [[1, 75]], "254907": [[1, 52]], "254914": [[32, 32], [34, 78]], "256630": [[5, 26]], "256673": [[55, 56]], "256674": [[1, 2]], "256675": [[1, 106], [111, 164]], "256676": [[1, 160], [162, 208]], "256677": [[1, 291], [293, 390], [392, 397], [400, 455], [457, 482]], "256729": [[1, 336], [346, 598], [600, 755], [758, 760], [765, 1165], [1167, 1292], [1295, 1327], [1329, 1732]], "256734": [[1, 57], [60, 213]], "256801": [[73, 263]], "256842": [[131, 132]], "256843": [[1, 204], [207, 284], [286, 378], [380, 461], [463, 587], [598, 627], [630, 661], [1001, 1034], [1036, 1081], [1083, 1191], [1193, 1193], [1195, 1329], [1331, 1332]], "256866": [[34, 47]], "256867": [[1, 16], [19, 94]], "256868": [[5, 33], [35, 200], [202, 492]], "256869": [[1, 34]], "256941": [[1, 17], [19, 29], [103, 105], [107, 126], [129, 129], [131, 168], [170, 170], [175, 290], [293, 294]], "257394": [[41, 72]], "257395": [[1, 13]], "257461": [[44, 95]], "257531": [[5, 45], [50, 143]], "257599": [[42, 118]]}
+    
     if str(run) in JSONlist.keys():
         for rg in JSONlist[str(run)]:
             if len(rg) ==2:
@@ -974,126 +948,6 @@ def launchNtupleFromAOD(fileOutput,filesInput,maxevents):
     'hlt2CSVFilterPF0p7',
     ]
     
-    filters = [
-    ]
-    
-    filtersMC = [
-    'hltL1sTripleVBF',
-    'hltPreQuadPFJetDoubleBTagCSVVBFMqq200',
-    'hltPreQuadPFJetSingleBTagCSVVBFMqq460',
-    'hltPreQuadPFJetDoubleBTagCSVVBFMqq240',
-    'hltPreQuadPFJetSingleBTagCSVVBFMqq500',
-    'hltQuadJet15',
-    'hltTripleJet50',
-    'hltDoubleJet65',
-    'hltSingleJet80',
-    'hltVBFCaloJetEtaSortedMqq150Deta1p5',
-    'hltCSVL30p6',
-    'hltPFQuadJetLooseID15',
-    'hltPFTripleJetLooseID64',
-    'hltPFDoubleJetLooseID76',
-    'hltPFSingleJetLooseID92',
-    'hltSelector6PFJets',
-    'hltDoubleCSVPF0p4',
-    'hltCSVPF0p7',
-    'hltVBFPFJetCSVSortedMqq200Detaqq1p2',
-    'hltVBFPFJetCSVSortedMqq460Detaqq4p1',
-    'hltVBFPFJetCSVSortedMqq240Detaqq2p0',
-    'hltVBFPFJetCSVSortedMqq500Detaqq4p6',
-    ]
-    
-    filters = [
-    'hltL1sL1TripleJet927664ORL1TripleJet927664NoFFF',
-    'hltQuadJet15',
-    'hltTripleJet50',
-    'hltDoubleJet65',
-    'hltSingleJet80',
-    'hltVBFCaloJetEtaSortedMqq150Deta1p5',
-    'hltCSVL30p74',
-    'hltPFQuadJetLooseID15',
-    'hltPFTripleJetLooseID64',
-    'hltPFDoubleJetLooseID76',
-    'hltPFSingleJetLooseID92',
-    'hltCSVPF0p78',
-    'hltDoubleCSVPF0p58',
-    'hltVBFPFJetCSVSortedMqq200Detaqq1p2',
-    'hltVBFPFJetCSVSortedMqq240Detaqq2p0',
-    'hltVBFPFJetCSVSortedMqq460Detaqq4p1',
-    'hltVBFPFJetCSVSortedMqq500Detaqq4p6',
-
-    'hltL1sL1Quad60ORHTT175',
-    'hltQuadCentralJet45',
-    'hltQuadPFCentralJetLooseID45',
-
-    'hltL1sL1TripleJet927664ORL1TripleJet927664NoFFFORL1DoubleJetC100',
-    'hltQuadCentralJet30',
-    'hltDoubleCentralJet90',
-    'hltQuadPFCentralJetLooseID30',
-    'hltDoublePFCentralJetLooseID90',
-
-    'hltDoubleCSV0p67',
-    'hltTripleCSV0p67',
-
-    'hltL1EG25erHTT125ORL1SingleIsoEG30erORL1SingleEG40',
-    'hltJetFilterEle27WPLoose',
-    'hltHCand80NoEle27WPLoose',
-    'hltWCand80NoEle27WPLooseMET',
-    'hltWCand70NoEle27WPLooseMHTIDTight',
-    'hltL1sL1SingleIsoEG22erOrSingleEG25',
-
-#    'hltEGL1SingleIsoEG22erOrSingleEG25Filter',
-#    'hltEG27EtL1IsoEG22erOrSingleEG25Filter',
-#    'hltEle27WPLooseClusterShapeFilter',
-#    'hltEle27WPLooseHEFilter',
-#    'hltEle27WPLooseEcalIsoFilter',
-#    'hltEle27WPLooseHcalIsoFilter',
-#    'hltEle27WPLoosePixelMatchFilter',
-#    'hltEle27WPLooseGsfOneOEMinusOneOPFilter',
-#    'hltEle27WPLooseGsfChi2Filter',
-#    'hltEle27WPLooseGsfMissingHitsFilter',
-#    'hltEle27WPLooseGsfDetaFilter',
-#    'hltEle27WPLooseGsfDphiFilter',
-    'hltEle27WPLooseGsfTrackIsoFilter',
-
-#    'hltEGL1EG25erHTT125ORL1SingleIsoEG30erORL1SingleEG40',
-#    'hltEG27EtL1EG25erHTT125ORL1SingleIsoEG30erORL1SingleEG40',
-#    'hltEle27noerWPLooseClusterShapeFilter',
-#    'hltEle27noerWPLooseHEFilter',
-#    'hltEle27erWPLooseEcalIsoFilter',
-#    'hltEle272erWPLooseHcalIsoFilter',
-#    'hltEle27noerWPLoosePixelMatchFilter',
-#    'hltEle27noerWPLooseGsfOneOEMinusOneOPFilter',
-#    'hltEle27noerWPLooseGsfChi2Filter',
-#    'hltEle27noerWPLooseGsfMissingHitsFilter',
-#    'hltEle27noerWPLooseGsfDetaFilter',
-#    'hltEle27noerWPLooseGsfDphiFilter',
-    'hltEle27noerWPLooseGsfTrackIsoFilter',
-
-	'hltL1sL1ETM70ORETM60',
-	'hltMET70',
-	'hltMHT70',
-	'hltPFMHTTightID90',
-	'hltPFMET90',
-
-	'hltMET80',
-	'hltMHT80',
-	'hltPFMHTTightID100',
-	'hltPFMET100',
-
-	'hltPFMHTTightID110',
-	'hltPFMET110',
-
-	'hltMET90',
-	'hltMHT90',
-
-	'hltPFMHTTightID120',
-	'hltPFMET120',
-
-	'hltMHTNoPU90',
-	'hltCSV0p72L3',
-
-    ]
-    
     MC = False
     if len(filesInput)>0 and ('AODSIM' in filesInput[0]):
         MC = True
@@ -1107,7 +961,6 @@ def launchNtupleFromAOD(fileOutput,filesInput,maxevents):
         triggerNames = triggerNamesMC
         calobjets = calobjetsMC
         pfbjets = pfbjetsMC
-        filters = filtersMC
     
     ncalobjets = len(calobjets)
     npfbjets = len(pfbjets)
@@ -1360,31 +1213,15 @@ def launchNtupleFromAOD(fileOutput,filesInput,maxevents):
     patMuons, patMuonLabel = Handle("vector<reco::Muon>"), ("muons") #AOD
     patPhotons, patPhotonLabel = Handle("vector<reco::Photon>"), ("photons") #AOD
     
-    ##load file
-    if len(filesInput)==0: return
-    events = Events (filesInput)
-
-    ##get triggerNames from the first event
-    events.to(0)
-    for event in events: break
-    event.getByLabel(triggerBitLabel, triggerBits)
-    names = event.object().triggerNames(triggerBits.product())
-    triggerNames = names.triggerNames()
-    nTriggers = len(triggerNames)
-
-    ##
     triggerVars = {}
     for trigger in triggerNames:
         triggerVars[trigger]=array( 'i', [ 0 ] )
         tree.Branch( trigger, triggerVars[trigger], trigger+'/O' )
 
-    filterVars = {}
-    for filter_ in filters:
-        filterVars[filter_]=array( 'i', [ 0 ] )
-        tree.Branch( filter_, filterVars[filter_], filter_+'/I' )
+    if len(filesInput)==0: return
+    events = Events (filesInput)
     
     memOld = 0
-    ##event loop
     for iev,event in enumerate(events):
         if iev%1000==0:
             print "iev=",iev
@@ -1406,7 +1243,7 @@ def launchNtupleFromAOD(fileOutput,filesInput,maxevents):
         
         ## AOD
         event.getByLabel(btagLabel, btags)
-
+        
         nVertices[0] = recoVertexs.product().size()
         run[0] = event.eventAuxiliary().run()
         lumi[0] = event.eventAuxiliary().luminosityBlock()
@@ -1511,7 +1348,7 @@ def launchNtupleFromAOD(fileOutput,filesInput,maxevents):
                 caloJet_phi[i] = caloJet.phi()
                 caloJet_mass[i] = caloJet.mass()
                 caloJet_offmatch[i] = matching(caloJet.eta(),caloJet.phi(),offJet_eta,offJet_phi,offJet_num[0])
-                caloJet_num[0] = i+1 
+                caloJet_num[0] = i+1
                 for calobjet in calobjets:
                     caloJet_btagged[calobjet][i] = -1
                     filterIndex = triggerEvent.product().filterIndex(ROOT.edm.InputTag(calobjet,"","HLT"))
@@ -1653,14 +1490,6 @@ def launchNtupleFromAOD(fileOutput,filesInput,maxevents):
             else:
                 triggerVars[triggerName][0] = 0
         
-        for filter_ in filters:
-            filterVars[filter_][0] = getSizeFilter(triggerEvent.product(),ROOT.edm.InputTag(filter_,"","HLT"))
-        
-#        if triggerVars["HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDLoose_v1"][0]:
-        if triggerVars['HLT_QuadPFJet_SingleBTagCSV_VBF_Mqq500_v2'][0]:
-            printLabelCollections(triggerEvent.product())
-            printLabelFilters(triggerEvent.product())
-
         tree.Fill()
     
     
