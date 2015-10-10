@@ -2,7 +2,7 @@ datasets=[
 '/HLTPhysics3/Run2015D-PromptReco-v3/AOD',
 ]
 
-name = 'triggerNtupleAOD_FWLite_v14'
+name = 'triggerNtupleAOD_FWLite_test_v24'
 
 from WMCore.Configuration import Configuration
 config = Configuration()
@@ -32,8 +32,8 @@ config.section_("Data")
 config.Data.inputDataset = datasets[0]
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
-config.Data.unitsPerJob = 5
-config.Data.totalUnits = -1
+config.Data.unitsPerJob = 1 ##just for test##
+config.Data.totalUnits = 1 ##just for test##
 config.Data.outLFNDirBase = '/store/user/sdonato/' + name
 config.Data.publication = True
 config.Data.publishDataName = name+"_"+datasets[0].split('/')[1]

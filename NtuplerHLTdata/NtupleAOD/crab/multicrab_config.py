@@ -45,12 +45,12 @@ if __name__ == '__main__':
     from CRABClient.UserUtilities import config
     config = config()
     for dataset in datasets:
-        name = 'triggerNtupleAOD_FWLite_v21'
+        name = 'triggerNtupleAOD_FWLite_v25'
         config.section_("General")
         config.General.workArea = 'crab_'+name
         config.General.transferLogs=True
-        config.General.requestName = name+"_"+dataset.replace('/',"_")
-#        config.General.requestName = name+"_"+dataset.split('/')[1]
+#        config.General.requestName = name+"_"+dataset.replace('/',"_")
+        config.General.requestName = name+"_"+dataset.split('/')[1]+"_"+dataset.split('/')[2]
 
         config.section_("JobType")
         config.JobType.pluginName = 'Analysis'
@@ -67,14 +67,14 @@ if __name__ == '__main__':
         config.section_("Data")
         config.Data.inputDBS = 'global'
         config.Data.splitting = 'FileBased'
-        config.Data.unitsPerJob = 1 ##FIXME: use 20
-        config.Data.totalUnits = 1 ##FIXME: use -1
+        config.Data.unitsPerJob = 20 ##FIXME: use 20
+        config.Data.totalUnits = -1 ##FIXME: use -1
         config.Data.outLFNDirBase = '/store/user/sdonato/' + name
         config.Data.publication = True
-        config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-251883_13TeV_PromptReco_Collisions15_JSON_v2.txt'
+#        config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-251883_13TeV_PromptReco_Collisions15_JSON_v2.txt'
     #    config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-251883_13TeV_PromptReco_Collisions15_JSON_v2.txt'
         config.Data.inputDataset = dataset
-        config.Data.publishDataName = name+"_"+dataset.split('/')[1]
+        config.Data.publishDataName = config.General.requestName
         
         config.section_("Site")
         config.Site.storageSite = "T2_IT_Pisa"
