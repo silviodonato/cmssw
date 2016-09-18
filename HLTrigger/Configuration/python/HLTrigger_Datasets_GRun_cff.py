@@ -75,8 +75,8 @@ streamA_datasetNoBPTX_selector.l1tResults = cms.InputTag('')
 streamA_datasetNoBPTX_selector.throw      = cms.bool(False)
 streamA_datasetNoBPTX_selector.triggerConditions = cms.vstring('HLT_JetE30_NoBPTX3BX_v4', 
     'HLT_JetE30_NoBPTX_v4', 
-    'HLT_JetE50_NoBPTX3BX_v3', 
-    'HLT_JetE70_NoBPTX3BX_v3', 
+    'HLT_JetE50_NoBPTX3BX_v4', 
+    'HLT_JetE70_NoBPTX3BX_v4', 
     'HLT_L2Mu10_NoVertex_NoBPTX3BX_v2', 
     'HLT_L2Mu10_NoVertex_NoBPTX_v3', 
     'HLT_L2Mu40_NoVertex_3Sta_NoBPTX3BX_v2', 
