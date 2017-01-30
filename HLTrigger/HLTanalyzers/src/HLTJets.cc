@@ -426,7 +426,7 @@ void HLTJets::analyze(edm::Event const& iEvent,
 		      const edm::Handle<CaloTowerCollection>          & caloTowersCleanerUpperR45,
 		      const edm::Handle<CaloTowerCollection>          & caloTowersCleanerLowerR45,
 		      const edm::Handle<CaloTowerCollection>          & caloTowersCleanerNoR45,
-              const CaloTowerTopology * cttopo,
+		      const CaloTowerTopology * cttopo,
 		      const edm::Handle<reco::PFMETCollection>        & pfmets, 
                       double thresholdForSavingTowers, 
                       double		    minPtCH,
@@ -982,7 +982,7 @@ void HLTJets::analyze(edm::Event const& iEvent,
             pfJetchargedEMFraction[ipfJet] = i->chargedEmEnergyFraction ();
 	    //std::cout << "jet pT = " << i->pt() << " ; neutralHadronEnergyFraction = " << i->neutralHadronEnergyFraction() << std::endl;
 
-	    if (i->pt() > 40. && std::abs(i->eta())<3.0)
+	    if (i->pt() > 40. && abs(i->eta())<3.0)
 	      pfHT  += i -> pt();
 	    if (i->pt() > 30.){
 	      pfMHTx = pfMHTx + i->px();

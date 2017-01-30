@@ -202,8 +202,7 @@ openhltL25TauPixelSeeds = cms.EDProducer( "SeedGeneratorFromRegionHitsEDProducer
         originHalfLength = cms.double( 0.2 ),
         precise = cms.bool( True ),
         JetSrc = cms.InputTag( 'openhltL2TauJets' ),
-        vertexSrc = cms.InputTag( "hltPixelVertices" ),
-        howToUseMeasurementTracker = cms.string("Never"),
+        vertexSrc = cms.InputTag( "hltPixelVertices" )
       )
     ),
     OrderedHitsFactoryPSet = cms.PSet( 

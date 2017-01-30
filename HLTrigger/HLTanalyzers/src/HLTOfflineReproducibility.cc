@@ -16,6 +16,7 @@
 //
 //
 
+using namespace std;
 
 // system include files
 #include <memory>
@@ -55,8 +56,6 @@
 #include <vector>
 #include <iostream>
 #include <ostream>
-using namespace std;
-
 //
 // class declaration
 //
