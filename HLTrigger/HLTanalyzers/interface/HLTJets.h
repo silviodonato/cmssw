@@ -102,7 +102,7 @@ public:
                  const edm::Handle<CaloTowerCollection>          & caloTowersCleanerUpperR45,
                  const edm::Handle<CaloTowerCollection>          & caloTowersCleanerLowerR45,
                  const edm::Handle<CaloTowerCollection>          & caloTowersCleanerNoR45,
-         const CaloTowerTopology * cttopo,
+		 const CaloTowerTopology * cttopo,
 		 const edm::Handle<reco::PFMETCollection>        & pfmets,  
                  double thresholdForSavingTowers,
                  double                minPtCH,

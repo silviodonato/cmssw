@@ -48,8 +48,7 @@ HLTrigReport::ReportEvery HLTrigReport::decode(const std::string & value) {
 // constructors and destructor
 //
 HLTrigReport::HLTrigReport(const edm::ParameterSet& iConfig) :
-  hlTriggerResults_(iConfig.getParameter<edm::InputTag> ("HLTriggerResults")),
-  hlTriggerResultsToken_(consumes<edm::TriggerResults>(hlTriggerResults_)),
+  hlTriggerResults_ (iConfig.getParameter<edm::InputTag> ("HLTriggerResults")),
   configured_(false),
   nEvents_(0),
   nWasRun_(0),
@@ -82,6 +81,8 @@ HLTrigReport::HLTrigReport(const edm::ParameterSet& iConfig) :
   serviceBy_(decode(iConfig.getUntrackedParameter<std::string>("serviceBy", "never")) ),
   hltConfig_()
 {
+  hlTriggerResultsToken_ = consumes<edm::TriggerResults>(hlTriggerResults_);
+
   const edm::ParameterSet customDatasets(iConfig.getUntrackedParameter<edm::ParameterSet>("CustomDatasets", edm::ParameterSet()));
   isCustomDatasets_ = (customDatasets != edm::ParameterSet());
   if (isCustomDatasets_) {

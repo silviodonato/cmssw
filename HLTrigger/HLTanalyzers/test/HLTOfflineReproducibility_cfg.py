@@ -33,9 +33,11 @@ if DQM:
     process.load('Configuration.EventContent.EventContent_cff')
     process.load('Configuration.StandardSequences.EndOfProcess_cff')
 
-process.load('Configuration.StandardSequences.CondDBESSource_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cfi')
 from Configuration.AlCa.autoCond import autoCond
 process.GlobalTag.globaltag = autoCond['hltonline']
+process.GlobalTag.connect   = 'frontier://FrontierProd/CMS_COND_31X_GLOBALTAG'
+process.GlobalTag.pfnPrefix = cms.untracked.string('frontier://FrontierProd/')
 
 #INPUTFILE="rfio:/castor/cern.ch/user/j/jalimena/177139/HT/out_177139_HT_0.root"
 INPUTFILE="rfio:/castor/cern.ch/user/j/jalimena/194050/MinimumBias/out_194050_MinimumBias_xxx.root"
