@@ -263,10 +263,10 @@ def customizeHLTForPFTrackingPhaseI2017(process):
     )
 
     from RecoPixelVertexing.PixelTriplets.pixelTripletHLTEDProducer_cfi import pixelTripletHLTEDProducer as _pixelTripletHLTEDProducer
-    process.hltIter2PFlowPixelHitDoublets.seedingLayers = "hltIter2PixelLayerTriplets"
-    process.hltIter2PFlowPixelHitDoublets.produceIntermediateHitDoublets = True
-    process.hltIter2PFlowPixelHitDoublets.produceSeedingHitSets = False
-    process.hltIter2PFlowPixelHitDoublets.seedingLayers = "hltIter2PixelLayerTriplets"
+#    process.hltIter2PFlowPixelHitDoublets.seedingLayers = "hltIter2PixelLayerTriplets"
+#    process.hltIter2PFlowPixelHitDoublets.produceIntermediateHitDoublets = True
+#    process.hltIter2PFlowPixelHitDoublets.produceSeedingHitSets = False
+#    process.hltIter2PFlowPixelHitDoublets.seedingLayers = "hltIter2PixelLayerTriplets"
     process.hltIter2PFlowPixelHitTriplets = _pixelTripletHLTEDProducer.clone(
         doublets = "hltIter2PFlowPixelHitDoublets",
         useBending = cms.bool( True ),
@@ -286,10 +286,10 @@ def customizeHLTForPFTrackingPhaseI2017(process):
             if key not in skipSet:
                 setattr(new, key, getattr(old, key))
     from RecoTracker.TkSeedGenerator.seedCreatorFromRegionConsecutiveHitsTripletOnlyEDProducer_cfi import seedCreatorFromRegionConsecutiveHitsTripletOnlyEDProducer as _seedCreatorFromRegionConsecutiveHitsTripletOnlyEDProducer
-    process.hltIter2PFlowPixelSeeds = _seedCreatorFromRegionConsecutiveHitsTripletOnlyEDProducer.clone(seedingHitSets="hltIter2PFlowPixelHitTriplets")
-    _copy(process.HLTSeedFromConsecutiveHitsTripletOnlyCreator, process.hltIter2PFlowPixelSeeds, skip=["ComponentName"])
+#    process.hltIter2PFlowPixelSeeds = _seedCreatorFromRegionConsecutiveHitsTripletOnlyEDProducer.clone(seedingHitSets="hltIter2PFlowPixelHitTriplets")
+#    _copy(process.HLTSeedFromConsecutiveHitsTripletOnlyCreator, process.hltIter2PFlowPixelSeeds, skip=["ComponentName"])
 
-    process.HLTIterativeTrackingIteration2 = cms.Sequence( process.hltIter2ClustersRefRemoval + process.hltIter2MaskedMeasurementTrackerEvent + process.hltIter2PixelLayerTriplets + process.hltIter2PFlowPixelTrackingRegions + process.hltIter2PFlowPixelClusterCheck + process.hltIter2PFlowPixelHitDoublets + process.hltIter2PFlowPixelHitTriplets + process.hltIter2PFlowPixelSeeds + process.hltIter2PFlowCkfTrackCandidates + process.hltIter2PFlowCtfWithMaterialTracks + process.hltIter2PFlowTrackCutClassifier + process.hltIter2PFlowTrackSelectionHighPurity )
+#    process.HLTIterativeTrackingIteration2 = cms.Sequence( process.hltIter2ClustersRefRemoval + process.hltIter2MaskedMeasurementTrackerEvent + process.hltIter2PixelLayerTriplets + process.hltIter2PFlowPixelTrackingRegions + process.hltIter2PFlowPixelClusterCheck + process.hltIter2PFlowPixelHitDoublets + process.hltIter2PFlowPixelHitTriplets + process.hltIter2PFlowPixelSeeds + process.hltIter2PFlowCkfTrackCandidates + process.hltIter2PFlowCtfWithMaterialTracks + process.hltIter2PFlowTrackCutClassifier + process.hltIter2PFlowTrackSelectionHighPurity )
 
     # Need to operate on Paths as well...
     for seqs in [process.sequences_(), process.paths_()]:
