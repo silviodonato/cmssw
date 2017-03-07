@@ -22,6 +22,8 @@ set InputGenSimGRun2 = root://eoscms.cern.ch//eos/cms/store/group/dpg_trigger/co
 set InputGenSimGRun3 = root://eoscms.cern.ch//eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/STORM/GEN-SIM/CMSSW_9_phase1/14F749AC-8AFE-E611-9821-0CC47A78A4A0.root
 #   InputGenSimHIon1 = /store/relval/CMSSW_8_0_16/RelValZEEMM_13_HI/GEN-SIM/80X_mcRun2_HeavyIon_v9-v1/10000/F8FC5F64-1657-E611-A57E-002590A887F0.root
 set InputGenSimHIon1 = root://eoscms.cern.ch//eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/STORM/GEN-SIM/CMSSW_8/F8FC5F64-1657-E611-A57E-002590A887F0.root
+set InputGenSimPIon2 = $InputGenSimGRun2
+set InputGenSimPRef2 = $InputGenSimGRun2
 set InputGenSimPIon3 = $InputGenSimGRun3
 set InputGenSimPRef3 = $InputGenSimGRun3
 #
@@ -31,6 +33,8 @@ set InputLHCRawGRun1 = /store/data/Run2015D/MuonEG/RAW/v1/000/256/677/00000/8095
 set InputLHCRawGRun2 = /store/data/Run2016B/JetHT/RAW/v1/000/272/762/00000/C666CDE2-E013-E611-B15A-02163E011DBE.root
 set InputLHCRawGRun3 =  # no phase-1 data yet
 set InputLHCRawHIon1 = /store/hidata/HIRun2015/HIHardProbes/RAW-RECO/HighPtJet-PromptReco-v1/000/263/689/00000/1802CD9A-DDB8-E511-9CF9-02163E0138CA.root
+set InputLHCRawPIon2 = $InputLHCRawGRun2
+set InputLHCRawPRef2 = $InputLHCRawGRun2
 set InputLHCRawPIon3 = $InputLHCRawGRun3
 set InputLHCRawPRef3 = $InputLHCRawGRun3
 
@@ -100,7 +104,7 @@ foreach gtag ( MC DATA )
     continue
   endif
 
-  foreach table ( GRun HIon PIon PRef Fake Fake1 Fake2 )
+  foreach table ( GRun HIon PIon PRef Fake Fake1 Fake2 GRun2016 )
 
     set name = ${table}_${gtag}  
 
@@ -155,8 +159,8 @@ foreach gtag ( MC DATA )
     else if ( $table == GRun2016 ) then
       set XL1T = $XL1TPP3
       set XHLT = HLT:GRun2016
-      set GTAG = ${BASE2}_GRun
-      set RTAG = ${BASE2RD}_GRun
+      set GTAG = ${BASE2}GRun2016
+      set RTAG = ${BASE2RD}GRun2016
       set NN   = $NNPP
       set SCEN = pp
       set InputGenSim = $InputGenSimGRun2
