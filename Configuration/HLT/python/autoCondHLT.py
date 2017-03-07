@@ -38,7 +38,7 @@ hltGTs = {
     'run2_mc_GRun2016'       : ('run2_mc'              ,l1Menus['GRun']),
     'run2_mc_FULL'           : ('phase1_2017_realistic',l1Menus['FULL']),
     'run2_mc_GRun'           : ('phase1_2017_realistic',l1Menus['GRun']),
-    'run2_mc_HIon'           : ('phase1_2017_realistic',l1Menus['HIon']),
+    'run2_mc_HIon'           : ('run2_mc_hi'           ,l1Menus['HIon']),
     'run2_mc_PIon'           : ('phase1_2017_realistic',l1Menus['PIon']),
     'run2_mc_PRef'           : ('phase1_2017_realistic',l1Menus['PRef']),
 
@@ -49,7 +49,7 @@ hltGTs = {
     'run2_hlt_GRun2016'      : ('run2_hlt_relval'      ,l1Menus['GRun']),
     'run2_hlt_FULL'          : ('phase1_2017_realistic',l1Menus['FULL']),
     'run2_hlt_GRun'          : ('phase1_2017_realistic',l1Menus['GRun']),
-    'run2_hlt_HIon'          : ('phase1_2017_realistic',l1Menus['HIon']),
+    'run2_hlt_HIon'          : ('run2_hlt_hi'          ,l1Menus['HIon']),
     'run2_hlt_PIon'          : ('phase1_2017_realistic',l1Menus['PIon']),
     'run2_hlt_PRef'          : ('phase1_2017_realistic',l1Menus['PRef']),
 
@@ -60,7 +60,7 @@ hltGTs = {
     'run2_data_GRun2016'     : ('run2_data_relval'     ,l1Menus['GRun']),
     'run2_data_FULL'         : ('phase1_2017_realistic',l1Menus['FULL']),
     'run2_data_GRun'         : ('phase1_2017_realistic',l1Menus['GRun']),
-    'run2_data_HIon'         : ('phase1_2017_realistic',l1Menus['HIon']),
+    'run2_data_HIon'         : ('run2_data'            ,l1Menus['HIon']),
     'run2_data_PIon'         : ('phase1_2017_realistic',l1Menus['PIon']),
     'run2_data_PRef'         : ('phase1_2017_realistic',l1Menus['PRef']),
     
