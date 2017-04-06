@@ -187,15 +187,18 @@ class Component( CFG ):
     See the child classes:
     DataComponent, MCComponent, EmbedComponent
     for more information.'''
-    def __init__(self, name, files, tree_name=None, triggers=None, **kwargs):
+    def __init__(self, name, files, tree_name=None, triggers=None, secondaryfiles=[],**kwargs):
         if isinstance(triggers, basestring):
             triggers = [triggers]
+        if type(secondaryfiles) == str:
+            secondaryfiles = sorted(glob.glob(secondaryfiles))
         if type(files) == str:
             files = sorted(glob.glob(files))
         super( Component, self).__init__( name = name,
                                           files = files,
                                           tree_name = tree_name,
-                                          triggers = triggers, **kwargs)
+                                          triggers = triggers, 
+                                          secondaryfiles = secondaryfiles, **kwargs)
         self.dataset_entries = 0
         self.isData = False
         self.isMC = False
@@ -203,8 +206,8 @@ class Component( CFG ):
 
 class DataComponent( Component ):
 
-    def __init__(self, name, files, intLumi=None, triggers=[], json=None):
-        super(DataComponent, self).__init__(name, files, triggers=triggers)
+    def __init__(self, name, files, intLumi=None, triggers=[], json=None, secondaryfiles=[]):
+        super(DataComponent, self).__init__(name, files, triggers=triggers, secondaryfiles = secondaryfiles)
         self.isData = True
         self.intLumi = intLumi
         self.json = json
@@ -221,10 +224,11 @@ class DataComponent( Component ):
 class MCComponent( Component ):
     def __init__(self, name, files, triggers=[], xSection=1,
                  nGenEvents=None,
-                 effCorrFactor=None, **kwargs ):
+                 effCorrFactor=None, secondaryfiles=[],**kwargs ):
         super( MCComponent, self).__init__( name = name,
                                             files = files,
-                                            triggers = triggers, **kwargs )
+                                            triggers = triggers, 
+                                            secondaryfiles = secondaryfiles, **kwargs )
         self.xSection = xSection
         self.nGenEvents = nGenEvents
         self.effCorrFactor = effCorrFactor

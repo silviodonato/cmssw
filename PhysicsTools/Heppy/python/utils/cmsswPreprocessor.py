@@ -69,6 +69,12 @@ class CmsswPreprocessor :
 			if not re.match("file:.*",fn) and not re.match("root:.*",fn) :
 				fn="file:"+fn
 			inputfiles.append(fn)
+        
+		secondaryfiles= []
+		for fn in component.secondaryfiles :
+			if not re.match("file:.*",fn) and not re.match("root:.*",fn) :
+				fn="file:"+fn
+			secondaryfiles.append(fn)
 
                 # Four cases: 
                 # - no options, cmsswConfig with initialize function
@@ -92,6 +98,7 @@ class CmsswPreprocessor :
                                 print "WARNING: cmsswPreprocessor received options but can't pass on to cmsswConfig"
                 
 		cmsswConfig.process.source.fileNames = inputfiles
+		cmsswConfig.process.source.secondaryFileNames = secondaryfiles
 		# cmsRun will not create the output file if maxEvents==0, leading to crash of the analysis downstream.
 		# Thus, we set nEvents = 1 if the input file is empty (the output file will be empty as well).
 		cmsswConfig.process.maxEvents.input = 1 if (fineSplitFactor>1 and nEvents==0) else nEvents
