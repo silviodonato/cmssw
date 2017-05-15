@@ -13,6 +13,7 @@ SimG4CoreRECO = cms.PSet(
 )
 #AOD content
 SimG4CoreAOD = cms.PSet(
-    outputCommands = cms.untracked.vstring()
+    outputCommands = cms.untracked.vstring(
+        'keep SimVertexs_g4SimHits_*_*')
 )
 
