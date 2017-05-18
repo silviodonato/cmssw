@@ -1,11 +1,11 @@
-# /dev/CMSSW_9_1_0/GRun/V5 (CMSSW_9_1_0)
+# /dev/CMSSW_9_1_0/GRun/V6 (CMSSW_9_1_0_HLT1)
 
 import FWCore.ParameterSet.Config as cms
 
 fragment = cms.ProcessFragment( "HLT" )
 
 fragment.HLTConfigVersion = cms.PSet(
-  tableName = cms.string('/dev/CMSSW_9_1_0/GRun/V5')
+  tableName = cms.string('/dev/CMSSW_9_1_0/GRun/V6')
 )
 
 fragment.transferSystem = cms.PSet( 
@@ -1528,9 +1528,7 @@ fragment.datasets = cms.PSet(
     'HLT_Physics_v5',
     'HLT_Random_v2',
     'HLT_ZeroBias_v4' ),
-  RPCMonitor = cms.vstring( 'AlCa_RPCMuonNoHits_v10',
-    'AlCa_RPCMuonNoTriggers_v10',
-    'AlCa_RPCMuonNormalisation_v10' ),
+  RPCMonitor = cms.vstring( 'AlCa_RPCMuonNormalisation_v10' ),
   TestEnablesEcalHcal = cms.vstring( 'HLT_EcalCalibration_v3',
     'HLT_HcalCalibration_v4' ),
   TestEnablesEcalHcalDQM = cms.vstring( 'HLT_EcalCalibration_v3',
@@ -3416,18 +3414,18 @@ fragment.hltL1sSingleMu5IorSingleMu14erIorSingleMu16erIorSingleMu18erIorSingleMu
     L1MuonInputTag = cms.InputTag( 'hltGtStage2Digis','Muon' ),
     L1GlobalInputTag = cms.InputTag( "hltGtStage2Digis" )
 )
-fragment.hltPreAlCaRPCMuonNoTriggers = cms.EDFilter( "HLTPrescaler",
+fragment.hltPreAlCaRPCMuonNormalisation = cms.EDFilter( "HLTPrescaler",
     L1GtReadoutRecordTag = cms.InputTag( "hltGtStage2Digis" ),
     offset = cms.uint32( 0 )
 )
-fragment.hltRPCMuonNoTriggersL1Filtered0 = cms.EDFilter( "HLTMuonL1TFilter",
+fragment.hltRPCMuonNormaL1Filtered0 = cms.EDFilter( "HLTMuonL1TFilter",
     saveTags = cms.bool( True ),
     PreviousCandTag = cms.InputTag( "hltL1sSingleMu5IorSingleMu14erIorSingleMu16erIorSingleMu18erIorSingleMu20er" ),
     MinPt = cms.double( 0.0 ),
     MinN = cms.int32( 1 ),
     MaxEta = cms.double( 1.6 ),
     CentralBxOnly = cms.bool( True ),
-    SelectQualities = cms.vint32( 6 ),
+    SelectQualities = cms.vint32(  ),
     CandTag = cms.InputTag( 'hltGtStage2Digis','Muon' )
 )
 fragment.hltMuonDTDigis = cms.EDProducer( "DTUnpackingModule",
@@ -3720,46 +3718,6 @@ fragment.hltRpcRecHits = cms.EDProducer( "RPCRecHitProducer",
     recAlgo = cms.string( "RPCRecHitStandardAlgo" ),
     deadSource = cms.string( "File" ),
     maskSource = cms.string( "File" )
-)
-fragment.hltPreAlCaRPCMuonNoHits = cms.EDFilter( "HLTPrescaler",
-    L1GtReadoutRecordTag = cms.InputTag( "hltGtStage2Digis" ),
-    offset = cms.uint32( 0 )
-)
-fragment.hltRPCPointProducer = cms.EDProducer( "RPCPointProducer",
-    cscSegments = cms.InputTag( "hltCscSegments" ),
-    rangestripsRB4 = cms.untracked.double( 4.0 ),
-    TrackTransformer = cms.PSet(  ),
-    tracks = cms.InputTag( "NotUsed" ),
-    rangestrips = cms.untracked.double( 4.0 ),
-    incltrack = cms.untracked.bool( False ),
-    MinCosAng = cms.untracked.double( 0.95 ),
-    MaxDrb4 = cms.untracked.double( 150.0 ),
-    inclcsc = cms.untracked.bool( True ),
-    dt4DSegments = cms.InputTag( "hltDt4DSegments" ),
-    ExtrapolatedRegion = cms.untracked.double( 0.5 ),
-    incldt = cms.untracked.bool( True ),
-    debug = cms.untracked.bool( False ),
-    MaxD = cms.untracked.double( 80.0 )
-)
-fragment.hltRPCFilter = cms.EDFilter( "HLTRPCFilter",
-    rangestrips = cms.untracked.double( 1.0 ),
-    rpcDTPoints = cms.InputTag( 'hltRPCPointProducer','RPCDTExtrapolatedPoints' ),
-    rpcRecHits = cms.InputTag( "hltRpcRecHits" ),
-    rpcCSCPoints = cms.InputTag( 'hltRPCPointProducer','RPCCSCExtrapolatedPoints' )
-)
-fragment.hltPreAlCaRPCMuonNormalisation = cms.EDFilter( "HLTPrescaler",
-    L1GtReadoutRecordTag = cms.InputTag( "hltGtStage2Digis" ),
-    offset = cms.uint32( 0 )
-)
-fragment.hltRPCMuonNormaL1Filtered0 = cms.EDFilter( "HLTMuonL1TFilter",
-    saveTags = cms.bool( True ),
-    PreviousCandTag = cms.InputTag( "hltL1sSingleMu5IorSingleMu14erIorSingleMu16erIorSingleMu18erIorSingleMu20er" ),
-    MinPt = cms.double( 0.0 ),
-    MinN = cms.int32( 1 ),
-    MaxEta = cms.double( 1.6 ),
-    CentralBxOnly = cms.bool( True ),
-    SelectQualities = cms.vint32(  ),
-    CandTag = cms.InputTag( 'hltGtStage2Digis','Muon' )
 )
 fragment.hltPreAlCaLumiPixelsRandom = cms.EDFilter( "HLTPrescaler",
     L1GtReadoutRecordTag = cms.InputTag( "hltGtStage2Digis" ),
@@ -23102,8 +23060,6 @@ fragment.HLT_HcalCalibration_v4 = cms.Path( fragment.HLTBeginSequenceCalibration
 fragment.AlCa_EcalPhiSym_v7 = cms.Path( fragment.HLTBeginSequence + fragment.hltL1sZeroBiasIorAlwaysTrueIorIsolatedBunch + fragment.hltPreAlCaEcalPhiSym + fragment.HLTDoFullUnpackingEgammaEcalSequence + fragment.hltEcalPhiSymFilter + fragment.HLTEndSequence )
 fragment.HLT_HcalNZS_v10 = cms.Path( fragment.HLTBeginSequenceNZS + fragment.hltL1sHcalNZS + fragment.hltPreHcalNZS + fragment.HLTEndSequence )
 fragment.HLT_HcalPhiSym_v11 = cms.Path( fragment.HLTBeginSequenceNZS + fragment.hltL1sSingleEG5IorSingleEG24IorSingleMuOpen + fragment.hltPreHcalPhiSym + fragment.HLTEndSequence )
-fragment.AlCa_RPCMuonNoTriggers_v10 = cms.Path( fragment.HLTBeginSequence + fragment.hltL1sSingleMu5IorSingleMu14erIorSingleMu16erIorSingleMu18erIorSingleMu20er + fragment.hltPreAlCaRPCMuonNoTriggers + fragment.hltRPCMuonNoTriggersL1Filtered0 + fragment.HLTMuonLocalRecoSequence + fragment.HLTEndSequence )
-fragment.AlCa_RPCMuonNoHits_v10 = cms.Path( fragment.HLTBeginSequence + fragment.hltL1sSingleMu5IorSingleMu14erIorSingleMu16erIorSingleMu18erIorSingleMu20er + fragment.hltPreAlCaRPCMuonNoHits + fragment.HLTMuonLocalRecoSequence + fragment.hltRPCPointProducer + fragment.hltRPCFilter + fragment.HLTEndSequence )
 fragment.AlCa_RPCMuonNormalisation_v10 = cms.Path( fragment.HLTBeginSequence + fragment.hltL1sSingleMu5IorSingleMu14erIorSingleMu16erIorSingleMu18erIorSingleMu20er + fragment.hltPreAlCaRPCMuonNormalisation + fragment.hltRPCMuonNormaL1Filtered0 + fragment.HLTMuonLocalRecoSequence + fragment.HLTEndSequence )
 fragment.AlCa_LumiPixels_Random_v2 = cms.Path( fragment.HLTBeginSequenceRandom + fragment.hltPreAlCaLumiPixelsRandom + fragment.hltFEDSelectorLumiPixels + fragment.HLTEndSequence )
 fragment.AlCa_LumiPixels_ZeroBias_v5 = cms.Path( fragment.HLTBeginSequence + fragment.hltL1sZeroBias + fragment.hltPreAlCaLumiPixelsZeroBias + fragment.hltFEDSelectorLumiPixels + fragment.HLTEndSequence )
@@ -23140,7 +23096,7 @@ fragment.HLTriggerFinalPath = cms.Path( fragment.hltGtStage2Digis + fragment.hlt
 fragment.HLTAnalyzerEndpath = cms.EndPath( fragment.hltGtStage2Digis + fragment.hltPreHLTAnalyzerEndpath + fragment.hltL1TGlobalSummary + fragment.hltTrigReport )
 
 
-fragment.HLTSchedule = cms.Schedule( *(fragment.HLTriggerFirstPath, fragment.HLT_Physics_v5, fragment.DST_Physics_v5, fragment.HLT_Random_v2, fragment.HLT_ZeroBias_v4, fragment.HLT_EcalCalibration_v3, fragment.HLT_HcalCalibration_v4, fragment.AlCa_EcalPhiSym_v7, fragment.HLT_HcalNZS_v10, fragment.HLT_HcalPhiSym_v11, fragment.AlCa_RPCMuonNoTriggers_v10, fragment.AlCa_RPCMuonNoHits_v10, fragment.AlCa_RPCMuonNormalisation_v10, fragment.AlCa_LumiPixels_Random_v2, fragment.AlCa_LumiPixels_ZeroBias_v5, fragment.MC_ReducedIterativeTracking_v3, fragment.MC_PFMET_v6, fragment.MC_AK4PFJets_v6, fragment.MC_PFBTagCSV_v1, fragment.MC_PFHT_v6, fragment.MC_PFMHT_v6, fragment.MC_CaloMET_v3, fragment.MC_CaloMET_JetIdCleaned_v3, fragment.MC_AK4CaloJets_v3, fragment.MC_AK4CaloJetsFromPV_v1, fragment.MC_CaloBTagCSV_v1, fragment.MC_CaloHT_v3, fragment.MC_CaloMHT_v3, fragment.MC_AK8PFJets_v6, fragment.MC_AK8TrimPFJets_v6, fragment.MC_AK8PFHT_v6, fragment.MC_AK8CaloHT_v3, fragment.MC_Diphoton10_10_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass10_v6, fragment.MC_DoubleEle5_CaloIdL_GsfTrkIdVL_MW_v6, fragment.MC_Ele5_WPLoose_Gsf_v8, fragment.MC_Ele15_Ele10_CaloIdL_TrackIdL_IsoVL_DZ_v7, fragment.MC_IsoMu_v7, fragment.MC_IsoTkMu15_v6, fragment.MC_DoubleMu_TrkIsoVVL_DZ_v4, fragment.MC_DoubleGlbTrkMu_TrkIsoVVL_DZ_v4, fragment.MC_DoubleMuNoFiltersNoVtx_v3, fragment.MC_DoubleL1Tau_MediumIsoPFTau32_Trk1_eta2p1_Reg_v6, fragment.MC_LooseIsoPFTau20_v5, fragment.MC_LooseIsoPFTau50_Trk30_eta2p1_v4, fragment.HLTriggerFinalPath, fragment.HLTAnalyzerEndpath ))
+fragment.HLTSchedule = cms.Schedule( *(fragment.HLTriggerFirstPath, fragment.HLT_Physics_v5, fragment.DST_Physics_v5, fragment.HLT_Random_v2, fragment.HLT_ZeroBias_v4, fragment.HLT_EcalCalibration_v3, fragment.HLT_HcalCalibration_v4, fragment.AlCa_EcalPhiSym_v7, fragment.HLT_HcalNZS_v10, fragment.HLT_HcalPhiSym_v11, fragment.AlCa_RPCMuonNormalisation_v10, fragment.AlCa_LumiPixels_Random_v2, fragment.AlCa_LumiPixels_ZeroBias_v5, fragment.MC_ReducedIterativeTracking_v3, fragment.MC_PFMET_v6, fragment.MC_AK4PFJets_v6, fragment.MC_PFBTagCSV_v1, fragment.MC_PFHT_v6, fragment.MC_PFMHT_v6, fragment.MC_CaloMET_v3, fragment.MC_CaloMET_JetIdCleaned_v3, fragment.MC_AK4CaloJets_v3, fragment.MC_AK4CaloJetsFromPV_v1, fragment.MC_CaloBTagCSV_v1, fragment.MC_CaloHT_v3, fragment.MC_CaloMHT_v3, fragment.MC_AK8PFJets_v6, fragment.MC_AK8TrimPFJets_v6, fragment.MC_AK8PFHT_v6, fragment.MC_AK8CaloHT_v3, fragment.MC_Diphoton10_10_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass10_v6, fragment.MC_DoubleEle5_CaloIdL_GsfTrkIdVL_MW_v6, fragment.MC_Ele5_WPLoose_Gsf_v8, fragment.MC_Ele15_Ele10_CaloIdL_TrackIdL_IsoVL_DZ_v7, fragment.MC_IsoMu_v7, fragment.MC_IsoTkMu15_v6, fragment.MC_DoubleMu_TrkIsoVVL_DZ_v4, fragment.MC_DoubleGlbTrkMu_TrkIsoVVL_DZ_v4, fragment.MC_DoubleMuNoFiltersNoVtx_v3, fragment.MC_DoubleL1Tau_MediumIsoPFTau32_Trk1_eta2p1_Reg_v6, fragment.MC_LooseIsoPFTau20_v5, fragment.MC_LooseIsoPFTau50_Trk30_eta2p1_v4, fragment.HLTriggerFinalPath, fragment.HLTAnalyzerEndpath ))
 
 
 # dummyfy hltGetConditions in cff's
