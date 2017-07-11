@@ -66,9 +66,15 @@ class CmsswPreprocessor :
 		cmsswConfig = imp.load_source("cmsRunProcess",os.path.expandvars(self.configFile))
 		inputfiles= []
 		for fn in component.files :
-			if not re.match("file:.*",fn) and not re.match("root:.*",fn) :
-				fn="file:"+fn
+#			if not re.match("file:.*",fn) and not re.match("root:.*",fn) :
+#				fn="file:"+fn
 			inputfiles.append(fn)
+        
+		secondaryfiles= []
+		for fn in component.secondaryfiles :
+#			if not re.match("file:.*",fn) and not re.match("root:.*",fn) :
+#				fn="file:"+fn
+			secondaryfiles.append(fn)
 
                 # Four cases: 
                 # - no options, cmsswConfig with initialize function
@@ -91,14 +97,24 @@ class CmsswPreprocessor :
                         else:
                                 print "WARNING: cmsswPreprocessor received options but can't pass on to cmsswConfig"
                 
+		print "inputfiles2:",inputfiles
+		print "A0"
 		cmsswConfig.process.source.fileNames = inputfiles
+		print "A01"
+		if not hasattr(cmsswConfig.process.source,"secondaryFileNames"):
+		        cmsswConfig.process.source.secondaryFileNames = cmsswConfig.cms.untracked.vstring()
+		cmsswConfig.process.source.secondaryFileNames = secondaryfiles
+		print "A02"
 		# cmsRun will not create the output file if maxEvents==0, leading to crash of the analysis downstream.
 		# Thus, we set nEvents = 1 if the input file is empty (the output file will be empty as well).
+		print "A1"
 		cmsswConfig.process.maxEvents.input = 1 if (fineSplitFactor>1 and nEvents==0) else nEvents
+		print "A2"
 		cmsswConfig.process.source.skipEvents = cmsswConfig.cms.untracked.uint32(0 if (fineSplitFactor>1 and nEvents==0) else firstEvent)
 		#fixme: implement skipEvent / firstevent
 
 		outfilename=wd+"/cmsswPreProcessing.root"
+		print "AAA"
 		# for outName in cmsswConfig.process.endpath.moduleNames():
 		for module in cmsswConfig.process.endpaths.viewvalues():
 			for outName in module.moduleNames():
@@ -106,6 +122,7 @@ class CmsswPreprocessor :
 			if not hasattr(out,"fileName"): continue
     			out.fileName = outfilename
 
+		print "BBB"
 		if not hasattr(component,"options"):
 			component.options = CFG(name="postCmsrunOptions")
                 #use original as primary and new as secondary 
@@ -118,8 +135,10 @@ class CmsswPreprocessor :
 		component.options.inputFiles=[outfilename]
                 component.files=[outfilename]
 
+		print "CCC"
 		configfile=wd+"/cmsRun_config.py"
 		f = open(configfile, 'w')
+		print "Created ",configfile
 		f.write(cmsswConfig.process.dumpPython())
 		f.close()
 		runstring="%s %s >& %s/cmsRun.log" % (self.command,configfile,wd)
