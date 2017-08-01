@@ -5,21 +5,6 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.MassReplace import massReplaceInputTag as MassReplaceInputTag
 from FWCore.ParameterSet.MassReplace import massReplaceParameter as MassReplaceParameter
 
-def ProcessName(process):
-#   processname modifications
-
-    if 'hltTrigReport' in process.__dict__:
-        process.hltTrigReport.HLTriggerResults = cms.InputTag( 'TriggerResults','',process.name_() )
-
-    if 'hltDQMHLTScalers' in process.__dict__:
-        process.hltDQMHLTScalers.triggerResults = cms.InputTag( 'TriggerResults','',process.name_() )
-
-    if 'hltDQML1SeedLogicScalers' in process.__dict__:
-        process.hltDQML1SeedLogicScalers.processname = process.name_()
-
-    return(process)
-
-
 def Base(process):
 #   default modifications
 
@@ -40,8 +25,6 @@ def Base(process):
 #        process.GlobalTag.pfnPrefix = cms.untracked.string('frontier://Frontie#rProd/')
 #        
 #   process.GlobalTag.snapshotTime = cms.string("9999-12-31 23:59:59.000")
-
-    process=ProcessName(process)
 
     return(process)
 
