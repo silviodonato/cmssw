@@ -8,7 +8,7 @@ hltBtagPartons = cms.EDProducer("PartonSelector",
 )
 
 hltBtagJetsbyRef = cms.EDProducer("JetPartonMatcher",
-    jets = cms.InputTag("hltBtagCaloJetL1FastJetCorrected","","HLT"),
+    jets = cms.InputTag("hltSelector8CentralJetsL1FastJet","","MYHLT"),
     coneSizeToAssociate = cms.double(0.3),
     partons = cms.InputTag("hltBtagPartons")
 )

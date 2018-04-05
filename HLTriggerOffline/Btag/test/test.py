@@ -65,6 +65,7 @@ process.VertexValidationVertices= DQMEDAnalyzer('HLTVertexPerformanceAnalyzer',
 	SimVertexCollection = cms.InputTag("g4SimHits"),
 	TriggerResults = cms.InputTag('TriggerResults','',fileini.processname),
 	HLTPathNames = cms.vstring(fileini.vertex_pathes),
+	mainFolder   = cms.string("HLT/BTV/Validation"),
 	Vertex = fileini.vertex_modules,
 )
 
@@ -81,11 +82,13 @@ process.bTagValidation = DQMEDAnalyzer('HLTBTagPerformanceAnalyzer',
 	g = cms.vuint32(21),
 	uds = cms.vuint32(1, 2, 3)
 	),
-	mcPartons = cms.InputTag("hltBtagJetsbyValAlgo")
+	mcPartons = cms.InputTag("hltBtagJetsbyValAlgo"),
+	mainFolder   = cms.string("HLT/BTV/Validation"),
 )
 
 #define bTagPostValidation for the b-tag DQM validation (efficiency and mistagrate plot)
 process.bTagPostValidation = DQMEDHarvester("HLTBTagHarvestingAnalyzer",
+        mainFolder   = cms.string("HLT/BTV/Validation"),
 	HLTPathNames = fileini.btag_pathes,
 	histoName	= fileini.btag_modules_string,
 	minTag	= cms.double(0.6),
