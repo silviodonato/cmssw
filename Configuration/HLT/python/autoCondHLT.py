@@ -34,6 +34,7 @@ hltGTs = {
     'run2_mc_Fake'           : ('run2_mc'                 ,l1Menus['Fake']),
     'run2_mc_Fake1'          : ('run2_mc_l1stage1'        ,l1Menus['Fake1']),
     'run2_mc_Fake2'          : ('run2_mc'                 ,l1Menus['Fake2']),
+    'run2_mc_FULL'           : ('phase1_2021_realistic'   ,l1Menus['FULL']),
     'run2_mc_2018'           : ('phase1_2018_realistic'   ,l1Menus['2018']),
     'run3_mc_FULL'           : ('phase1_2021_realistic'   ,l1Menus['FULL']),
     'run3_mc_GRun'           : ('phase1_2021_realistic'   ,l1Menus['GRun']),
