@@ -120,14 +120,14 @@ def customisePixelGainForRun2Input(process):
         producer.VCaltoElectronOffset_L1 = -670
     
     if hasattr(process, 'hltSiPixelClusters') and hasattr(process.hltSiPixelClusters, 'cuda'): #if hltSiPixelClusters is a SwitchProducerCUDA
-        producer.cuda.VCaltoElectronGain      =   47
-        producer.cuda.VCaltoElectronGain_L1   =   50
-        producer.cuda.VCaltoElectronOffset    =  -60
-        producer.cuda.VCaltoElectronOffset_L1 = -670
-        producer.cpu.VCaltoElectronGain      =   47
-        producer.cpu.VCaltoElectronGain_L1   =   50
-        producer.cpu.VCaltoElectronOffset    =  -60
-        producer.cpu.VCaltoElectronOffset_L1 = -670
+        process.hltSiPixelClusters.cuda.VCaltoElectronGain      =   47
+        process.hltSiPixelClusters.cuda.VCaltoElectronGain_L1   =   50
+        process.hltSiPixelClusters.cuda.VCaltoElectronOffset    =  -60
+        process.hltSiPixelClusters.cuda.VCaltoElectronOffset_L1 = -670
+        process.hltSiPixelClusters.cpu.VCaltoElectronGain      =   47
+        process.hltSiPixelClusters.cpu.VCaltoElectronGain_L1   =   50
+        process.hltSiPixelClusters.cpu.VCaltoElectronOffset    =  -60
+        process.hltSiPixelClusters.cpu.VCaltoElectronOffset_L1 = -670
     return process
 
 
