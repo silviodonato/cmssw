@@ -176,6 +176,8 @@ std::vector<PFMultiDepthClusterizer::ClusterLink> PFMultiDepthClusterizer::link(
       const reco::PFCluster& cluster2 = clusters[j];
 
       auto dz = (cluster2.depth() - cluster1.depth());
+      if (std::abs(dz-std::round(dz))<0.001) 
+        dz = std::round(dz);
 
       //Do not link at the same layer and only link inside out!
       if (dz < 0.0f || std::abs(dz) < 0.2f)
