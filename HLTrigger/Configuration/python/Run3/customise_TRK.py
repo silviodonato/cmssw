@@ -27,7 +27,8 @@ def customiseRun3BTagRegionalTracks(process, clean=False, vertex="hltTrimmedPixe
         # originRadius = cms.double(0.05),
         originRadius = cms.double(0.3),
         precise = cms.bool(True),
-        ptMin = cms.double(0.3),
+        # ptMin = cms.double(0.3),
+        ptMin = cms.double(0.8),
         searchOpt = cms.bool(True),
         # vertexCollection = cms.InputTag(""),
         vertexCollection = cms.InputTag("hltTrimmedPixelVertices"),
@@ -53,8 +54,8 @@ def customiseRun3BTagRegionalTracks(process, clean=False, vertex="hltTrimmedPixe
         numberOfValidPixelHits = cms.uint32(3),
         ptErrorCut = cms.double(5.0),
         ptMax = cms.double(500.0),
-        ptMin = cms.double(0.3),
-        # ptMin = cms.double(0.8),
+        # ptMin = cms.double(0.3),
+        ptMin = cms.double(0.8),
         quality = cms.string('loose'),
         rhoVtx = cms.double(0.2),
         src = cms.InputTag("hltPixelTracks"),
@@ -354,8 +355,8 @@ def customizeVertices2(process):
     return process
 
 def customizeMinHitsAndPt(process, doForPat=False):
-    # ptValue = 0.8
-    ptValue = 0.9
+    ptValue = 0.8
+    # ptValue = 0.9
     # ptValue = 0.3
 
     if hasattr(process, "hltPixelTracksCleanForBTag"):
