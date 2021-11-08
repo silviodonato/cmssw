@@ -77,17 +77,33 @@ def BTV_noCalo_roiPF(process):
 
 ## Calo b-tagging: new regional calo b-tagging [new sequence]
 ## PF b-tagging: new regional PF b-tagging [new sequence]
-from .Run3.customise_TRK_replacement_calo import customiseRun3BTagRegionalTracks_Replacement_calo
-def BTV_roiCalo_roiPF(process): 
-    process = customiseRun3BTagRegionalTracks_Replacement_calo(process)
+from .Run3.customizeRun3_BTag_ROICalo_ROIPF import customizeRun3_BTag_ROICalo_ROIPF
+def BTV_roiCalo_roiPF_DeepCSV(process): 
+    process = customizeRun3_BTag_ROICalo_ROIPF(process, addDeepJetPaths=False)
     process = fixBtagPrescaler(process)
     return process 
 
 ## Calo b-tagging: new regional calo b-tagging [new sequence]
 ## PF b-tagging: new global PF b-tagging
-from .Run3.customise_TRK_replacement_global_calo import customiseRun3BTagRegionalTracks_Replacement_global_calo
-def BTV_roiCalo_globalPF(process): 
-    process = customiseRun3BTagRegionalTracks_Replacement_global_calo(process)
+from .Run3.customizeRun3_BTag_ROICalo_GlobalPF import customizeRun3_BTag_ROICalo_GlobalPF
+def BTV_roiCalo_globalPF_DeepCSV(process): 
+    process = customizeRun3_BTag_ROICalo_GlobalPF(process, addDeepJetPaths=True)
+    process = fixBtagPrescaler(process)
+    return process 
+
+## Calo b-tagging: new regional calo b-tagging [new sequence]
+## PF b-tagging: new regional PF b-tagging [new sequence]
+from .Run3.customizeRun3_BTag_ROICalo_ROIPF import customizeRun3_BTag_ROICalo_ROIPF
+def BTV_roiCalo_roiPF_DeepJet(process): 
+    process = customizeRun3_BTag_ROICalo_ROIPF(process, addDeepJetPaths=True)
+    process = fixBtagPrescaler(process)
+    return process 
+
+## Calo b-tagging: new regional calo b-tagging [new sequence]
+## PF b-tagging: new global PF b-tagging
+from .Run3.customizeRun3_BTag_ROICalo_GlobalPF import customizeRun3_BTag_ROICalo_GlobalPF
+def BTV_roiCalo_globalPF_DeepJet(process): 
+    process = customizeRun3_BTag_ROICalo_GlobalPF(process, addDeepJetPaths=False)
     process = fixBtagPrescaler(process)
     return process 
 
