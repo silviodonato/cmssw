@@ -16,11 +16,14 @@ from .Run3.applyL2TauTag import update as TAU_newL2sequence
 ## New tracking (patatrack tracks + single iteration) in muon reco
 from .Run3.customizeMuonHLTForRun3 import customizeMuonHLTForPatatrackWithIsoAndTriplets
 def MUO_newTracking(process): 
-    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, loadPatatrack=False)
+    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, newProcessName = "@currentProcess", loadPatatrack=False)
     return process
 
 ## New ML-based inside-out seeding for muon reconstruction
-from .Run3.customizeMuonHLTForRun3 import customizeIOSeedingPatatrack as MUO_newIO
+from .Run3.customizeMuonHLTForRun3 import customizeIOSeedingPatatrack
+def MUO_newIO(process): 
+    process = customizeIOSeedingPatatrack(process, newProcessName = "@currentProcess")
+    return process
 
 ## New ML-based outside-in muon for muon reconstruction
 from RecoMuon.TrackerSeedGenerator.customizeOIseeding import customizeOIseeding as MUO_newOI
@@ -28,19 +31,19 @@ from RecoMuon.TrackerSeedGenerator.customizeOIseeding import customizeOIseeding 
 ## Replace regional pixel tracks with global pixel tracks in TkMu triggers
 from .Run3.customizeMuonHLTForRun3 import customizeMuonHLTForPatatrackTkMu
 def MUO_updateTkMu(process): 
-    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, loadPatatrack=False)
+    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, newProcessName = "@currentProcess", loadPatatrack=False)
     return process
 
 ## Replace regional pixel tracks with global pixel tracks in OpenMu triggers
 from .Run3.customizeMuonHLTForRun3 import customizeMuonHLTForPatatrackOpenMu
 def MUO_updateOpenMu(process): 
-    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, loadPatatrack=False)
+    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, newProcessName = "@currentProcess", loadPatatrack=False)
     return process
 
 ## Replace regional pixel tracks with global pixel tracks in NoVtx triggers
 from .Run3.customizeMuonHLTForRun3 import customizeMuonHLTForPatatrackNoVtx
 def MUO_updateNoVtx(process): 
-    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, loadPatatrack=False)
+    process = customizeMuonHLTForPatatrackWithIsoAndTriplets(process, newProcessName = "@currentProcess", loadPatatrack=False)
     return process
 
 ############################## BTV ##############################
