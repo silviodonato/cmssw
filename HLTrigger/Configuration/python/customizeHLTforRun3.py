@@ -1,12 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 
 from .Run3.runHLTPaths_cfg import fixMenu
+from .Run3.fixIsoTrackHBHE import fixIsoTrackHBHE
 
 ## New Tracking (patatrack tracks + single iteration)
 from .Run3.customizeHLTforRun3Tracking import customizeHLTforRun3Tracking
 def TRK_newTracking(process): 
     process = customizeHLTforRun3Tracking(process)
     process = fixMenu(process)
+    process = fixIsoTrackHBHE(process)
     return process
 
 
