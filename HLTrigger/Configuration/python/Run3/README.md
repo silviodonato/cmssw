@@ -1,10 +1,10 @@
 ### HLT customization functions for Run-3
 
 ```
-cmsrel CMSSW_12_1_0
-cd CMSSW_12_1_0/src
+cmsrel CMSSW_12_2_0_pre2
+cd CMSSW_12_2_0_pre2/src
 cmsenv
-git cms-merge-topic  silviodonato:customizeHLTforRun3
+git cms-merge-topic  silviodonato:customizeHLTforRun3_v2
 scram b -j4
 hltGetConfiguration (....) > hlt.py
 ```
