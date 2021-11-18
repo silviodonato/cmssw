@@ -1117,7 +1117,7 @@ def customizeRun3_BTag_ROICalo_ROIPF(process, addDeepJetPaths = True):
     )
 
     process.hltPFDoubleJetLooseID88ROIForBTag = process.hltPFDoubleJetLooseID88.clone(
-        inputTag = cms.InputTag("hltAK4PFJetsLooseIDCorrected"),
+        inputTag = cms.InputTag("hltAK4PFJetsLooseIDCorrectedROIForBTag"),
     )
 
     process.hltPFSingleJetLooseID103ROIForBTag = process.hltPFSingleJetLooseID103.clone(
@@ -1431,7 +1431,7 @@ def customizeRun3_BTag_ROICalo_ROIPF(process, addDeepJetPaths = True):
     )
 
     process.hltPFSingleJetLooseID111ROIForBTag = process.hltPFSingleJetLooseID111.clone(
-        inputTag = cms.InputTag("hltAK4PFJetsLooseIDCorrected"),
+        inputTag = cms.InputTag("hltAK4PFJetsLooseIDCorrectedROIForBTag"),
     )
 
     process.HLT_QuadPFJet111_90_80_15_DoublePFBTagDeepCSV_1p3_7p7_VBF1_v8 = cms.Path(
@@ -1816,7 +1816,7 @@ def customizeRun3_BTag_ROICalo_ROIPF(process, addDeepJetPaths = True):
     )
 
     process.hltDoublePFJets116Eta2p3ROIForBTag = process.hltDoublePFJets116Eta2p3.clone(
-        inputTag = cms.InputTag("hltAK4PFJetsCorrected"),
+        inputTag = cms.InputTag("hltAK4PFJetsCorrectedROIForBTag"),
     )
 
     process.hltDoublePFJets116Eta2p3MaxDeta1p6ROIForBTag = process.hltDoublePFJets116Eta2p3MaxDeta1p6.clone(
@@ -2335,7 +2335,7 @@ def customizeRun3_BTag_ROICalo_ROIPF(process, addDeepJetPaths = True):
     ############################################################################
 
     process.hltDoublePFBJets62Eta2p3ROIForBTag = process.hltDoublePFBJets62Eta2p3.clone(
-        inputTag = cms.InputTag("hltAK4PFJetsCorrected"),
+        inputTag = cms.InputTag("hltAK4PFJetsCorrectedROIForBTag"),
     )
 
     process.hltDoublePFJets62Eta2p3MaxDeta1p6ROIForBTag = process.hltDoublePFJets62Eta2p3MaxDeta1p6.clone(
