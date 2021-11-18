@@ -1,4 +1,5 @@
-# hltGetConfiguration /dev/CMSSW_12_1_0/GRun/V13 > hlt.py
+# hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V5 --open > hlt.py , remove cms.ignore from process.hltAlCa***RecHitsFilter**onlyRegional
+# hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V5 > hlt.py
 
 common_text='''
 from hlt import process,_customInfo
@@ -35,14 +36,14 @@ for el in list(els):
 
 #for funct in MUO_newIO;
 #for funct in combined;
-for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepJet BTV_noCalo_roiPF BTV_globalCalo_globalPF BTV_addMCDeepJetPath BTV_addMCDeepJetROIForBTagPath BTV_moveToDeepJet BTV_moveToDeepJetROI combined nothing;
+for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet combined nothing;
 do 
     fname=$funct".py"
     fnameDump=$funct"_dump.py"
     fnameLog=$fnameDump".log"
     echo "$common_text" > $fname
     if [ "$funct" = "combined" ]; then
-        for funct2 in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet;
+        for funct2 in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet;
         do
             echo -e "process = "$funct2"(process)\n" >> $fname
         done;
@@ -53,17 +54,11 @@ do
         if [ "$funct" = "MUO_newIO" ]; then
             echo -e "process = MUO_newTracking(process)\n" >> $fname
         fi;
-        if [ "$funct" = "BTV_addMCDeepJetROIForBTagPath" ]; then
-            echo -e "process = BTV_noCalo_roiPF(process)\n" >> $fname
-        fi;
-        if [ "$funct" = "BTV_moveToDeepJetROI" ]; then
-            echo -e "process = BTV_noCalo_roiPF(process)\n" >> $fname
-            echo -e "process = BTV_addMCDeepJetPath(process)\n" >> $fname
-        fi;
         echo -e "process = "$funct"(process)\n" >> $fname
     fi;
-#   echo -e "$for_confdb" >> $fname && edmConfigDump --prune $fname > $fnameDump & ## Run Dump for update on ConfDB
-    echo -e "$for_test" >> $fname && edmConfigDump --prune $fname > $fnameDump && CUDA_DEVICES= cmsRun $fnameDump >& $fnameLog & ## Run Test
+   echo -e "$for_confdb" >> $fname && edmConfigDump --prune $fname > $fnameDump && python -m py_compile $fnameDump &
+ ## Run Dump for update on ConfDB
+#    echo -e "$for_test" >> $fname && edmConfigDump --prune $fname > $fnameDump && CUDA_DEVICES= cmsRun $fnameDump >& $fnameLog & ## Run Test
 done;
 
 #process = TRK_newTracking(process)  New Tracking (patatrack tracks + single iteration)
