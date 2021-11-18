@@ -20,17 +20,12 @@ This is the list of the customization functions available:
 
 - **TRK_newTracking**: includes the new GPU-ready pixel tracking (customizeHLTforPatatrackTriplets) and the single iteration tracking in the outer tracker ( https://its.cern.ch/jira/browse/CMSHLT-2187)
 This function should be always included in your studies.
-- **MUO_newReco**: This is a combination of MUO_newTracking + MUO_useGEM + MUO_newOI + MUO_newIO (see below the details)
-- MUO_newTracking: uses the global pixel tracks and the single-iteration regional tracking in muon reconstruction ( https://its.cern.ch/jira/browse/CMSHLT-2191)
-- MUO_useGEM: include GEMs in the muon reconstruction ( https://its.cern.ch/jira/browse/CMSHLT-2191)
-- MUO_newOI: use the new ML-based outside-in muon for muon reconstruction ( https://its.cern.ch/jira/browse/CMSHLT-2181)
-- MUO_newIO: uses the new ML-based inside-out seeding for muon reconstruction (https://its.cern.ch/jira/browse/CMSHLT-2182)
-This function requires MUO_newTracking
-
-Other customization functions available related to muons are:
-- MUO_updateTkMu: uses the global pixel tracks and the single-iteration regional tracking in TkMu paths (https://its.cern.ch/jira/browse/CMSHLT-2191)
-- MUO_updateOpenMu: uses the global pixel tracks and the single-iteration regional tracking in OpenMu paths (https://its.cern.ch/jira/browse/CMSHLT-2191)
-- MUO_updateNoVtx: uses the global pixel tracks and the single-iteration regional tracking in NoVtx paths (https://its.cern.ch/jira/browse/CMSHLT-2191)
+- **MUO_newReco**: This is a combination of four customization functions MUO_newTracking, MUO_useGEM, MUO_newOI, MUO_newIO:
+  - MUO_newTracking: uses the global pixel tracks and the single-iteration regional tracking in muon reconstruction ( https://its.cern.ch/jira/browse/CMSHLT-2191)
+  - MUO_useGEM: include GEMs in the muon reconstruction ( https://its.cern.ch/jira/browse/CMSHLT-2191)
+  - MUO_newOI: use the new ML-based outside-in muon for muon reconstruction ( https://its.cern.ch/jira/browse/CMSHLT-2181)
+  - MUO_newIO: uses the new ML-based inside-out seeding for muon reconstruction (https://its.cern.ch/jira/browse/CMSHLT-2182)
+  This function requires MUO_newTracking
 
 - If you want to test the new DeepTau you can import the sequence from **/users/lwezenbe/12_1_X/TauPOG/NewMenu** (https://its.cern.ch/jira/browse/CMSHLT-2175)
 - **TAU_newL2sequence** Update the L2.5 Tau reconstruction to the new reconstruction based on ML new pixel tracking (https://its.cern.ch/jira/browse/CMSHLT-2176)
@@ -38,6 +33,13 @@ At the moment, this function can be used only on DeepTau paths.
 
 - **BTV_noCalo_roiPF_DeepCSV**: moves all PFDeepCSVBTag paths to a version based on Calo b-tagging: none. PF b-tagging: DeepCSV and new regional PF and tracking. ( https://its.cern.ch/jira/browse/CMSHLT-2186) moves also CaloDeepCSVBTag to the new
 - **BTV_noCalo_roiPF_DeepJet**: duplicates all PFBTagDeepCSV  to a version based on Calo b-tagging: none. PF b-tagging: DeepCSV & DeepJet and new regional PF and tracking (https://its.cern.ch/jira/browse/CMSHLT-2184)
+
+
+Other customization functions available related to muons are:
+
+- MUO_updateTkMu: uses the global pixel tracks and the single-iteration regional tracking in TkMu paths (https://its.cern.ch/jira/browse/CMSHLT-2191)
+- MUO_updateOpenMu: uses the global pixel tracks and the single-iteration regional tracking in OpenMu paths (https://its.cern.ch/jira/browse/CMSHLT-2191)
+- MUO_updateNoVtx: uses the global pixel tracks and the single-iteration regional tracking in NoVtx paths (https://its.cern.ch/jira/browse/CMSHLT-2191)
 
 Other b-tagging functions with a lower priority are also available for testing:
 
