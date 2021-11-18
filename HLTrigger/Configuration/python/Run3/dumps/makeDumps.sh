@@ -10,7 +10,8 @@ for_confdb='''
 ### Drop for confdb ###
 els = process.__dict__
 for el in list(els):
-    if  (type(els[el]) == cms.OutputModule) or (type(els[el]) == cms.EndPath)   or (type(els[el]) == cms.Service) or (type(els[el]) == cms.PSet) or (type(els[el]) == cms.ESProducer)  or (type(els[el]) == cms.ESSource):
+#    if  (type(els[el]) == cms.OutputModule) or (type(els[el]) == cms.EndPath)   or (type(els[el]) == cms.Service) or (type(els[el]) == cms.PSet) or (type(els[el]) == cms.ESProducer)  or (type(els[el]) == cms.ESSource):
+    if  ( ( type(els[el]) == cms.OutputModule) or (type(els[el]) == cms.EndPath)  or el == "PrescaleService" or el == "datasets" or el == "streams" ):
 #    if (  (type(els[el]) != cms.Path) and (type(els[el]) != cms.Sequence) and (type(els[el]) != cms.Task) and (type(els[el]) != cms.SwitchProducer) and (type(els[el]) != cms.EDProducer) and (type(els[el]) != cms.EDFilter) and el!="source" ):
 #        print("Deleting %s (%s)"%(el, type(els[el])))
         delattr(process, el)
@@ -29,20 +30,21 @@ process = customiseFor2018Input(process)
 ### Drop EndPaths ###
 els = process.__dict__
 for el in list(els):
-    if  (type(els[el]) == cms.OutputModule) or (type(els[el]) == cms.EndPath) or el == "PrescaleService" or el == "datasets" or el == "streams":
+    if  ( ( type(els[el]) == cms.OutputModule) or (type(els[el]) == cms.EndPath)  or el == "PrescaleService" or el == "datasets" or el == "streams" ):
         #print("Deleting %s (%s)"%(el, type(els[el])))
         delattr(process, el)
 '''
 
 #for funct in MUO_newIO;
 #for funct in combined;
-for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet MUO_useGEM MUO_newReco combined nothing;
+#for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet MUO_useGEM MUO_newReco combined nothing;
+for funct in combination;
 do 
     fname=$funct".py"
     fnameDump=$funct"_dump.py"
     fnameLog=$fnameDump".log"
     echo "$common_text" > $fname
-    if [ "$funct" = "combined" ]; then
+    if [ "$funct" = "combination" ]; then
         for funct2 in TRK_newTracking MUO_newReco BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet;
         do
             echo -e "process = "$funct2"(process)\n" >> $fname
@@ -56,9 +58,9 @@ do
         fi;
         echo -e "process = "$funct"(process)\n" >> $fname
     fi;
-   echo -e "$for_confdb" >> $fname && edmConfigDump --prune $fname > $fnameDump && python -m py_compile $fnameDump &
+   echo -e "$for_confdb" >> $fname && edmConfigDump  $fname > $fnameDump && python -m py_compile $fnameDump &
  ## Run Dump for update on ConfDB
-#    echo -e "$for_test" >> $fname && edmConfigDump --prune $fname > $fnameDump && CUDA_DEVICES= cmsRun $fnameDump >& $fnameLog & ## Run Test
+#    echo -e "$for_test" >> $fname && edmConfigDump $fname > $fnameDump && CUDA_DEVICES= cmsRun $fnameDump >& $fnameLog & ## Run Test
 done;
 
 #process = TRK_newTracking(process)  New Tracking (patatrack tracks + single iteration)
