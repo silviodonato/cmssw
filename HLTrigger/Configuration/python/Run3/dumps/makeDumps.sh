@@ -1,4 +1,4 @@
-# hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V5 --open > hlt.py , remove cms.ignore from process.hltAlCa***RecHitsFilter**onlyRegional
+# hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V5 --open > hlt_open.py , remove cms.ignore from process.hltAlCa***RecHitsFilter**onlyRegional
 # hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V5 > hlt.py
 
 common_text='''
@@ -36,14 +36,14 @@ for el in list(els):
 
 #for funct in MUO_newIO;
 #for funct in combined;
-for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet combined nothing;
+for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet MUO_useGEM MUO_newReco combined nothing;
 do 
     fname=$funct".py"
     fnameDump=$funct"_dump.py"
     fnameLog=$fnameDump".log"
     echo "$common_text" > $fname
     if [ "$funct" = "combined" ]; then
-        for funct2 in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet;
+        for funct2 in TRK_newTracking MUO_newReco BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet;
         do
             echo -e "process = "$funct2"(process)\n" >> $fname
         done;
