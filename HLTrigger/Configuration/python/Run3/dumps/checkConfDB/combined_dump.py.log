@@ -1,0 +1,7 @@
+----- Begin Fatal Exception 18-Nov-2021 23:05:17 CET-----------------------
+An exception of category 'ConfigFileReadError' occurred while
+   [0] Processing the python configuration file named combined_dump.py
+Exception Message:
+ unknown python problem occurred.
+SyntaxError: ('invalid syntax', ('combined_dump.py', 9367, 28, '            "cms.InputTag("hltPFDeepFlavourJetTagsROIForBTag"", ""probb")", "cms.InputTag("hltPFDeepFlavourJetTagsROIForBTag"", ""probbb")", "cms.InputTag("hltPFDeepFlavourJetTagsROIForBTag"",\n'))
+----- End Fatal Exception -------------------------------------------------
