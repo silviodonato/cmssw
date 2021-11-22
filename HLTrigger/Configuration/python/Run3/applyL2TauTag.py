@@ -110,6 +110,6 @@ def update(process):
     old_diTau_paths = ['HLT_IsoMu24_eta2p1_TightChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_CrossL1_v1', 'HLT_IsoMu24_eta2p1_MediumChargedIsoPFTauHPS35_Trk1_TightID_eta2p1_Reg_CrossL1_v1','HLT_IsoMu24_eta2p1_TightChargedIsoPFTauHPS35_Trk1_TightID_eta2p1_Reg_CrossL1_v1','HLT_IsoMu24_eta2p1_MediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_CrossL1_v4','HLT_IsoMu24_eta2p1_MediumChargedIsoPFTauHPS30_Trk1_eta2p1_Reg_CrossL1_v1','HLT_DoubleMediumChargedIsoPFTauHPS30_L1MaxMass_Trk1_eta2p1_Reg_v1','HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_v1','HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_TightID_eta2p1_Reg_v1','HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_TightID_eta2p1_Reg_v1','HLT_DoubleMediumChargedIsoPFTauHPS40_Trk1_eta2p1_Reg_v1','HLT_DoubleTightChargedIsoPFTauHPS40_Trk1_eta2p1_Reg_v1','HLT_DoubleMediumChargedIsoPFTauHPS40_Trk1_TightID_eta2p1_Reg_v1','HLT_DoubleTightChargedIsoPFTauHPS40_Trk1_TightID_eta2p1_Reg_v1']
     for i in old_diTau_paths:
         if i in process.__dict__:
-            process.HLTSchedule.remove(getattr(process, i))
+            process.schedule.remove(getattr(process, i))
 
     return process
