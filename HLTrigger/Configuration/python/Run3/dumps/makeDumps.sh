@@ -37,8 +37,8 @@ for el in list(els):
 
 #for funct in MUO_newIO;
 #for funct in combined;
-#for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet MUO_useGEM MUO_newReco combined nothing;
-for funct in combination;
+for funct in TRK_newTracking MUO_newTracking MUO_updateTkMu MUO_updateOpenMu MUO_updateNoVtx MUO_newIO MUO_newOI BTV_noCalo_roiPF_DeepCSV BTV_noCalo_roiPF_DeepJet BTV_roiCalo_roiPF_DeepCSV BTV_roiCalo_roiPF_DeepJet BTV_roiCalo_globalPF_DeepCSV BTV_roiCalo_globalPF_DeepJet BTV_globalCalo_globalPF_DeepCSV BTV_globalCalo_globalPF_DeepJet MUO_useGEM MUO_newReco combination nothing;
+#for funct in combination;
 do 
     fname=$funct".py"
     fnameDump=$funct"_dump.py"
@@ -58,9 +58,9 @@ do
         fi;
         echo -e "process = "$funct"(process)\n" >> $fname
     fi;
-   echo -e "$for_confdb" >> $fname && edmConfigDump  $fname > $fnameDump && python -m py_compile $fnameDump &
+#   echo -e "$for_confdb" >> $fname && edmConfigDump  $fname > $fnameDump && python -m py_compile $fnameDump &
  ## Run Dump for update on ConfDB
-#    echo -e "$for_test" >> $fname && edmConfigDump $fname > $fnameDump && CUDA_DEVICES= cmsRun $fnameDump >& $fnameLog & ## Run Test
+    echo -e "$for_test" >> $fname && edmConfigDump $fname > $fnameDump && CUDA_DEVICES= cmsRun $fnameDump >& $fnameLog & ## Run Test
 done;
 
 #process = TRK_newTracking(process)  New Tracking (patatrack tracks + single iteration)

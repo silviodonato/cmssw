@@ -573,17 +573,17 @@ def customizeRun3_BTag_GlobalCalo_GlobalPF(process, addDeepJetPaths = True):
                 cms.PSet(
                     name = cms.string("BvsAll"),
                     numerator = cms.VInputTag(
-                        "hltPFDeepFlavourJetTags:probb",
-                        "hltPFDeepFlavourJetTags:probbb",
-                        "hltPFDeepFlavourJetTags:problepb",
+                        cms.InputTag("hltPFDeepFlavourJetTags:probb"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:probbb"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:problepb"),
                         ),
                     denominator=cms.VInputTag(
-                        "hltPFDeepFlavourJetTags:probb",
-                        "hltPFDeepFlavourJetTags:probbb",
-                        "hltPFDeepFlavourJetTags:problepb",
-                        "hltPFDeepFlavourJetTags:probc",
-                        "hltPFDeepFlavourJetTags:probuds",
-                        "hltPFDeepFlavourJetTags:probg",
+                        cms.InputTag("hltPFDeepFlavourJetTags:probb"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:probbb"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:problepb"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:probc"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:probuds"),
+                        cms.InputTag("hltPFDeepFlavourJetTags:probg"),
                         ),
                 ),
             )
@@ -628,7 +628,7 @@ def customizeRun3_BTag_GlobalCalo_GlobalPF(process, addDeepJetPaths = True):
             process.hltDeepJetDiscriminatorsJetTags
         )
 
-        process.hltPreMCPFBTagDeepJet = process.hltPreMCPFBTagDeepCSV.clone()
+        # process.hltPreMCPFBTagDeepJet = process.hltPreMCPFBTagDeepCSV.clone()
 
         process.hltBTagPFDeepJet4p06Single = process.hltBTagPFDeepCSV4p06Single.clone(
             JetTags = cms.InputTag("hltDeepJetDiscriminatorsJetTags","BvsAll"),
@@ -670,7 +670,7 @@ def customizeRun3_BTag_GlobalCalo_GlobalPF(process, addDeepJetPaths = True):
         Jets = cms.InputTag("hltPFJetForBtag"),
     )
 
-    process.hltPreMCPFBTagDeepCSV = process.hltPreMCPFBTagDeepCSV.clone()
+    # process.hltPreMCPFBTagDeepCSV = process.hltPreMCPFBTagDeepCSV.clone()
 
     process.MC_PFBTagDeepCSV_v10 = cms.Path(
         process.HLTBeginSequence+
@@ -2608,6 +2608,22 @@ def customizeRun3_BTag_GlobalCalo_GlobalPF(process, addDeepJetPaths = True):
         process.hltPFHT450Jet30+
         process.HLTEndSequence
     )
-
-
+    if addDeepJetPaths:
+        process.schedule.extend([
+            process.MC_PFBTagDeepJet_v1,
+            process.HLT_PFHT330PT30_QuadPFJet_75_60_45_40_TriplePFBTagDeepJet_4p5_v3,
+            process.HLT_PFHT400_FivePFJet_100_100_60_30_30_DoublePFBTagDeepJet_4p5_v8,
+            process.HLT_PFHT400_FivePFJet_120_120_60_30_30_DoublePFBTagDeepJet_4p5_v8,
+            process.HLT_PFHT400_SixPFJet32_DoublePFBTagDeepJet_2p94_v8,
+            process.HLT_PFHT450_SixPFJet36_PFBTagDeepJet_1p59_v7,
+            process.HLT_QuadPFJet103_88_75_15_DoublePFBTagDeepJet_1p3_7p7_VBF1_v8,
+            process.HLT_QuadPFJet103_88_75_15_PFBTagDeepJet_1p3_VBF2_v8,
+            process.HLT_QuadPFJet105_88_76_15_DoublePFBTagDeepJet_1p3_7p7_VBF1_v8,
+            process.HLT_QuadPFJet105_88_76_15_PFBTagDeepJet_1p3_VBF2_v8,
+            process.HLT_QuadPFJet111_90_80_15_DoublePFBTagDeepJet_1p3_7p7_VBF1_v8,
+            process.HLT_QuadPFJet111_90_80_15_PFBTagDeepJet_1p3_VBF2_v8,
+            process.HLT_QuadPFJet98_83_71_15_DoublePFBTagDeepJet_1p3_7p7_VBF1_v8,
+            process.HLT_QuadPFJet98_83_71_15_PFBTagDeepJet_1p3_VBF2_v8,
+            process.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_PFDiJet30_PFBtagDeepJet_1p5_v1,
+        ])
     return process
