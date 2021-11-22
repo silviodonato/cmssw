@@ -1,5 +1,7 @@
 ### HLT customization functions for Run-3
 
+12_1_X version: https://github.com/silviodonato/cmssw/customizeHLTforRun3_v2_121X/HLTrigger/Configuration/python/Run3/README.md
+
 ```
 cmsrel CMSSW_12_2_0_pre2
 cd CMSSW_12_2_0_pre2/src
@@ -14,6 +16,9 @@ then you can call the customization function(s) by adding at the bottom of your 
 ```
 from HLTrigger.Configuration.customizeHLTforRun3 import *
 process = TRK_newTracking(process)
+process = MUO_newReco(process)
+process = BTV_noCalo_roiPF_DeepCSV(process)
+process = BTV_noCalo_roiPF_DeepJet(process)
 ```
 
 This is the list of the customization functions available:
