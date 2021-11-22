@@ -1,4 +1,4 @@
-### HLT customization functions for Run-3
+### HLT customization functions for Run-3.
 
 12_2_X version: https://github.com/silviodonato/cmssw/customizeHLTforRun3_v2/HLTrigger/Configuration/python/Run3/README.md
 
