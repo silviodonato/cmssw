@@ -8,7 +8,8 @@ cd CMSSW_12_1_0/src
 cmsenv
 git cms-merge-topic  silviodonato:customizeHLTforRun3_v2_121X
 scram b -j4
-hltGetConfiguration (....) > hlt.py ##IMPORTANT: Remember to use either --eras Run3 or --eras Run2_2018!
+hltGetConfiguration (....) > hlt.py 
+##IMPORTANT: Remember to use either --eras Run3 or --eras Run2_2018!
 ```
 
 then you can call the customization function(s) by adding at the bottom of your `hlt.py`, as usual. Example:
