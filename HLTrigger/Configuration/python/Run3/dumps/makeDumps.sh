@@ -2,7 +2,7 @@
 # hltGetConfiguration /dev/CMSSW_12_1_0/GRun/V14 > hlt.py
 
 common_text='''
-from hlt import process,_customInfo
+from hlt_open import process,_customInfo
 from HLTrigger.Configuration.customizeHLTforRun3 import *
 '''
 
