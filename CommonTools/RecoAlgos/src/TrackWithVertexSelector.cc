@@ -35,8 +35,8 @@ TrackWithVertexSelector::~TrackWithVertexSelector() {}
 void TrackWithVertexSelector::init(const edm::Event &event) {
   edm::Handle<reco::VertexCollection> hVtx;
   event.getByToken(vertexToken_, hVtx);
-  vcoll_ = hVtx.product();
-
+  vcoll_ = nVertices_>0 ? hVtx.product() : nullptr;
+  
   edm::Handle<edm::ValueMap<float> > hTimes;
   event.getByToken(timesToken_, hTimes);
   timescoll_ = hTimes.isValid() ? hTimes.product() : nullptr;
@@ -63,7 +63,7 @@ bool TrackWithVertexSelector::testTrack(const reco::TrackRef &tref) const { retu
 
 bool TrackWithVertexSelector::testVertices(const reco::Track &t, const reco::VertexCollection &vtxs) const {
   bool ok = false;
-  if (!vtxs.empty()) {
+  if (vtxs && !vtxs.empty()) {
     unsigned int tested = 1;
     for (reco::VertexCollection::const_iterator it = vtxs.begin(), ed = vtxs.end(); it != ed; ++it) {
       if ((std::abs(t.dxy(it->position())) < rhoVtx_) && (std::abs(t.dz(it->position())) < zetaVtx_)) {
@@ -83,7 +83,7 @@ bool TrackWithVertexSelector::testVertices(const reco::TrackRef &tref, const rec
   const auto &t = *tref;
   const bool timeAvailable = timescoll_ != nullptr && timeresoscoll_ != nullptr;
   bool ok = false;
-  if (!vtxs.empty()) {
+  if (vtxs && !vtxs.empty()) {
     unsigned int tested = 1;
     for (reco::VertexCollection::const_iterator it = vtxs.begin(), ed = vtxs.end(); it != ed; ++it) {
       const bool useTime = timeAvailable && it->t() != 0.;
