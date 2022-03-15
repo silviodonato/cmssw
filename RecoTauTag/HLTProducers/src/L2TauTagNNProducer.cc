@@ -569,62 +569,21 @@ void L2TauNNProducer::fillCaloRecHits(tensorflow::Tensor& cellGridMatrix,
 std::vector<int> L2TauNNProducer::selectGoodVertices(const ZVertexSoA& patavtx_soa,
                                                      const pixelTrack::TrackSoA& patatracks_tsoa,
                                                      const std::vector<int>& TrackGood) {
-  auto maxTracks = patatracks_tsoa.stride();
-  const int nv = patavtx_soa.nvFinal;
+   
+  const uint32_t nv = patavtx_soa.nvFinal;
   std::vector<int> VtxGood;
   if (nv == 0)
     return VtxGood;
-  VtxGood.reserve(nv);
-
-  std::vector<double> maxChi2_;
-  std::vector<double> pTSquaredSum(nv);
-
-  for (int j = nv - 1; j >= 0; --j) {
-    std::vector<int> trk_ass_to_vtx;
-    auto vtx_idx = patavtx_soa.sortInd[j];
-    assert(vtx_idx < nv);
-    for (int trk_idx = 0; trk_idx < maxTracks; trk_idx++) {
-      int vtx_ass_to_track = patavtx_soa.idv[trk_idx];
-      if (vtx_ass_to_track == int16_t(vtx_idx))
-        trk_ass_to_vtx.push_back(trk_idx);
-    }
-    auto nt = trk_ass_to_vtx.size();
-    if (nt == 0) {
-      continue;
-    }
-    if (nt < 2) {
-      trk_ass_to_vtx.clear();
-      continue;
-    }
-    for (const auto& trk_idx : trk_ass_to_vtx) {
-      int vtx_ass_to_track = patavtx_soa.idv[trk_idx];
-      if (vtx_ass_to_track != vtx_idx)
-        continue;
-      double patatrackPt = patatracks_tsoa.pt[trk_idx];
-      if (patatrackPt < trackPtMin_)
-        continue;
-      if (patatracks_tsoa.chi2(trk_idx) > trackChi2Max_)
-        continue;
-      if (patatrackPt > trackPtMax_) {
-        patatrackPt = trackPtMax_;
-      }
-      pTSquaredSum.at(vtx_idx) += patatrackPt * patatrackPt;
-    }
-  }
-  std::vector<size_t> sortIdxs(nv);
-  std::iota(sortIdxs.begin(), sortIdxs.end(), 0);
-  std::sort(sortIdxs.begin(), sortIdxs.end(), [&](size_t const i1, size_t const i2) {
-    return pTSquaredSum[i1] > pTSquaredSum[i2];
-  });
-  auto const minFOM_fromFrac = pTSquaredSum[sortIdxs.front()] * fractionSumPt2_;
-
-  for (int j = nv - 1; j >= 0; --j) {
+  VtxGood.reserve(nv);  
+  
+  auto const minFOM_fromFrac = patavtx_soa.ptv2[patavtx_soa.sortInd[0]] * fractionSumPt2_;
+  
+  for (uint32_t j = 0; j < nv; j++){
     auto idx = patavtx_soa.sortInd[j];
-
     if (VtxGood.size() >= maxVtx_) {
       break;
     }
-    if (pTSquaredSum[idx] >= minFOM_fromFrac && pTSquaredSum[idx] > minSumPt2_) {
+    if (patavtx_soa.ptv2[idx] >= minFOM_fromFrac && patavtx_soa.ptv2[idx] > minSumPt2_) {
       VtxGood.push_back(idx);
     }
   }
