@@ -576,7 +576,7 @@ std::vector<int> L2TauNNProducer::selectGoodVertices(const ZVertexSoA& patavtx_s
     return VtxGood;
   VtxGood.reserve(nv);  
   
-  auto const minFOM_fromFrac = patavtx_soa.ptv2[patavtx_soa.sortInd[0]] * fractionSumPt2_;
+  auto const minFOM_fromFrac = patavtx_soa.ptv2[patavtx_soa.sortInd[nv-1]] * fractionSumPt2_;
   
   for (uint32_t j = 0; j < nv; j++){
     auto idx = patavtx_soa.sortInd[j];
