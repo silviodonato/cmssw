@@ -584,6 +584,9 @@ std::vector<int> L2TauNNProducer::selectGoodVertices(const ZVertexSoA& patavtx_s
     auto vtx_idx = patavtx_soa.sortInd[j];
     assert(vtx_idx < nv);
     for (int trk_idx = 0; trk_idx < maxTracks; trk_idx++) {
+      auto nHits = patatracks_tsoa.nHits(trk_idx);  
+      if (nHits == 0)
+        break;
       int vtx_ass_to_track = patavtx_soa.idv[trk_idx];
       if (vtx_ass_to_track == int16_t(vtx_idx))
         trk_ass_to_vtx.push_back(trk_idx);
