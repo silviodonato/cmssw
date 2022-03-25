@@ -72,6 +72,7 @@ namespace IPTools {
     GlobalPoint impactPoint = closestOnTransversePlaneState.globalPosition();
     GlobalVector IPVec(impactPoint.x() - vertex.x(), impactPoint.y() - vertex.y(), 0.);
     double prod = IPVec.dot(direction);
+    if (prod<1E-5) prod = 0;
     double sign = (prod >= 0) ? 1. : -1.;
 
     //Apply sign to the result
@@ -96,6 +97,7 @@ namespace IPTools {
     GlobalPoint impactPoint = closestIn3DSpaceState.globalPosition();
     GlobalVector IPVec(impactPoint.x() - vertex.x(), impactPoint.y() - vertex.y(), impactPoint.z() - vertex.z());
     double prod = IPVec.dot(direction);
+    if (prod<1E-5) prod = 0;
     double sign = (prod >= 0) ? 1. : -1.;
 
     //Apply sign to the result
