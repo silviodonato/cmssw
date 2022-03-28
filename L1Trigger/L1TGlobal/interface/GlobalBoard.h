@@ -15,6 +15,7 @@
 // system include files
 #include <bitset>
 #include <vector>
+#include <assert.h>
 
 // user include files
 #include "FWCore/Utilities/interface/typedefs.h"
@@ -164,6 +165,28 @@ namespace l1t {
     /// pointer to Tau data list
     inline const BXVector<const GlobalExtBlk*>* getCandL1External() const { return m_candL1External; }
 
+    //initializer prescale counter using a semi-random value between [1, prescale value]
+    static const std::vector<double> semirandomNumber(const edm::Event& iEvent,
+                              const std::vector<double>& prescaleFactorsAlgoTrig) {
+        std::vector<double> out(prescaleFactorsAlgoTrig.size(), 1.);
+        const double semirandom = iEvent.id().event() + iEvent.id().run() + iEvent.id().luminosityBlock();
+        for ( size_t i = 0; i< prescaleFactorsAlgoTrig.size(); i++)
+        {
+            const double ps = prescaleFactorsAlgoTrig.at(i);
+            if (ps==0 || ps==1) {  //do not touch ps = 0 or 1
+                out[i] = ps;
+            }
+            else { //replace ps with a semirandom number between [1,ps]
+                out[i] = semirandom - floor(semirandom/ps)*ps;
+                if(out[i]==0) out[i] = ps;
+                //std::cout<< out[i] <<"\t" << ps <<"\t" << semirandom << std::endl;
+                assert(out[i]>0);
+                assert(out[i]<=ps);
+            }
+        }
+        return out;
+    }
+    
     /*  Drop individual EtSums for Now
     /// pointer to ETM data list
     inline const l1t::EtSum* getCandL1ETM() const
