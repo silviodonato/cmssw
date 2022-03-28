@@ -169,6 +169,13 @@ namespace l1t {
     static const std::vector<double> semirandomNumber(const edm::Event& iEvent,
                               const std::vector<double>& prescaleFactorsAlgoTrig) {
         std::vector<double> out(prescaleFactorsAlgoTrig.size(), 1.);
+        //pick a random number from a combination of run and lumi numbers (same number for different threads)
+        //Option A) multi-thread reproducible
+/*        std::srand(0);*/
+/*        std::srand(std::rand()+iEvent.id().run());*/
+/*        std::srand(std::rand()+iEvent.id().luminosityBlock());*/
+/*        const double semirandom = std::rand(); */*/
+        //Option B) multi-thread non-reproducible
         const double semirandom = iEvent.id().event() + iEvent.id().run() + iEvent.id().luminosityBlock();
         for ( size_t i = 0; i< prescaleFactorsAlgoTrig.size(); i++)
         {
