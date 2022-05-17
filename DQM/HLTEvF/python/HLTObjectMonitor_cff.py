@@ -17,21 +17,22 @@ hltGPUecalMonitorTask = ecalMonitorTask.clone(
             ), 
         ),
     ),
-    collectionTags = dict(
-        EBCpuDigi = ("hltEcalDigisLegacy","ebDigis"),
-        EBCpuRecHit = cms.untracked.InputTag("hltEcalRecHitWithTPs","EcalRecHitsEB"),
-        EBCpuUncalibRecHit = cms.untracked.InputTag("hltEcalUncalibRecHitLegacy","EcalUncalibRecHitsEB"),
-        EECpuDigi = cms.untracked.InputTag("hltEcalDigisLegacy","eeDigis"),
-        EECpuRecHit = cms.untracked.InputTag("hltEcalRecHitWithTPs","EcalRecHitsEE"),
-        EECpuUncalibRecHit = cms.untracked.InputTag("hltEcalUncalibRecHitLegacy","EcalUncalibRecHitsEE"),
-        EBGpuDigi = cms.untracked.InputTag("hltEcalDigisFromGPU","ebDigis"),
-        EBGpuRecHit = cms.untracked.InputTag("hltEcalRecHitWithoutTPs","EcalRecHitsEB"),
-        EBGpuUncalibRecHit = cms.untracked.InputTag("hltEcalUncalibRecHitFromSoA","EcalUncalibRecHitsEB"),
-        EEGpuDigi = cms.untracked.InputTag("hltEcalDigisFromGPU","eeDigis"),
-        EEGpuRecHit = cms.untracked.InputTag("hltEcalRecHitWithoutTPs","EcalRecHitsEE"),
-        EEGpuUncalibRecHit = cms.untracked.InputTag("hltEcalUncalibRecHitFromSoA","EcalUncalibRecHitsEE"),
-    )
-)
+
+### replace offline inputtag with the online input tag
+for par in hltGPUecalMonitorTask.collectionTags.parameterNames_():
+    par = getattr(hltGPUecalMonitorTask.collectionTags,par)
+    
+    par.setValue(par.value().replace("ecalMultiFitUncalibRecHit@cpu","hltEcalUncalibRecHitLegacy"))
+    par.setValue(par.value().replace("ecalMultiFitUncalibRecHit@cuda","hltEcalUncalibRecHitFromSoA"))
+    par.setValue(par.value().replace("ecalMultiFitUncalibRecHit","hltEcalUncalibRecHitFromSoA"))
+    
+    par.setValue(par.value().replace("ecalDigis@cpu","hltEcalDigisLegacy"))
+    par.setValue(par.value().replace("ecalDigis@cuda","hltEcalDigisFromGPU"))
+    par.setValue(par.value().replace("ecalDigis","hltEcalDigisLegacy"))
+    
+    par.setValue(par.value().replace("ecalRecHit@cpu","hltEcalRecHitWithTPs"))
+    par.setValue(par.value().replace("ecalRecHit@cuda","hltEcalRecHitWithoutTPs"))
+    par.setValue(par.value().replace("ecalRecHit","hltEcalRecHitWithoutTPs"))
 
 gpuVsCpuHLTsequence = cms.Sequence(
     hltGPUecalMonitorTask
