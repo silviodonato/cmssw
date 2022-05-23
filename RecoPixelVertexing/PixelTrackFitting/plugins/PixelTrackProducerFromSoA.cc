@@ -46,6 +46,8 @@ public:
 
   static void fillDescriptions(edm::ConfigurationDescriptions &descriptions);
 
+  static inline auto roundPrecision(float value, int precision = 1024){ return std::round(value*precision)/precision;}
+
   //  using HitModuleStart = std::array<uint32_t, gpuClustering::maxNumModules + 1>;
   using HMSstorage = HostProduct<uint32_t[]>;
 
@@ -179,19 +181,20 @@ void PixelTrackProducerFromSoA::produce(edm::StreamID streamID,
 
     // mind: this values are respect the beamspot!
 
-    float chi2 = tsoa.chi2(it);
-    float phi = tsoa.phi(it);
+    constexpr int precision= 1024;
+    float chi2 = roundPrecision(tsoa.chi2(it),precision);
+    float phi = roundPrecision(tsoa.phi(it),precision);
 
     riemannFit::Vector5d ipar, opar;
     riemannFit::Matrix5d icov, ocov;
     fit.copyToDense(ipar, icov, it);
     riemannFit::transformToPerigeePlane(ipar, icov, opar, ocov);
 
-    LocalTrajectoryParameters lpar(opar(0), opar(1), opar(2), opar(3), opar(4), 1.);
+    LocalTrajectoryParameters lpar(roundPrecision(opar(0),precision), roundPrecision(opar(1),precision), roundPrecision(opar(2),precision), roundPrecision(opar(3),precision), roundPrecision(opar(4),precision), 1.);
     AlgebraicSymMatrix55 m;
     for (int i = 0; i < 5; ++i)
       for (int j = i; j < 5; ++j)
-        m(i, j) = ocov(i, j);
+        m(i, j) = roundPrecision(ocov(i, j),precision);
 
     float sp = std::sin(phi);
     float cp = std::cos(phi);
