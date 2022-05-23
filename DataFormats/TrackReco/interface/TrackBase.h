@@ -166,8 +166,8 @@ namespace reco {
     TrackBase();
 
     /// constructor from fit parameters and error matrix
-    TrackBase(double chi2,
-              double ndof,
+    TrackBase(float chi2,
+              float ndof,
               const Point &vertex,
               const Vector &momentum,
               int charge,
@@ -176,10 +176,10 @@ namespace reco {
               TrackQuality quality = undefQuality,
               signed char nloops = 0,
               uint8_t stopReason = 0,
-              float t0 = 0.f,
-              float beta = 0.f,
-              float covt0t0 = -1.f,
-              float covbetabeta = -1.f);
+              Float16_t t0 = 0.f,
+              Float16_t beta = 0.f,
+              Float16_t covt0t0 = -1.f,
+              Float16_t covbetabeta = -1.f);
 
     /// virtual destructor
     virtual ~TrackBase();
@@ -188,73 +188,73 @@ namespace reco {
     bool isTimeOk() const { return covt0t0_ > 0.f; }
 
     /// chi-squared of the fit
-    double chi2() const;
+    float chi2() const;
 
     /// number of degrees of freedom of the fit
-    double ndof() const;
+    float ndof() const;
 
     /// chi-squared divided by n.d.o.f. (or chi-squared * 1e6 if n.d.o.f. is zero)
-    double normalizedChi2() const;
+    float normalizedChi2() const;
 
     /// track electric charge
     int charge() const;
 
     /// q / p
-    double qoverp() const;
+    float qoverp() const;
 
     /// polar angle
-    double theta() const;
+    float theta() const;
 
     /// Lambda angle
-    double lambda() const;
+    float lambda() const;
 
     /// dxy parameter. (This is the transverse impact parameter w.r.t. to (0,0,0) ONLY if refPoint is close to (0,0,0): see parametrization definition above for details). See also function dxy(myBeamSpot).
-    double dxy() const;
+    float dxy() const;
 
     /// dxy parameter in perigee convention (d0 = -dxy)
-    double d0() const;
+    float d0() const;
 
     /// dsz parameter (THIS IS NOT the SZ impact parameter to (0,0,0) if refPoint is far from  (0,0,0): see parametrization definition above for details)
-    double dsz() const;
+    float dsz() const;
 
     /// dz parameter (= dsz/cos(lambda)). This is the track z0 w.r.t (0,0,0) only if the refPoint is close to (0,0,0). See also function dz(myBeamSpot)
-    double dz() const;
+    float dz() const;
 
     /// momentum vector magnitude square
-    double p2() const;
+    float p2() const;
 
     /// momentum vector magnitude
-    double p() const;
+    float p() const;
 
     /// track transverse momentum square
-    double pt2() const;
+    float pt2() const;
 
     /// track transverse momentum
-    double pt() const;
+    float pt() const;
 
     /// x coordinate of momentum vector
-    double px() const;
+    float px() const;
 
     /// y coordinate of momentum vector
-    double py() const;
+    float py() const;
 
     /// z coordinate of momentum vector
-    double pz() const;
+    float pz() const;
 
     /// azimuthal angle of momentum vector
-    double phi() const;
+    float phi() const;
 
     /// pseudorapidity of momentum vector
-    double eta() const;
+    float eta() const;
 
     /// x coordinate of the reference point on track
-    double vx() const;
+    float vx() const;
 
     /// y coordinate of the reference point on track
-    double vy() const;
+    float vy() const;
 
     /// z coordinate of the reference point on track
-    double vz() const;
+    float vz() const;
 
     /// track momentum vector
     const Vector &momentum() const;
@@ -263,26 +263,26 @@ namespace reco {
     const Point &referencePoint() const;
 
     /// time at the reference point
-    double t0() const;
+    float t0() const;
 
     /// velocity at the reference point in natural units
-    double beta() const;
+    float beta() const;
 
     /// reference point on the track. This method is DEPRECATED, please use referencePoint() instead
     const Point &vertex() const;
     //__attribute__((deprecated("This method is DEPRECATED, please use referencePoint() instead.")));
 
     /// dxy parameter with respect to a user-given beamSpot  (WARNING: this quantity can only be interpreted as a minimum transverse distance if beamSpot, if the beam spot is reasonably close to the refPoint, since linear approximations are involved). This is a good approximation for Tracker tracks.
-    double dxy(const Point &myBeamSpot) const;
+    float dxy(const Point &myBeamSpot) const;
 
     /// dxy parameter with respect to the beamSpot taking into account the beamspot slopes (WARNING: this quantity can only be interpreted as a minimum transverse distance if beamSpot, if the beam spot is reasonably close to the refPoint, since linear approximations are involved). This is a good approximation for Tracker tracks.
-    double dxy(const BeamSpot &theBeamSpot) const;
+    float dxy(const BeamSpot &theBeamSpot) const;
 
     /// dsz parameter with respect to a user-given beamSpot (WARNING: this quantity can only be interpreted as the distance in the S-Z plane to the beamSpot, if the beam spot is reasonably close to the refPoint, since linear approximations are involved). This is a good approximation for Tracker tracks.
-    double dsz(const Point &myBeamSpot) const;
+    float dsz(const Point &myBeamSpot) const;
 
     /// dz parameter with respect to a user-given beamSpot (WARNING: this quantity can only be interpreted as the track z0, if the beamSpot is reasonably close to the refPoint, since linear approximations are involved). This is a good approximation for Tracker tracks.
-    double dz(const Point &myBeamSpot) const;
+    float dz(const Point &myBeamSpot) const;
 
     /// Track parameters with one-to-one correspondence to the covariance matrix
     ParameterVector parameters() const;
@@ -291,64 +291,64 @@ namespace reco {
     CovarianceMatrix covariance() const;
 
     /// i-th parameter ( i = 0, ... 4 )
-    double parameter(int i) const;
+    float parameter(int i) const;
 
     /// (i,j)-th element of covariance matrix (i, j = 0, ... 4)
-    double covariance(int i, int j) const;
+    float covariance(int i, int j) const;
 
     /// error on t0
-    double covt0t0() const;
+    float covt0t0() const;
 
     /// error on beta
-    double covBetaBeta() const;
+    float covBetaBeta() const;
 
     /// error on specified element
-    double error(int i) const;
+    float error(int i) const;
 
     /// error on signed transverse curvature
-    double qoverpError() const;
+    float qoverpError() const;
 
     /// error on Pt (set to 1000**2 TeV**2 if charge==0 for safety)
-    double ptError2() const;
+    float ptError2() const;
 
     /// error on Pt (set to 1000 TeV if charge==0 for safety)
-    double ptError() const;
+    float ptError() const;
 
     /// error on theta
-    double thetaError() const;
+    float thetaError() const;
 
     /// error on lambda
-    double lambdaError() const;
+    float lambdaError() const;
 
     /// error on eta
-    double etaError() const;
+    float etaError() const;
 
     /// error on phi
-    double phiError() const;
+    float phiError() const;
 
     /// error on dxy
-    double dxyError() const;
+    float dxyError() const;
 
     /// error on d0
-    double d0Error() const;
+    float d0Error() const;
 
     /// error on dsz
-    double dszError() const;
+    float dszError() const;
 
     /// error on dz
-    double dzError() const;
+    float dzError() const;
 
     /// error on t0
-    double t0Error() const;
+    float t0Error() const;
 
     /// error on beta
-    double betaError() const;
+    float betaError() const;
 
     /// error on dxy with respect to a user-given reference point + uncertainty (i.e. reco::Vertex position)
-    double dxyError(Point const &vtx, math::Error<3>::type const &vertexCov) const;
+    float dxyError(Point const &vtx, math::Error<3>::type const &vertexCov) const;
 
     /// error on dxy with respect to a user-given beamspot
-    double dxyError(const BeamSpot &theBeamSpot) const;
+    float dxyError(const BeamSpot &theBeamSpot) const;
 
     /// fill SMatrix
     CovarianceMatrix &fill(CovarianceMatrix &v) const;
@@ -372,7 +372,7 @@ namespace reco {
     int missingOuterHits() const;
 
     /// fraction of valid hits on the track
-    double validFraction() const;
+    float validFraction() const;
 
     /// append hit patterns from vector of hit references
     template <typename C>
@@ -453,32 +453,32 @@ namespace reco {
     HitPattern hitPattern_;
 
     /// perigee 5x5 covariance matrix
-    float covariance_[covarianceSize];
+    Float16_t covariance_[covarianceSize];
 
     /// errors for time and velocity (separate from cov for now)
-    float covt0t0_, covbetabeta_;
+    Float16_t covt0t0_, covbetabeta_;
 
     /// chi-squared
-    float chi2_;
+    Float16_t chi2_;
 
     /// innermost (reference) point on track
     Point vertex_;
 
     /// time at the reference point on track
-    float t0_;
+    Float16_t t0_;
 
     /// momentum vector at innermost point
     Vector momentum_;
 
     /// norm of the particle velocity at innermost point on track
     /// can multiply by momentum_.Unit() to get velocity vector
-    float beta_;
+    Float16_t beta_;
 
     /// algo mask, bit set for the algo where it was reconstructed + each algo a track was found overlapping by the listmerger
     std::bitset<algoSize> algoMask_;
 
     /// number of degrees of freedom
-    float ndof_;
+    Float16_t ndof_;
 
     /// electric charge
     char charge_;
@@ -584,34 +584,34 @@ namespace reco {
   }
 
   // chi-squared of the fit
-  inline double TrackBase::chi2() const { return chi2_; }
+  inline float TrackBase::chi2() const { return chi2_; }
 
   // number of degrees of freedom of the fit
-  inline double TrackBase::ndof() const { return ndof_; }
+  inline float TrackBase::ndof() const { return ndof_; }
 
   // chi-squared divided by n.d.o.f. (or chi-squared * 1e6 if n.d.o.f. is zero)
-  inline double TrackBase::normalizedChi2() const { return ndof_ != 0 ? chi2_ / ndof_ : chi2_ * 1e6; }
+  inline float TrackBase::normalizedChi2() const { return ndof_ != 0 ? chi2_ / ndof_ : chi2_ * 1e6; }
 
   // track electric charge
   inline int TrackBase::charge() const { return charge_; }
 
   // q / p
-  inline double TrackBase::qoverp() const { return charge() / p(); }
+  inline float TrackBase::qoverp() const { return charge() / p(); }
 
   // polar angle
-  inline double TrackBase::theta() const { return momentum_.theta(); }
+  inline float TrackBase::theta() const { return momentum_.theta(); }
 
   // Lambda angle
-  inline double TrackBase::lambda() const { return M_PI_2 - momentum_.theta(); }
+  inline float TrackBase::lambda() const { return M_PI_2 - momentum_.theta(); }
 
   // dxy parameter. (This is the transverse impact parameter w.r.t. to (0,0,0) ONLY if refPoint is close to (0,0,0): see parametrization definition above for details). See also function dxy(myBeamSpot) below.
-  inline double TrackBase::dxy() const { return (-vx() * py() + vy() * px()) / pt(); }
+  inline float TrackBase::dxy() const { return (-vx() * py() + vy() * px()) / pt(); }
 
   // dxy parameter in perigee convention (d0 = -dxy)
-  inline double TrackBase::d0() const { return -dxy(); }
+  inline float TrackBase::d0() const { return -dxy(); }
 
   // dsz parameter (THIS IS NOT the SZ impact parameter to (0,0,0) if refPoint is far from (0,0,0): see parametrization definition above for details)
-  inline double TrackBase::dsz() const {
+  inline float TrackBase::dsz() const {
     const auto thept = pt();
     const auto thepinv = 1 / p();
     const auto theptoverp = thept * thepinv;
@@ -619,46 +619,46 @@ namespace reco {
   }
 
   // dz parameter (= dsz/cos(lambda)). This is the track z0 w.r.t (0,0,0) only if the refPoint is close to (0,0,0). See also function dz(myBeamSpot) below.
-  inline double TrackBase::dz() const {
+  inline float TrackBase::dz() const {
     const auto thept2inv = 1 / pt2();
     return vz() - (vx() * px() + vy() * py()) * pz() * thept2inv;
   }
 
   // momentum vector magnitude square
-  inline double TrackBase::p2() const { return momentum_.Mag2(); }
+  inline float TrackBase::p2() const { return momentum_.Mag2(); }
 
   // momentum vector magnitude
-  inline double TrackBase::p() const { return sqrt(p2()); }
+  inline float TrackBase::p() const { return sqrt(p2()); }
 
   // track transverse momentum square
-  inline double TrackBase::pt2() const { return momentum_.Perp2(); }
+  inline float TrackBase::pt2() const { return momentum_.Perp2(); }
 
   // track transverse momentum
-  inline double TrackBase::pt() const { return sqrt(pt2()); }
+  inline float TrackBase::pt() const { return sqrt(pt2()); }
 
   // x coordinate of momentum vector
-  inline double TrackBase::px() const { return momentum_.x(); }
+  inline float TrackBase::px() const { return momentum_.x(); }
 
   // y coordinate of momentum vector
-  inline double TrackBase::py() const { return momentum_.y(); }
+  inline float TrackBase::py() const { return momentum_.y(); }
 
   // z coordinate of momentum vector
-  inline double TrackBase::pz() const { return momentum_.z(); }
+  inline float TrackBase::pz() const { return momentum_.z(); }
 
   // azimuthal angle of momentum vector
-  inline double TrackBase::phi() const { return momentum_.Phi(); }
+  inline float TrackBase::phi() const { return momentum_.Phi(); }
 
   // pseudorapidity of momentum vector
-  inline double TrackBase::eta() const { return momentum_.Eta(); }
+  inline float TrackBase::eta() const { return momentum_.Eta(); }
 
   // x coordinate of the reference point on track
-  inline double TrackBase::vx() const { return vertex_.x(); }
+  inline float TrackBase::vx() const { return vertex_.x(); }
 
   // y coordinate of the reference point on track
-  inline double TrackBase::vy() const { return vertex_.y(); }
+  inline float TrackBase::vy() const { return vertex_.y(); }
 
   // z coordinate of the reference point on track
-  inline double TrackBase::vz() const { return vertex_.z(); }
+  inline float TrackBase::vz() const { return vertex_.z(); }
 
   // track momentum vector
   inline const TrackBase::Vector &TrackBase::momentum() const { return momentum_; }
@@ -667,10 +667,10 @@ namespace reco {
   inline const TrackBase::Point &TrackBase::referencePoint() const { return vertex_; }
 
   // Time at the reference point on the track
-  inline double TrackBase::t0() const { return t0_; }
+  inline float TrackBase::t0() const { return t0_; }
 
   // Velocity at the reference point on the track in natural units
-  inline double TrackBase::beta() const { return beta_; }
+  inline float TrackBase::beta() const { return beta_; }
 
   // reference point on the track. This method is DEPRECATED, please use referencePoint() instead
   inline const TrackBase::Point &TrackBase::vertex() const { return vertex_; }
@@ -678,19 +678,19 @@ namespace reco {
   // dxy parameter with respect to a user-given beamSpot
   // (WARNING: this quantity can only be interpreted as a minimum transverse distance if beamSpot, if the beam spot is reasonably close to the refPoint, since linear approximations are involved).
   // This is a good approximation for Tracker tracks.
-  inline double TrackBase::dxy(const Point &myBeamSpot) const {
+  inline float TrackBase::dxy(const Point &myBeamSpot) const {
     return (-(vx() - myBeamSpot.x()) * py() + (vy() - myBeamSpot.y()) * px()) / pt();
   }
 
   // dxy parameter with respect to the beamSpot taking into account the beamspot slopes
   // (WARNING: this quantity can only be interpreted as a minimum transverse distance if beamSpot, if the beam spot is reasonably close to the refPoint, since linear approximations are involved).
   // This is a good approximation for Tracker tracks.
-  inline double TrackBase::dxy(const BeamSpot &theBeamSpot) const { return dxy(theBeamSpot.position(vz())); }
+  inline float TrackBase::dxy(const BeamSpot &theBeamSpot) const { return dxy(theBeamSpot.position(vz())); }
 
   // dsz parameter with respect to a user-given beamSpot
   // (WARNING: this quantity can only be interpreted as the distance in the S-Z plane to the beamSpot, if the beam spot is reasonably close to the refPoint, since linear approximations are involved).
   // This is a good approximation for Tracker tracks.
-  inline double TrackBase::dsz(const Point &myBeamSpot) const {
+  inline float TrackBase::dsz(const Point &myBeamSpot) const {
     const auto thept = pt();
     const auto thepinv = 1 / p();
     const auto theptoverp = thept * thepinv;
@@ -701,7 +701,7 @@ namespace reco {
   // dz parameter with respect to a user-given beamSpot
   // (WARNING: this quantity can only be interpreted as the track z0, if the beamSpot is reasonably close to the refPoint, since linear approximations are involved).
   // This is a good approximation for Tracker tracks.
-  inline double TrackBase::dz(const Point &myBeamSpot) const {
+  inline float TrackBase::dz(const Point &myBeamSpot) const {
     const auto theptinv2 = 1 / pt2();
     return (vz() - myBeamSpot.z()) -
            ((vx() - myBeamSpot.x()) * px() + (vy() - myBeamSpot.y()) * py()) * pz() * theptinv2;
@@ -720,19 +720,19 @@ namespace reco {
   }
 
   // i-th parameter ( i = 0, ... 4 )
-  inline double TrackBase::parameter(int i) const { return parameters()[i]; }
+  inline float TrackBase::parameter(int i) const { return parameters()[i]; }
 
   // (i,j)-th element of covariance matrix (i, j = 0, ... 4)
-  inline double TrackBase::covariance(int i, int j) const { return covariance_[covIndex(i, j)]; }
+  inline float TrackBase::covariance(int i, int j) const { return covariance_[covIndex(i, j)]; }
 
   // error on specified element
-  inline double TrackBase::error(int i) const { return sqrt(covariance_[covIndex(i, i)]); }
+  inline float TrackBase::error(int i) const { return sqrt(covariance_[covIndex(i, i)]); }
 
   // error on signed transverse curvature
-  inline double TrackBase::qoverpError() const { return error(i_qoverp); }
+  inline float TrackBase::qoverpError() const { return error(i_qoverp); }
 
   // error on Pt (set to 1000**2 TeV**2 if charge==0 for safety)
-  inline double TrackBase::ptError2() const {
+  inline float TrackBase::ptError2() const {
     const auto thecharge = charge();
 
     if (thecharge != 0) {
@@ -751,46 +751,46 @@ namespace reco {
   }
 
   // error on Pt (set to 1000 TeV if charge==0 for safety)
-  inline double TrackBase::ptError() const { return sqrt(ptError2()); }
+  inline float TrackBase::ptError() const { return sqrt(ptError2()); }
 
   // error on theta
-  inline double TrackBase::thetaError() const { return error(i_lambda); }
+  inline float TrackBase::thetaError() const { return error(i_lambda); }
 
   // error on lambda
-  inline double TrackBase::lambdaError() const { return error(i_lambda); }
+  inline float TrackBase::lambdaError() const { return error(i_lambda); }
 
   // error on eta
-  inline double TrackBase::etaError() const { return error(i_lambda) * sqrt(p2() / pt2()); }
+  inline float TrackBase::etaError() const { return error(i_lambda) * sqrt(p2() / pt2()); }
 
   // error on phi
-  inline double TrackBase::phiError() const { return error(i_phi); }
+  inline float TrackBase::phiError() const { return error(i_phi); }
 
   // error on dxy
-  inline double TrackBase::dxyError() const { return error(i_dxy); }
+  inline float TrackBase::dxyError() const { return error(i_dxy); }
 
   // error on d0
-  inline double TrackBase::d0Error() const { return error(i_dxy); }
+  inline float TrackBase::d0Error() const { return error(i_dxy); }
 
   // error on dsz
-  inline double TrackBase::dszError() const { return error(i_dsz); }
+  inline float TrackBase::dszError() const { return error(i_dsz); }
 
   // error on dz
-  inline double TrackBase::dzError() const { return error(i_dsz) * sqrt(p2() / pt2()); }
+  inline float TrackBase::dzError() const { return error(i_dsz) * sqrt(p2() / pt2()); }
 
   // covariance of t0
-  inline double TrackBase::covt0t0() const { return covt0t0_; }
+  inline float TrackBase::covt0t0() const { return covt0t0_; }
 
   // covariance of beta
-  inline double TrackBase::covBetaBeta() const { return covbetabeta_; }
+  inline float TrackBase::covBetaBeta() const { return covbetabeta_; }
 
   // error on t0
-  inline double TrackBase::t0Error() const { return std::sqrt(covt0t0_); }
+  inline float TrackBase::t0Error() const { return std::sqrt(covt0t0_); }
 
   // error on beta
-  inline double TrackBase::betaError() const { return std::sqrt(covbetabeta_); }
+  inline float TrackBase::betaError() const { return std::sqrt(covbetabeta_); }
 
   // error on dxy with respect to a given beamspot
-  inline double TrackBase::dxyError(const BeamSpot &theBeamSpot) const {
+  inline float TrackBase::dxyError(const BeamSpot &theBeamSpot) const {
     return dxyError(theBeamSpot.position(vz()), theBeamSpot.rotatedCovariance3D());
   }
 
@@ -813,7 +813,7 @@ namespace reco {
   }
 
   // fraction of valid hits on the track
-  inline double TrackBase::validFraction() const {
+  inline float TrackBase::validFraction() const {
     int valid = hitPattern_.numberOfValidTrackerHits();
     int lost = hitPattern_.numberOfLostTrackerHits(HitPattern::TRACK_HITS);
     int lostIn = hitPattern_.numberOfLostTrackerHits(HitPattern::MISSING_INNER_HITS);
@@ -825,7 +825,7 @@ namespace reco {
       return -1;
     }
 
-    return valid / (double)(tot);
+    return valid / (float)(tot);
   }
 
   //Track algorithm
