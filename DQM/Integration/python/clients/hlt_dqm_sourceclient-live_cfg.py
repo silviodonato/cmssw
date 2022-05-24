@@ -8,6 +8,7 @@ unitTest = False
 if 'unitTest=True' in sys.argv:
 	unitTest=True
 
+unitTest=False
 if unitTest:
   process.load("DQM.Integration.config.unittestinputsource_cfi")
   from DQM.Integration.config.unittestinputsource_cfi import options
@@ -25,6 +26,21 @@ else:
 #process.maxEvents = cms.untracked.PSet(
 #    input = cms.untracked.int32(100)
 #)
+
+process.source = cms.Source("PoolSource",
+    dropDescendantsOfDroppedBranches = cms.untracked.bool(True),
+    fileNames = cms.untracked.vstring(
+#        'file:/afs/cern.ch/user/s/sdonato/AFSwork/public/GPUvsCPUtest/step2.root',
+	'file:/afs/cern.ch/user/s/sdonato/vm-mnt/Wisconsin/CMSSW_12_4_0_pre4/src/step2.root',
+    ),
+#    inputCommands = cms.untracked.vstring(
+#        'drop *',
+#        'keep FEDRawDataCollection_rawDataCollector_*_*',
+#        'keep GlobalObjectMapRecord_hltGtStage2ObjectMap_*_*',
+#        'keep edmTriggerResults_TriggerResults_*_*'
+#    ),
+    secondaryFileNames = cms.untracked.vstring()
+)
 
 process.load("DQM.Integration.config.environment_cfi")
 
@@ -137,3 +153,8 @@ process.pp = cms.Path(process.dqmEnv+process.dqmSaver+process.dqmSaverPB)
 from DQM.Integration.config.online_customizations_cfi import *
 process = customise(process)
 print("Final Source settings:", process.source)
+
+
+#process.hlt4vector = cms.Path(process.lumiOnlineMonitorHLTsequence)
+
+
