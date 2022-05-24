@@ -95,7 +95,7 @@ hltGPUsiPixelPhase1CompareRecHitsSoA = siPixelPhase1CompareRecHitsSoA.clone(
 #)
 
 
-process.hltGPUsiPixelPhase1CompareRecHitsSoA = cms.EDProducer("SiPixelPhase1CompareRecHitsSoA",
+hltGPUsiPixelPhase1CompareRecHitsSoA = cms.EDProducer("SiPixelPhase1CompareRecHitsSoA",
     mightGet = cms.optional.untracked.vstring,
     minD2cut = cms.double(0.0001),
     pixelHitsSrcCPU = cms.InputTag("siPixelRecHitsPreSplittingSoA@cpu"),
@@ -108,8 +108,8 @@ process.hltGPUsiPixelPhase1CompareRecHitsSoA = cms.EDProducer("SiPixelPhase1Comp
 
 gpuVsCpuHLTsequence = cms.Sequence(
     hltGPUecalMonitorTask +
-    hltGPUhcalMonitorTask +
-    hltGPUsiPixelPhase1CompareRecHitsSoA
+    hltGPUhcalMonitorTask 
+#    hltGPUsiPixelPhase1CompareRecHitsSoA
 #    hltGPUsiPixelPhase1CompareTrackSoA +
 #    hltGPUsiPixelPhase1CompareVertexSoA
 )
