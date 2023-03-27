@@ -57,7 +57,7 @@ def customizePFHadronCalibrationFor2023(process):
             cms.PSet(
                 record = cms.string("PFCalibrationRcd"),
                 label = cms.untracked.string('HLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/PF/PFCalibration.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/PFCalibration.db"),
                 tag = cms.string('PFCalibration_CMSSW_13_0_0_pre4_HLT_126X_mcRun3_2023'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -72,7 +72,7 @@ def customizeJECFor2023_noAK8CaloHLT(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK4CaloHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi_onlyAK4.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi_onlyAK4.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK4CaloHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -81,7 +81,7 @@ def customizeJECFor2023_noAK8CaloHLT(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK4PFHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi_onlyAK4.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi_onlyAK4.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK4PFHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -90,7 +90,7 @@ def customizeJECFor2023_noAK8CaloHLT(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK8PFHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi_onlyAK4.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi_onlyAK4.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK8PFHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -105,7 +105,7 @@ def customizeJECFor2023_v2(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK4CaloHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK4CaloHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -114,7 +114,7 @@ def customizeJECFor2023_v2(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK4PFHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK4PFHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -123,7 +123,7 @@ def customizeJECFor2023_v2(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK8CaloHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK8CaloHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
@@ -132,7 +132,7 @@ def customizeJECFor2023_v2(process):
             cms.PSet(
                 record = cms.string("JetCorrectionsRecord"),
                 label = cms.untracked.string('AK8PFHLT'),
-                connect = cms.string("sqlite_file:/eos/cms/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/JME/Run3Winter23/Run3Winter23Digi.db"),
+                connect = cms.string("sqlite_file:/afs/cern.ch/work/s/savarghe/public/JEC_2023/Run3Winter23Digi.db"),
                 tag = cms.string('JetCorrectorParametersCollection_Run3Winter23Digi_AK8PFHLT'),
                 snapshotTime = cms.string('9999-12-31 23:59:59.000'),
             )
