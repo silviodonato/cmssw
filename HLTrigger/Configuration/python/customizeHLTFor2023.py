@@ -52,10 +52,10 @@ def customizeHCAL(process, HCAL_PFclusters, HCAL_PFrechits):
     return process
 
 def customizeHCALinCaloJets(process, HCAL_PFrechits):
-    if hasattr(process, "hltTowerMakerForAll"):
-        process.hltTowerMakerForAll.HBThreshold1 = HCAL_PFrechits[0]
-        process.hltTowerMakerForAll.HBThreshold2 = HCAL_PFrechits[1]
-        process.hltTowerMakerForAll.HBThreshold  = HCAL_PFrechits[2]
+    for mod in producers_by_type(process, 'CaloTowersCreator'):
+        mod.HBThreshold1 = HCAL_PFrechits[0]
+        mod.HBThreshold2 = HCAL_PFrechits[1]
+        mod.HBThreshold  = HCAL_PFrechits[2]
     return process
 
 def customizeHCALinCaloJetsFor2023(process):
