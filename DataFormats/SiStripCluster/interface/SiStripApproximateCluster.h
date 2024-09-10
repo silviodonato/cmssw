@@ -30,7 +30,7 @@ public:
   float barycenter() const { 
     float _barycenter = compBarycenter_ * maxBarycenter_/maxRange_ ;
     assert(_barycenter <= maxBarycenter_ && "Returning barycenter > maxBarycenter");
-    return _barycenter; }
+    return _barycenter * 10; }
   cms_uint8_t width() const { return width_; }
   cms_uint8_t avgCharge() const { return avgCharge_; }
   bool filter() const { return filter_; }
