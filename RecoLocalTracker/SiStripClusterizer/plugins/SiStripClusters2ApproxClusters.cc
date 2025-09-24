@@ -60,6 +60,7 @@ private:
   SiStripDetInfo detInfo_;
 
   std::string csfLabel_;
+  bool v2;
   edm::ESGetToken<ClusterShapeHitFilter, CkfComponentsRecord> csfToken_;
 
   edm::ESGetToken<SiStripNoises, SiStripNoisesRcd> stripNoiseToken_;
@@ -82,6 +83,8 @@ SiStripClusters2ApproxClusters::SiStripClusters2ApproxClusters(const edm::Parame
 
   csfLabel_ = conf.getParameter<std::string>("clusterShapeHitFilterLabel");
   csfToken_ = esConsumes(edm::ESInputTag("", csfLabel_));
+
+  v2 = conf.getParameter<bool>("v2");
 
   stripNoiseToken_ = esConsumes();
   produces<SiStripApproximateClusterCollection>();
@@ -132,7 +135,7 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
       bool isTrivial = (std::abs(hitPredPos) < 2.f && hitStrips <= 2);
 
       if (!usable || isTrivial) {
-        ff.push_back(SiStripApproximateCluster(cluster, maxNSat, hitPredPos, true));
+        ff.push_back(SiStripApproximateCluster(cluster, maxNSat, hitPredPos, true, v2));
       } else {
         bool peakFilter = false;
         SlidingPeakFinder pf(std::max<int>(2, std::ceil(std::abs(hitPredPos) + subclusterWindow_)));
@@ -147,7 +150,7 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                             subclusterCutSN_);
         peakFilter = pf.apply(cluster.amplitudes(), test);
 
-        ff.push_back(SiStripApproximateCluster(cluster, maxNSat, hitPredPos, peakFilter));
+        ff.push_back(SiStripApproximateCluster(cluster, maxNSat, hitPredPos, peakFilter, v2));
       }
     }
   }
@@ -162,6 +165,7 @@ void SiStripClusters2ApproxClusters::fillDescriptions(edm::ConfigurationDescript
   desc.add<std::string>("clusterShapeHitFilterLabel", "ClusterShapeHitFilter");  // add CSF label
   desc.add<edm::InputTag>("beamSpot", edm::InputTag("offlineBeamSpot"));         // add BeamSpot tag
   descriptions.add("SiStripClusters2ApproxClusters", desc);
+  desc.add<bool>("v2", false); // set v2 off by default (RawSecond testing Fall 2025)
 }
 
 DEFINE_FWK_MODULE(SiStripClusters2ApproxClusters);
