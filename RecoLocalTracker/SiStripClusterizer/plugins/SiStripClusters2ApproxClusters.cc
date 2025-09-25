@@ -164,8 +164,8 @@ void SiStripClusters2ApproxClusters::fillDescriptions(edm::ConfigurationDescript
   desc.add<unsigned int>("maxSaturatedStrips", 3);
   desc.add<std::string>("clusterShapeHitFilterLabel", "ClusterShapeHitFilter");  // add CSF label
   desc.add<edm::InputTag>("beamSpot", edm::InputTag("offlineBeamSpot"));         // add BeamSpot tag
-  descriptions.add("SiStripClusters2ApproxClusters", desc);
   desc.add<bool>("v2", false); // set v2 off by default (RawSecond testing Fall 2025)
+  descriptions.add("SiStripClusters2ApproxClusters", desc);
 }
 
 DEFINE_FWK_MODULE(SiStripClusters2ApproxClusters);
