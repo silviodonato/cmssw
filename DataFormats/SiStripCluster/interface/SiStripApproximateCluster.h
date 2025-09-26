@@ -4,6 +4,7 @@
 #include "FWCore/Utilities/interface/typedefs.h"
 #include <climits>
 #include <iostream>
+#include <bits/stdc++.h>
 
 class SiStripCluster;
 class SiStripApproximateCluster {
@@ -35,31 +36,19 @@ public:
   //avgCharge() gives the average charge in ADC counts (0-255)
   //width() gives the cluster width (0-255)
   //v2() gives true if the cluster is in the new format (Fall 2025)
+
   cms_uint16_t barycenter() const {
-  if (!v2_) return barycenter_;
-  // else {
-    // return barycenter_; 
-  // }
+  if (!v2_) return barycenter_; // in the old format barycenter_ is in tenths of strips
   else {
-     // Drop the first bit (encoding the saturation info)
-     auto barycenter_decoded = (barycenter_ & 0b0111'1111'1111'1111); 
-    //  std::cout<<" input barycenter_ "<<barycenter_<<std::endl;
-    //  std::cout<<" decoded barycenter_decoded "<<barycenter_decoded<<std::endl;
-    //  std::cout<<" output barycenter() "<<barycenter_decoded * 10. * float(barycenterMax_)/float(barycenterRangeMax_) <<std::endl;
-     return barycenter_decoded * 10. * float(barycenterMax_)/float(barycenterRangeMax_) ;
-     // the factor 10 is used for compatibility with v1, where barycenter() returned an integer in tenths of strips. It should be a float in the future instead.
-  }
-}
+    return std::round(getBarycenter()*10.); // return barycenter in tenths of strips for compatibility with v1
+    }
+  } 
   cms_uint8_t width() const { return width_; }
   cms_uint8_t avgCharge() const {  // should be a float in the future instead of an int
     if (!v2_) return avgCharge_;
     else {
-     // Drop the first two bits (encoding the filter and saturation info)
-     cms_uint8_t avgCharge_decoded = (avgCharge_ & 0b0011'1111); 
-     // Rescale avgCharge from  [0-63] (equivalent to [-0.5, 63.5]) to 0-255
-     float avgCharge_rescaled = avgCharge_decoded * float(avgChargeMax_)/float(avgChargeRangeMax_);
-     //assert(avgCharge_ <= avgChargeMax_ && "Returning avgCharge > maxavgCharge");
-     return avgCharge_rescaled; }
+      return std::round(getAvgCharge()); // return avgCharge as an integer for compatibility with v1
+    }
   } 
 
   // If v2 is true, the filter_ and kpeakFilter_ info is encoded in avgCharge_
@@ -78,6 +67,31 @@ public:
     else return (barycenter_& (1<<kSaturatedMask));
   }
   bool v2() const { return v2_; }
+
+  float getBarycenter() const {
+  if (!v2_) return barycenter_ * 0.1; // in the old format barycenter_ is in tenths of strips
+  else {
+      // Drop the first bit (encoding the saturation info)
+      double barycenter_decoded = (barycenter_ & 0b0111'1111'1111'1111); 
+    //  std::cout<<" input barycenter_ "<<barycenter_<<std::endl;
+    //  std::cout<<" decoded barycenter_decoded "<<barycenter_decoded<<std::endl;
+    //  std::cout<<" output barycenter() "<<barycenter_decoded * 0.1 * float(barycenterMax_)/float(barycenterRangeMax_) <<std::endl;
+      return barycenter_decoded * barycenterMax_/barycenterRangeMax_ ;
+      // the factor 0.1 is used for compatibility with v1, where barycenter() returned an integer in tenths of strips. It should be a float in the future instead.
+  }
+}
+
+float getAvgCharge() const {
+  if (!v2_) return avgCharge_; // in the old format avgCharge_ is in ADC counts (0-255)
+  else {
+    // Drop the first two bits (encoding the filter and saturation info)
+    double avgCharge_decoded = (avgCharge_ & 0b0011'1111); 
+    // Rescale avgCharge from  [0-63] (equivalent to [-0.5, 63.5]) to 0-255
+    float avgCharge_rescaled = avgCharge_decoded * avgChargeMax_/avgChargeRangeMax_;
+    //assert(avgCharge_ <= avgChargeMax_ && "Returning avgCharge > maxavgCharge");
+    return avgCharge_rescaled; 
+  }
+}
 
 private:
   cms_uint16_t barycenter_ = 0;
