@@ -30,17 +30,20 @@ public:
                                      unsigned int maxNSat,
                                      float hitPredPos,
                                      bool peakFilter,
-                                     bool v2 = false);
+                                     bool v2 = false,
+                                     float previous_cluster = 0,
+                                     unsigned int offset_module_change = 0
+                                    );
 
   //barycenter() gives barycenter position in tenths of strip (i.e. 10 means center of strip 1) (0-1536)
   //avgCharge() gives the average charge in ADC counts (0-255)
   //width() gives the cluster width (0-255)
   //v2() gives true if the cluster is in the new format (Fall 2025)
 
-  cms_uint16_t barycenter() const {
+  cms_uint16_t barycenter(float previous_barycenter=0, unsigned int offset_module_change=0) const {
   if (!v2_) return barycenter_; // in the old format barycenter_ is in tenths of strips
   else {
-    return std::round(getBarycenter()*10.); // return barycenter in tenths of strips for compatibility with v1
+    return std::round(getBarycenter(previous_barycenter, offset_module_change)*10.); // return barycenter in tenths of strips for compatibility with v1
     }
   } 
   cms_uint8_t width() const { return width_; }
@@ -68,15 +71,12 @@ public:
   }
   bool v2() const { return v2_; }
 
-  float getBarycenter() const {
+  float getBarycenter(float previous_barycenter=0, unsigned int offset_module_change=0) const {
   if (!v2_) return barycenter_ * 0.1; // in the old format barycenter_ is in tenths of strips
   else {
       // Drop the first bit (encoding the saturation info)
       double barycenter_decoded = (barycenter_ & 0b0111'1111'1111'1111); 
-    //  std::cout<<" input barycenter_ "<<barycenter_<<std::endl;
-    //  std::cout<<" decoded barycenter_decoded "<<barycenter_decoded<<std::endl;
-    //  std::cout<<" output barycenter() "<<barycenter_decoded * 0.1 * float(barycenterMax_)/float(barycenterRangeMax_) <<std::endl;
-      return barycenter_decoded * barycenterMax_/barycenterRangeMax_ ;
+      return barycenter_decoded / (2*floor(0.5*barycenterRangeMax_/barycenterMax_))  - (offset_module_change) + previous_barycenter;
       // the factor 0.1 is used for compatibility with v1, where barycenter() returned an integer in tenths of strips. It should be a float in the future instead.
   }
 }
@@ -87,9 +87,10 @@ float getAvgCharge() const {
     // Drop the first two bits (encoding the filter and saturation info)
     double avgCharge_decoded = (avgCharge_ & 0b0011'1111); 
     // Rescale avgCharge from  [0-63] (equivalent to [-0.5, 63.5]) to 0-255
-    float avgCharge_rescaled = avgCharge_decoded * avgChargeMax_/avgChargeRangeMax_;
+    // float avgCharge_rescaled = (avgCharge_decoded+0.5) * floor(avgChargeMax_/avgChargeRangeMax_);
     //assert(avgCharge_ <= avgChargeMax_ && "Returning avgCharge > maxavgCharge");
-    return avgCharge_rescaled; 
+    // +0.5 to compensate for the floor in the encoding
+    return (avgCharge_decoded + 0.5) * floor(avgChargeMax_/avgChargeRangeMax_);
   }
 }
 
@@ -110,13 +111,15 @@ private:
 
   ////// Encoding constants for v2 ///////////
   // maximum value of barycenter_ is 768 strips (128 strips/APV * 6 APVs)
-  static constexpr double barycenterMax_ = 768.;
+  // multiplied by a factor 2 as we save the distance from the previous cluster, which can be in another module
+  static constexpr double barycenterMax_ = 768. * 2;  
   // get the number of bits in barycenter_ (16 bits for cms_uint16_t)
   static constexpr int nbits_barycenter_ = sizeof(barycenter_) * CHAR_BIT;
   // position of the bit used to encode isSaturated_ in barycenter_
   static constexpr int kSaturatedMask = nbits_barycenter_-1;
   // get the largest number storable in barycenter_ with the remaining bits (2^15 -1 = 32767)
   static constexpr int barycenterRangeMax_ = (1 <<  (nbits_barycenter_-1)) - 1;
+  static constexpr int barycenterCompression_ = (1 <<  (nbits_barycenter_-1)) - 1;
 
   // maximum value of avgCharge_ is 255 ADC counts
   static constexpr double avgChargeMax_ = 255.;

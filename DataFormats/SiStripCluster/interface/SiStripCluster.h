@@ -44,8 +44,7 @@ public:
     initQB();
   }
 
-  SiStripCluster(const SiStripApproximateCluster cluster, const uint16_t maxStrips);
-
+  SiStripCluster(const SiStripApproximateCluster cluster, const uint16_t maxStrips, float previous_barycenter, unsigned int offset_module_change=0);
   // extend the cluster
   template <typename Iter>
   void extend(Iter begin, Iter end) {

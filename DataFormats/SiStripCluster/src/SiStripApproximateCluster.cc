@@ -3,12 +3,16 @@
 #include <algorithm>
 #include <cmath>
 #include <assert.h>
+#include <stdio.h>
 
 SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& cluster,
                                                      unsigned int maxNSat,
                                                      float hitPredPos,
                                                      bool peakFilter,
-                                                     bool v2) {
+                                                     bool v2,
+                                                     float previous_cluster,
+                                                     unsigned int offset_module_change)
+                                                     {
 
   
   barycenter_ = std::round(cluster.barycenter() * 10);
@@ -61,8 +65,9 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
   }
 
   if (v2_) {
-    // Represent value [0, avgChargeMax_=255] -->  [-0.5, avgChargeRangeMax_=63 + 0.5], convert to int
-    avgCharge_ = round(float(cluster.charge()) / cluster.size()* float(avgChargeRangeMax_)/float(avgChargeMax_) );
+    // Map value [0, avgChargeMax_=255] -->  [0, ..., 63], convert to int
+    //Floor are used to avoid rounding issues of int numbers
+    avgCharge_ = floor(float(cluster.charge()) / cluster.size() / floor(avgChargeMax_/avgChargeRangeMax_) );
     // In v2, we encode the filter_ and peakFilter_ info in avgCharge_ as the two highest bits
     assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_-2)) - 1) && "Setting avgCharge > 63");
     avgCharge_ = (avgCharge_ | (filter_ << kfilterMask));
@@ -71,22 +76,10 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
     assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_)) - 1) && "Setting avgCharge > 255");
 
     // We encode the isSaturated_ info in barycenter_ as the highest bit
-    int previous_cluster = 0;
-    int module_length = 0;
-    int previous_module_length = 0;
-    barycenter_ = std::round(((cluster.barycenter()-previous_cluster)+(module_length-previous_module_length))* float(barycenterRangeMax_)/float(barycenterMax_));
-    // std::cout<<"cluster.barycenter() "<<cluster.barycenter()<<std::endl;
-    // std::cout<<"barycenterRangeMax_ "<<barycenterRangeMax_<<std::endl;
-    // std::cout<<"barycenterMax_ "<<barycenterMax_<<std::endl;
-    // std::cout<<"barycenter_ "<<barycenter_<<std::endl;
+
+    barycenter_ = round(float(cluster.barycenter()-previous_cluster + (offset_module_change)) * (2*floor(0.5*barycenterRangeMax_/barycenterMax_)));
     assert(barycenter_ <= ((1 <<  (nbits_barycenter_-1)) - 1) && "Setting barycenter > 32767");
-    // std::cout<<"barycenter_ "<<barycenter_<<std::endl;
     barycenter_ = (barycenter_ | (isSaturated_ << kSaturatedMask));
-    // std::cout<<"barycenter_ "<<barycenter_<<std::endl;
-    // std::cout<<"isSaturated_ "<<isSaturated_<<std::endl;
-    // std::cout<<"kSaturatedMask "<<kSaturatedMask<<std::endl;
-    // std::cout<<"nbits_barycenter_ "<<nbits_barycenter_<<std::endl;
-    // std::cout<<" 1 <<  (nbits_barycenter_-1) "<< ((1 <<  nbits_barycenter_) -1)<<std::endl;
     assert(barycenter_ <= ((1 <<  nbits_barycenter_) -1) && "Setting barycenter > 65535");
 
     // We set the flags to false to reduce event size (they should be removed in 2026)

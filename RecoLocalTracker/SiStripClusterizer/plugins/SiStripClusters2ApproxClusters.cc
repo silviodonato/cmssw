@@ -32,6 +32,7 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
 
 class SiStripClusters2ApproxClusters : public edm::stream::EDProducer<> {
 public:
@@ -106,6 +107,12 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
   const auto& theFilter = &iSetup.getData(csfToken_);
   const auto& theNoise_ = &iSetup.getData(stripNoiseToken_);
 
+  float previous_cluster = 0.;
+  unsigned int offset_module_change = 0;
+  const auto tkDets = tkGeom->dets();
+
+//  std::vector<uint16_t> v_strip;
+
   for (const auto& detClusters : clusterCollection) {
     auto ff = result->beginDet(detClusters.id());
 
@@ -117,6 +124,9 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
 
     const StripGeomDetUnit* stripDet = dynamic_cast<const StripGeomDetUnit*>(det);
     float mip = 3.9 / (sistrip::MeVperADCStrip / stripDet->surface().bounds().thickness());
+
+    /// For v2 version
+    // Get size of the module in strips
 
     for (const auto& cluster : detClusters) {
       const LocalPoint& lp = LocalPoint(((cluster.barycenter() * 10 / (sistrip::STRIPS_PER_APV * nApvs)) -
@@ -135,7 +145,15 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
       bool isTrivial = (std::abs(hitPredPos) < 2.f && hitStrips <= 2);
 
       if (!usable || isTrivial) {
-        ff.push_back(SiStripApproximateCluster(cluster, maxNSat, hitPredPos, true, v2));
+        SiStripApproximateCluster approxCluster(cluster,
+                                                maxNSat,
+                                                hitPredPos,
+                                                true,
+                                                v2,
+                                                previous_cluster,
+                                                offset_module_change);
+        ff.push_back(approxCluster);
+        previous_cluster = approxCluster.getBarycenter(previous_cluster, offset_module_change);
       } else {
         bool peakFilter = false;
         SlidingPeakFinder pf(std::max<int>(2, std::ceil(std::abs(hitPredPos) + subclusterWindow_)));
@@ -150,9 +168,20 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                             subclusterCutSN_);
         peakFilter = pf.apply(cluster.amplitudes(), test);
 
-        ff.push_back(SiStripApproximateCluster(cluster, maxNSat, hitPredPos, peakFilter, v2));
+        SiStripApproximateCluster approxCluster(cluster,
+                                                maxNSat,
+                                                hitPredPos,
+                                                peakFilter,
+                                                v2,
+                                                previous_cluster,
+                                                offset_module_change);
+      ff.push_back(approxCluster);
+      previous_cluster = approxCluster.getBarycenter(previous_cluster, offset_module_change);
       }
+      offset_module_change = 0;
     }
+    offset_module_change = nApvs * sistrip::STRIPS_PER_APV;
+
   }
 
   event.put(std::move(result));
