@@ -60,9 +60,7 @@
  <class name="edmNew::DetSetVector<edm::Ref<edmNew::DetSetVector<SiStripApproximateCluster>,SiStripApproximateCluster,edmNew::DetSetVector<SiStripApproximateCluster>::FindForDetSetVector> >" />
  <class name="edm::Wrapper<edmNew::DetSetVector<edm::Ref<edmNew::DetSetVector<SiStripApproximateCluster>,SiStripApproximateCluster,edmNew::DetSetVector<SiStripApproximateCluster>::FindForDetSetVector> > >" />
 
- <class name="SiStripClustersSOA" ClassVersion="5">
-  <version ClassVersion="5" checksum="2739562998"/>
-  <version ClassVersion="4" checksum="296520179"/>
+ <class name="SiStripClustersSOA" ClassVersion="3">
   <version ClassVersion="3" checksum="2739562998"/>
  </class>
  <class name="edm::Wrapper<SiStripClustersSOA>"/>
