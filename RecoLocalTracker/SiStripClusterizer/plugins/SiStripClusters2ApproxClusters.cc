@@ -40,6 +40,7 @@ public:
   void produce(edm::Event&, const edm::EventSetup&) override;
 
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+  static constexpr float barycenterOffset_ = 0.5; 
 
 private:
   edm::InputTag inputClusters;
@@ -107,7 +108,7 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
   const auto& theFilter = &iSetup.getData(csfToken_);
   const auto& theNoise_ = &iSetup.getData(stripNoiseToken_);
 
-  float previous_cluster = 0.;
+  float previous_barycenter = SiStripApproximateCluster::barycenterOffset_;
   unsigned int offset_module_change = 0;
   const auto tkDets = tkGeom->dets();
 
@@ -150,10 +151,10 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                                                 hitPredPos,
                                                 true,
                                                 v2,
-                                                previous_cluster,
+                                                previous_barycenter,
                                                 offset_module_change);
         ff.push_back(approxCluster);
-        previous_cluster = approxCluster.getBarycenter(previous_cluster, offset_module_change);
+        previous_barycenter = approxCluster.getBarycenter(previous_barycenter, offset_module_change);
       } else {
         bool peakFilter = false;
         SlidingPeakFinder pf(std::max<int>(2, std::ceil(std::abs(hitPredPos) + subclusterWindow_)));
@@ -173,10 +174,10 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                                                 hitPredPos,
                                                 peakFilter,
                                                 v2,
-                                                previous_cluster,
+                                                previous_barycenter,
                                                 offset_module_change);
       ff.push_back(approxCluster);
-      previous_cluster = approxCluster.getBarycenter(previous_cluster, offset_module_change);
+      previous_barycenter = approxCluster.getBarycenter(previous_barycenter, offset_module_change);
       }
       offset_module_change = 0;
     }

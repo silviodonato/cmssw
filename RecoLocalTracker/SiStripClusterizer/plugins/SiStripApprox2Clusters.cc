@@ -49,7 +49,7 @@ void SiStripApprox2Clusters::produce(edm::StreamID id, edm::Event& event, const 
   const auto& tkDets = tkGeom->dets();
 
   std::vector<uint16_t> v_strip;
-  float previous_barycenter = 0;
+  float previous_barycenter = SiStripApproximateCluster::barycenterOffset_;
   unsigned int offset_module_change = 0;
 
   unsigned int clusBegin = 0;

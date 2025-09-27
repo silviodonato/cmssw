@@ -10,7 +10,7 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
                                                      float hitPredPos,
                                                      bool peakFilter,
                                                      bool v2,
-                                                     float previous_cluster,
+                                                     float previous_barycenter,
                                                      unsigned int offset_module_change)
                                                      {
 
@@ -67,8 +67,11 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
   if (v2_) {
     // Map value [0, avgChargeMax_=255] -->  [0, ..., 63], convert to int
     //Floor are used to avoid rounding issues of int numbers
-    avgCharge_ = floor(float(cluster.charge()) / cluster.size() / floor(avgChargeMax_/avgChargeRangeMax_) );
+    // avgCharge_ = round((float(cluster.charge()) / cluster.size() -2) / avgChargeScale_ );
+    avgCharge_ = floor((float(cluster.charge()) / cluster.size()) / avgChargeScale_ );
+    // int((255)/4)*4+1.5
     // In v2, we encode the filter_ and peakFilter_ info in avgCharge_ as the two highest bits
+    // std::cout<<"avgCharge_: "<<(int)avgCharge_<<" cl.charge(): "<<cluster.charge()<<" cl.size(): "<<cluster.size()<<std::endl;
     assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_-2)) - 1) && "Setting avgCharge > 63");
     avgCharge_ = (avgCharge_ | (filter_ << kfilterMask));
     assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_-1)) - 1) && "Setting avgCharge > 127");
@@ -77,7 +80,8 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
 
     // We encode the isSaturated_ info in barycenter_ as the highest bit
 
-    barycenter_ = round(float(cluster.barycenter()-previous_cluster + (offset_module_change)) * (2*floor(0.5*barycenterRangeMax_/barycenterMax_)));
+    barycenter_ = round(float(cluster.barycenter()-previous_barycenter + (offset_module_change)) * barycenterScale_);
+    // std::cout<<"barycenter_: "<<barycenter_<< " cl.barycenter(): "<<cluster.barycenter()<< " previous_barycenter: "<<previous_barycenter<<" offset_module_change: "<<offset_module_change<<std::endl;
     assert(barycenter_ <= ((1 <<  (nbits_barycenter_-1)) - 1) && "Setting barycenter > 32767");
     barycenter_ = (barycenter_ | (isSaturated_ << kSaturatedMask));
     assert(barycenter_ <= ((1 <<  nbits_barycenter_) -1) && "Setting barycenter > 65535");

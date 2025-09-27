@@ -31,7 +31,7 @@ public:
                                      float hitPredPos,
                                      bool peakFilter,
                                      bool v2 = false,
-                                     float previous_cluster = 0,
+                                     float previous_barycenter = 0,
                                      unsigned int offset_module_change = 0
                                     );
 
@@ -76,7 +76,8 @@ public:
   else {
       // Drop the first bit (encoding the saturation info)
       double barycenter_decoded = (barycenter_ & 0b0111'1111'1111'1111); 
-      return barycenter_decoded / (2*floor(0.5*barycenterRangeMax_/barycenterMax_))  - (offset_module_change) + previous_barycenter;
+      return barycenter_decoded / barycenterScale_ - offset_module_change + previous_barycenter;
+      // return barycenter_decoded / (floor(barycenterRangeMax_/barycenterMax_))  - (offset_module_change) + previous_barycenter;
       // the factor 0.1 is used for compatibility with v1, where barycenter() returned an integer in tenths of strips. It should be a float in the future instead.
   }
 }
@@ -90,7 +91,7 @@ float getAvgCharge() const {
     // float avgCharge_rescaled = (avgCharge_decoded+0.5) * floor(avgChargeMax_/avgChargeRangeMax_);
     //assert(avgCharge_ <= avgChargeMax_ && "Returning avgCharge > maxavgCharge");
     // +0.5 to compensate for the floor in the encoding
-    return (avgCharge_decoded + 0.5) * floor(avgChargeMax_/avgChargeRangeMax_);
+    return (avgCharge_decoded) * avgChargeScale_ + avgChargeOffset_;
   }
 }
 
@@ -119,7 +120,6 @@ private:
   static constexpr int kSaturatedMask = nbits_barycenter_-1;
   // get the largest number storable in barycenter_ with the remaining bits (2^15 -1 = 32767)
   static constexpr int barycenterRangeMax_ = (1 <<  (nbits_barycenter_-1)) - 1;
-  static constexpr int barycenterCompression_ = (1 <<  (nbits_barycenter_-1)) - 1;
 
   // maximum value of avgCharge_ is 255 ADC counts
   static constexpr double avgChargeMax_ = 255.;
@@ -130,7 +130,13 @@ private:
   static constexpr int kfilterMask = nbits_avgCharge_-2;
   // get the largest number storable in avgCharge_ with the remaining bits (2^6 -1 = 63)
   static constexpr int avgChargeRangeMax_ = (1 <<  (nbits_avgCharge_-2)) - 1;
-  ////////////////////////////////////////
 
+  public:
+  static constexpr int barycenterScale_ = barycenterRangeMax_ / barycenterMax_;
+  static constexpr int avgChargeScale_ = float(avgChargeMax_) / float(avgChargeRangeMax_);
+
+  static constexpr float barycenterOffset_ = +0.5; // to get perfect matching for integers
+  static constexpr float avgChargeOffset_ = +1.75; // to minimize bias
+  ////////////////////////////////////////
 };
 #endif  // DataFormats_SiStripCluster_SiStripApproximateCluster_h
