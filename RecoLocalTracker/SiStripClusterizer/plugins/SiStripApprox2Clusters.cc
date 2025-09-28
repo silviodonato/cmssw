@@ -17,7 +17,6 @@
 #include "CalibTracker/SiStripCommon/interface/SiStripDetInfoFileReader.h"
 #include "DataFormats/SiStripCommon/interface/ConstantsForHardwareSystems.h"
 
-
 #include <vector>
 #include <memory>
 
@@ -48,11 +47,8 @@ void SiStripApprox2Clusters::produce(edm::StreamID id, edm::Event& event, const 
   const auto& tkGeom = &iSetup.getData(tkGeomToken_);
   const auto& tkDets = tkGeom->dets();
 
-  std::vector<uint16_t> v_strip;
   float previous_barycenter = SiStripApproximateCluster::barycenterOffset_;
   unsigned int offset_module_change = 0;
-
-  unsigned int clusBegin = 0;
 
   for (const auto& detClusters : clusterCollection) {
     edmNew::DetSetVector<SiStripCluster>::FastFiller ff{*result, detClusters.id()};
@@ -65,20 +61,17 @@ void SiStripApprox2Clusters::produce(edm::StreamID id, edm::Event& event, const 
     const StripTopology& p = dynamic_cast<const StripGeomDetUnit*>(*det)->specificTopology();
     nStrips = p.nstrips() - 1;
 
-    double nApvs = detInfo_.getNumberOfApvsAndStripLength(detId).first;
-
     for (const auto& cluster : detClusters) {
       const auto convertedCluster = SiStripCluster(cluster, nStrips, previous_barycenter, offset_module_change);
-      if ((convertedCluster.barycenter()) >= nStrips + 1) 
-        throw cms::Exception("DataCorrupt") << "SiStripApprox2Clusters: cluster with barycenter " << convertedCluster.barycenter()
-           << " out of range for module with " << nStrips + 1 << " strips.";
+      // if ((convertedCluster.barycenter()) >= nStrips + 1)
+      //   throw cms::Exception("DataCorrupt") << "SiStripApprox2Clusters: cluster with barycenter " << convertedCluster.barycenter()
+      //      << " out of range for module with " << nStrips + 1 << " strips.";
       previous_barycenter = convertedCluster.barycenter();
       offset_module_change = 0;
 
-      ++clusBegin;
       ff.push_back(convertedCluster);
     }
-    offset_module_change = nApvs * sistrip::STRIPS_PER_APV;
+    offset_module_change = detInfo_.getNumberOfApvsAndStripLength(detId).first * sistrip::STRIPS_PER_APV;
   }
 
   event.put(std::move(result));

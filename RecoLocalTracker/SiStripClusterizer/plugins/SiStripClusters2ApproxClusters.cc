@@ -32,7 +32,6 @@
 
 #include <vector>
 #include <memory>
-#include <iostream>
 
 class SiStripClusters2ApproxClusters : public edm::stream::EDProducer<> {
 public:
@@ -40,7 +39,6 @@ public:
   void produce(edm::Event&, const edm::EventSetup&) override;
 
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
-  static constexpr float barycenterOffset_ = 0.5; 
 
 private:
   edm::InputTag inputClusters;
@@ -110,7 +108,6 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
 
   float previous_barycenter = SiStripApproximateCluster::barycenterOffset_;
   unsigned int offset_module_change = 0;
-  const auto tkDets = tkGeom->dets();
 
   for (const auto& detClusters : clusterCollection) {
     auto ff = result->beginDet(detClusters.id());
@@ -123,9 +120,6 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
 
     const StripGeomDetUnit* stripDet = dynamic_cast<const StripGeomDetUnit*>(det);
     float mip = 3.9 / (sistrip::MeVperADCStrip / stripDet->surface().bounds().thickness());
-
-    /// For v2 version
-    // Get size of the module in strips
 
     for (const auto& cluster : detClusters) {
       const LocalPoint& lp = LocalPoint(((cluster.barycenter() * 10 / (sistrip::STRIPS_PER_APV * nApvs)) -
@@ -144,13 +138,8 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
       bool isTrivial = (std::abs(hitPredPos) < 2.f && hitStrips <= 2);
 
       if (!usable || isTrivial) {
-        SiStripApproximateCluster approxCluster(cluster,
-                                                maxNSat,
-                                                hitPredPos,
-                                                true,
-                                                version,
-                                                previous_barycenter,
-                                                offset_module_change);
+        SiStripApproximateCluster approxCluster(
+            cluster, maxNSat, hitPredPos, true, version, previous_barycenter, offset_module_change);
         ff.push_back(approxCluster);
         previous_barycenter = approxCluster.getBarycenter(previous_barycenter, offset_module_change);
       } else {
@@ -167,20 +156,14 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                             subclusterCutSN_);
         peakFilter = pf.apply(cluster.amplitudes(), test);
 
-        SiStripApproximateCluster approxCluster(cluster,
-                                                maxNSat,
-                                                hitPredPos,
-                                                peakFilter,
-                                                version,
-                                                previous_barycenter,
-                                                offset_module_change);
-      ff.push_back(approxCluster);
-      previous_barycenter = approxCluster.getBarycenter(previous_barycenter, offset_module_change);
+        SiStripApproximateCluster approxCluster(
+            cluster, maxNSat, hitPredPos, peakFilter, version, previous_barycenter, offset_module_change);
+        ff.push_back(approxCluster);
+        previous_barycenter = approxCluster.getBarycenter(previous_barycenter, offset_module_change);
       }
       offset_module_change = 0;
     }
     offset_module_change = nApvs * sistrip::STRIPS_PER_APV;
-
   }
 
   event.put(std::move(result));
@@ -192,7 +175,7 @@ void SiStripClusters2ApproxClusters::fillDescriptions(edm::ConfigurationDescript
   desc.add<unsigned int>("maxSaturatedStrips", 3);
   desc.add<std::string>("clusterShapeHitFilterLabel", "ClusterShapeHitFilter");  // add CSF label
   desc.add<edm::InputTag>("beamSpot", edm::InputTag("offlineBeamSpot"));         // add BeamSpot tag
-  desc.add<unsigned int>("version", 1); // RawPrime version (1= default, 2= new v2 format)
+  desc.add<unsigned int>("version", 1);  // RawPrime version (1= default, 2= new v2 format)
   descriptions.add("SiStripClusters2ApproxClusters", desc);
 }
 

@@ -1,9 +1,8 @@
 #include "DataFormats/SiStripCluster/interface/SiStripApproximateCluster.h"
 #include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
 #include <algorithm>
+#include <cassert>
 #include <cmath>
-#include <assert.h>
-#include <stdio.h>
 
 SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& cluster,
                                                      unsigned int maxNSat,
@@ -11,10 +10,7 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
                                                      bool peakFilter,
                                                      unsigned char version,
                                                      float previous_barycenter,
-                                                     unsigned int offset_module_change)
-                                                     {
-
-  
+                                                     unsigned int offset_module_change) {
   barycenter_ = std::round(cluster.barycenter() * 10);
   width_ = cluster.size();
   avgCharge_ = cluster.charge() / cluster.size();
@@ -65,28 +61,24 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
   }
 
   if (version_ == 2) {
-    // Map value [0, avgChargeMax_=255] -->  [0, ..., 63], convert to int
-    //Floor are used to avoid rounding issues of int numbers
-    // avgCharge_ = round((float(cluster.charge()) / cluster.size() -2) / avgChargeScale_ );
-    avgCharge_ = floor((float(cluster.charge()) / cluster.size()) / avgChargeScale_ );
-    // int((255)/4)*4+1.5
+    // Compression of avgCharge_ to integer
+    avgCharge_ = floor((float(cluster.charge()) / cluster.size()) / avgChargeScale_);
     // In v2, we encode the filter_ and peakFilter_ info in avgCharge_ as the two highest bits
-    // std::cout<<"avgCharge_: "<<(int)avgCharge_<<" cl.charge(): "<<cluster.charge()<<" cl.size(): "<<cluster.size()<<std::endl;
-    assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_-2)) - 1) && "Setting avgCharge > 63");
+    assert(avgCharge_ <= ((1 << (nbits_avgCharge_ - 2)) - 1) && "Setting avgCharge > 63");
+    // filter_ and peakFilter_ are encoded in the two highest bits of avgCharge_
     avgCharge_ = (avgCharge_ | (filter_ << kfilterMask));
-    assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_-1)) - 1) && "Setting avgCharge > 127");
+    assert(avgCharge_ <= ((1 << (nbits_avgCharge_ - 1)) - 1) && "Setting avgCharge > 127");
     avgCharge_ = (avgCharge_ | (peakFilter_ << kpeakFilterMask));
-    assert(avgCharge_ <= ((1 <<  (nbits_avgCharge_)) - 1) && "Setting avgCharge > 255");
+    assert(avgCharge_ <= ((1 << (nbits_avgCharge_)) - 1) && "Setting avgCharge > 255");
 
-    // We encode the isSaturated_ info in barycenter_ as the highest bit
-
-    barycenter_ = round(float(cluster.barycenter()-previous_barycenter + (offset_module_change)) * barycenterScale_);
-    // std::cout<<"barycenter_: "<<barycenter_<< " cl.barycenter(): "<<cluster.barycenter()<< " previous_barycenter: "<<previous_barycenter<<" offset_module_change: "<<offset_module_change<<std::endl;
-    assert(barycenter_ <= ((1 <<  (nbits_barycenter_-1)) - 1) && "Setting barycenter > 32767");
+    // Compression of barycenter_ to integer [note: it contains the distance from the previous cluster]
+    barycenter_ = round(float(cluster.barycenter() - previous_barycenter + (offset_module_change)) * barycenterScale_);
+    assert(barycenter_ <= ((1 << (nbits_barycenter_ - 1)) - 1) && "Setting barycenter > 32767");
+    // isSaturated_ is encoded in the highest bit of barycenter_
     barycenter_ = (barycenter_ | (isSaturated_ << kSaturatedMask));
-    assert(barycenter_ <= ((1 <<  nbits_barycenter_) -1) && "Setting barycenter > 65535");
+    assert(barycenter_ <= ((1 << nbits_barycenter_) - 1) && "Setting barycenter > 65535");
 
-    // We set the flags to false to reduce event size (they should be removed in 2026)
+    // Flags set to false to reduce event size (they should be removed when moving to v2 only)
     filter_ = false;
     isSaturated_ = false;
     peakFilter_ = false;
