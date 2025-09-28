@@ -9,7 +9,7 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
                                                      unsigned int maxNSat,
                                                      float hitPredPos,
                                                      bool peakFilter,
-                                                     bool v2,
+                                                     unsigned char version,
                                                      float previous_barycenter,
                                                      unsigned int offset_module_change)
                                                      {
@@ -21,7 +21,7 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
   filter_ = false;
   isSaturated_ = false;
   peakFilter_ = peakFilter;
-  v2_ = v2;
+  version_ = version;
 
   //mimicing the algorithm used in StripSubClusterShapeTrajectoryFilter...
   //Looks for 3 adjacent saturated strips (ADC>=254)
@@ -64,7 +64,7 @@ SiStripApproximateCluster::SiStripApproximateCluster(const SiStripCluster& clust
     filter_ = peakFilter_;
   }
 
-  if (v2_) {
+  if (version_ == 2) {
     // Map value [0, avgChargeMax_=255] -->  [0, ..., 63], convert to int
     //Floor are used to avoid rounding issues of int numbers
     // avgCharge_ = round((float(cluster.charge()) / cluster.size() -2) / avgChargeScale_ );

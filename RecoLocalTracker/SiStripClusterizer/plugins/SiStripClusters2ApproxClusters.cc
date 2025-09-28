@@ -62,7 +62,7 @@ private:
   SiStripDetInfo detInfo_;
 
   std::string csfLabel_;
-  bool v2;
+  unsigned int version;
   edm::ESGetToken<ClusterShapeHitFilter, CkfComponentsRecord> csfToken_;
 
   edm::ESGetToken<SiStripNoises, SiStripNoisesRcd> stripNoiseToken_;
@@ -86,7 +86,7 @@ SiStripClusters2ApproxClusters::SiStripClusters2ApproxClusters(const edm::Parame
   csfLabel_ = conf.getParameter<std::string>("clusterShapeHitFilterLabel");
   csfToken_ = esConsumes(edm::ESInputTag("", csfLabel_));
 
-  v2 = conf.getParameter<bool>("v2");
+  version = conf.getParameter<unsigned int>("version");
 
   stripNoiseToken_ = esConsumes();
   produces<SiStripApproximateClusterCollection>();
@@ -150,7 +150,7 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                                                 maxNSat,
                                                 hitPredPos,
                                                 true,
-                                                v2,
+                                                version,
                                                 previous_barycenter,
                                                 offset_module_change);
         ff.push_back(approxCluster);
@@ -173,7 +173,7 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
                                                 maxNSat,
                                                 hitPredPos,
                                                 peakFilter,
-                                                v2,
+                                                version,
                                                 previous_barycenter,
                                                 offset_module_change);
       ff.push_back(approxCluster);
@@ -194,7 +194,7 @@ void SiStripClusters2ApproxClusters::fillDescriptions(edm::ConfigurationDescript
   desc.add<unsigned int>("maxSaturatedStrips", 3);
   desc.add<std::string>("clusterShapeHitFilterLabel", "ClusterShapeHitFilter");  // add CSF label
   desc.add<edm::InputTag>("beamSpot", edm::InputTag("offlineBeamSpot"));         // add BeamSpot tag
-  desc.add<bool>("v2", false); // set v2 off by default (RawSecond testing Fall 2025)
+  desc.add<unsigned int>("version", 1); // RawPrime version (1= default, 2= new v2 format)
   descriptions.add("SiStripClusters2ApproxClusters", desc);
 }
 

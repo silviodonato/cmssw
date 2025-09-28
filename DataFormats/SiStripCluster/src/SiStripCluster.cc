@@ -1,6 +1,6 @@
 #include "FWCore/Utilities/interface/Likely.h"
 #include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
-
+#include "FWCore/Utilities/interface/Exception.h"
 #include <stdio.h>
 
 SiStripCluster::SiStripCluster(const SiStripDigiRange& range) : firstStrip_(range.first->strip()), error_x(-99999.9) {
@@ -26,10 +26,16 @@ SiStripCluster::SiStripCluster(const SiStripDigiRange& range) : firstStrip_(rang
 }
 
 SiStripCluster::SiStripCluster(const SiStripApproximateCluster cluster, const uint16_t maxStrips, float previous_barycenter, unsigned int offset_module_change) : error_x(-99999.9) {
-  if (!cluster.v2()) {
-    barycenter_ = cluster.barycenter() / 10.0;
-  } else {
-    barycenter_ = cluster.getBarycenter(previous_barycenter, offset_module_change);
+  switch (cluster.version()){
+    case 1: {
+      barycenter_ = cluster.barycenter() / 10.0;
+      break;
+    }
+    case 2: {
+      barycenter_ = cluster.getBarycenter(previous_barycenter, offset_module_change);
+      break;
+    }
+    default: throw cms::Exception("VersionNotSupported") << "Version " << cluster.version() << " of SiStripApproximateCluster not supported";
   }
   charge_ = cluster.width() * cluster.avgCharge();
   amplitudes_.resize(cluster.width(), cluster.avgCharge());
