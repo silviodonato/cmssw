@@ -16,7 +16,7 @@ public:
                                      bool filter,
                                      bool isSaturated,
                                      bool peakFilter = false,
-                                     unsigned char version_ = 1)
+                                     cms_uint8_t version_ = 1)
       : barycenter_(barycenter),
         width_(width),
         avgCharge_(avgCharge),
@@ -29,64 +29,13 @@ public:
                                      unsigned int maxNSat,
                                      float hitPredPos,
                                      bool peakFilter,
-                                     unsigned char version_ = 1,
+                                     cms_uint8_t version_ = 1,
                                      float previous_barycenter = 0,
                                      unsigned int offset_module_change = 0
                                     );
 
-  cms_uint16_t barycenter() const { return barycenter_; }
-  
-  //barycenter() returns barycenter position in tenths of strip (i.e. 10 means center of strip 1) (0-1536)
-  //avgCharge() returns the average charge in ADC counts (0-255)
-  //width() returns the cluster width (0-255)
-  //version() returns true if the cluster is in the new format (Fall 2025)
 
-  cms_uint16_t barycenter(float previous_barycenter, unsigned int offset_module_change) const {
-  switch (version_){
-    case 2: {
-      return std::round(getBarycenter(previous_barycenter, offset_module_change)*10.); // return barycenter in tenths of strips for compatibility with v1
-    }
-    default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported for SiStripApproximateCluster::barycenter(float,unsigned int)";
-  }
-  } 
-  cms_uint8_t width() const { return width_; }
-  cms_uint8_t avgCharge() const {  // should be a float in the future instead of an int
-    switch (version_){
-      case 1: return avgCharge_;
-      case 2: {
-        return std::round(getAvgCharge()); // return avgCharge as an integer for compatibility with v1
-      }
-      default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
-    }
-  } 
-
-  // In v2, filter_ and kpeakFilter_ info are encoded in avgCharge_
-  bool filter() const { 
-    switch (version_){
-      case 1: return filter_;
-      case 2: return (avgCharge_& (1<<kfilterMask));
-      default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
-    }
-  }
-  bool peakFilter() const { 
-    switch (version_){
-      case 1: return peakFilter_;
-      case 2: return (avgCharge_ & (1<<kpeakFilterMask));
-      default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
-    }
-  }
-
-  // In v2, peakFilter_ info is encoded in barycenter_
-  bool isSaturated() const { 
-    switch (version_){
-      case 1: return isSaturated_;
-      case 2: return (barycenter_& (1<<kSaturatedMask));
-      default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
-    }
-  }
-  char version() const { return version_; }
-
-  // getBarycenter returns the barycenter as a *float* in strips (e.g. 1.0 means center of strip 1)
+// getBarycenter returns the barycenter as a *float* in strips (e.g. 1.0 means center of strip 1)
   float getBarycenter(float previous_barycenter=0, unsigned int offset_module_change=0) const {
   switch (version_){
     case 1: return barycenter_ * 0.1; // in the old format barycenter_ is in tenths of strips
@@ -97,9 +46,20 @@ public:
         // return barycenter_decoded / (floor(barycenterRangeMax_/barycenterMax_))  - (offset_module_change) + previous_barycenter;
         // the factor 0.1 is used for compatibility with v1, where barycenter() returned an integer in tenths of strips. It should be a float in the future instead.
     }
-    default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
+    default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported";
   }
+
 }
+//   // kept for compatibility with v1, should be removed in the future
+//   cms_uint16_t barycenter(float previous_barycenter, unsigned int offset_module_change) const {
+//   switch (version_){
+//     case 2: {
+//       return std::round(getBarycenter(previous_barycenter, offset_module_change)*10.); // return barycenter in tenths of strips for compatibility with v1
+//     }
+//     default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported for SiStripApproximateCluster::barycenter(float,unsigned int)";
+//   }
+//  } 
+
 
 // getAvgCharge returns the average charge as a *float* in ADC counts (e.g. 1.0 means 1 ADC count)
 float getAvgCharge() const {
@@ -111,9 +71,53 @@ float getAvgCharge() const {
       // Rescale to get the original average charge (float)
       return (avgCharge_decoded) * avgChargeScale_ + avgChargeOffset_;
     }
-    default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
+    default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported";
   }
 }
+
+  cms_uint16_t barycenter() const { return barycenter_; }
+
+  //barycenter() returns barycenter position in tenths of strip (i.e. 10 means center of strip 1) (0-1536)
+  //avgCharge() returns the average charge in ADC counts (0-255)
+  //width() returns the cluster width (0-255)
+  //version() returns true if the cluster is in the new format (Fall 2025)
+
+  cms_uint8_t width() const { return width_; }
+  cms_uint8_t avgCharge() const {  // should be a float in the future instead of an int
+    switch (version_){
+      case 1: return avgCharge_;
+      // case 2: {
+      //   return std::round(getAvgCharge()); // return avgCharge as an integer for compatibility with v1
+      // }
+      default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported for SiStripApproximateCluster::avgCharge()";
+    }
+  } 
+
+  // In v2, filter_ and kpeakFilter_ info are encoded in avgCharge_
+  bool filter() const { 
+    switch (version_){
+      case 1: return filter_;
+      case 2: return (avgCharge_& (1<<kfilterMask));
+      default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported";
+    }
+  }
+  bool peakFilter() const { 
+    switch (version_){
+      case 1: return peakFilter_;
+      case 2: return (avgCharge_ & (1<<kpeakFilterMask));
+      default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported";
+    }
+  }
+
+  // In v2, peakFilter_ info is encoded in barycenter_
+  bool isSaturated() const { 
+    switch (version_){
+      case 1: return isSaturated_;
+      case 2: return (barycenter_& (1<<kSaturatedMask));
+      default: throw cms::Exception("VersionNotSupported") << "Version " << int(version_) << " of SiStripApproximateCluster not supported";
+    }
+  }
+  char version() const { return version_; }
 
 private:
   cms_uint16_t barycenter_ = 0;
@@ -123,7 +127,7 @@ private:
   bool isSaturated_ = false;
   bool peakFilter_ = false;
   // v2 --> new version 
-  unsigned char version_ = 1;
+  cms_uint8_t version_ = 1;
   static constexpr double trimMaxADC_ = 30.;
   static constexpr double trimMaxFracTotal_ = .15;
   static constexpr double trimMaxFracNeigh_ = .25;
@@ -157,8 +161,8 @@ private:
   static constexpr int barycenterScale_ = barycenterRangeMax_ / barycenterMax_;
   static constexpr int avgChargeScale_ = avgChargeMax_ / avgChargeRangeMax_;
 
-  static constexpr float barycenterOffset_ = +0.5; // to no approximation error for integers
-  static constexpr float avgChargeOffset_ = +1.75; // to minimize bias
+  static constexpr float barycenterOffset_ = +0.5; // to get no approximation error for integers
+  static constexpr float avgChargeOffset_ = +1.9; // to minimize bias
   ////////////////////////////////////////
 };
 #endif  // DataFormats_SiStripCluster_SiStripApproximateCluster_h

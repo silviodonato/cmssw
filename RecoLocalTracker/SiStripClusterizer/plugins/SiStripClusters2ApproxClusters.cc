@@ -112,8 +112,6 @@ void SiStripClusters2ApproxClusters::produce(edm::Event& event, edm::EventSetup 
   unsigned int offset_module_change = 0;
   const auto tkDets = tkGeom->dets();
 
-//  std::vector<uint16_t> v_strip;
-
   for (const auto& detClusters : clusterCollection) {
     auto ff = result->beginDet(detClusters.id());
 

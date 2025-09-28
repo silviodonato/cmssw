@@ -69,12 +69,9 @@ void SiStripApprox2Clusters::produce(edm::StreamID id, edm::Event& event, const 
 
     for (const auto& cluster : detClusters) {
       const auto convertedCluster = SiStripCluster(cluster, nStrips, previous_barycenter, offset_module_change);
-      if ((convertedCluster.barycenter()) >= nStrips + 1) {
-        cms::Exception ex("DataCorrupt");
-        ex << "SiStripApprox2Clusters: cluster with barycenter " << convertedCluster.barycenter()
+      if ((convertedCluster.barycenter()) >= nStrips + 1) 
+        throw cms::Exception("DataCorrupt") << "SiStripApprox2Clusters: cluster with barycenter " << convertedCluster.barycenter()
            << " out of range for module with " << nStrips + 1 << " strips.";
-        throw ex;
-      }
       previous_barycenter = convertedCluster.barycenter();
       offset_module_change = 0;
 
