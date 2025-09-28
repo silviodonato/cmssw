@@ -34,19 +34,19 @@ public:
                                      unsigned int offset_module_change = 0
                                     );
 
+  cms_uint16_t barycenter() const { return barycenter_; }
+  
   //barycenter() returns barycenter position in tenths of strip (i.e. 10 means center of strip 1) (0-1536)
   //avgCharge() returns the average charge in ADC counts (0-255)
   //width() returns the cluster width (0-255)
   //version() returns true if the cluster is in the new format (Fall 2025)
-  cms_uint16_t barycenter() {return barycenter_; } // not used anymore
 
-  cms_uint16_t barycenter(float previous_barycenter=0, unsigned int offset_module_change=0) const {
+  cms_uint16_t barycenter(float previous_barycenter, unsigned int offset_module_change) const {
   switch (version_){
-    case 1: return barycenter_; // in the old format barycenter_ is in tenths of strips
     case 2: {
       return std::round(getBarycenter(previous_barycenter, offset_module_change)*10.); // return barycenter in tenths of strips for compatibility with v1
     }
-    default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported";
+    default: throw cms::Exception("VersionNotSupported") << "Version " << version_ << " of SiStripApproximateCluster not supported for SiStripApproximateCluster::barycenter(float,unsigned int)";
   }
   } 
   cms_uint8_t width() const { return width_; }
@@ -86,7 +86,7 @@ public:
   }
   char version() const { return version_; }
 
-  // getBarycenter returns the barycenter as a float in strips (e.g. 1.0 means center of strip 1)
+  // getBarycenter returns the barycenter as a *float* in strips (e.g. 1.0 means center of strip 1)
   float getBarycenter(float previous_barycenter=0, unsigned int offset_module_change=0) const {
   switch (version_){
     case 1: return barycenter_ * 0.1; // in the old format barycenter_ is in tenths of strips
@@ -101,7 +101,7 @@ public:
   }
 }
 
-// getAvgCharge returns the average charge as a float in ADC counts (e.g. 1.0 means 1 ADC count)
+// getAvgCharge returns the average charge as a *float* in ADC counts (e.g. 1.0 means 1 ADC count)
 float getAvgCharge() const {
   switch (version_){
     case 1: return avgCharge_;
