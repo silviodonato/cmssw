@@ -38,6 +38,7 @@ public:
   //avgCharge() returns the average charge in ADC counts (0-255)
   //width() returns the cluster width (0-255)
   //version() returns true if the cluster is in the new format (Fall 2025)
+  cms_uint16_t barycenter() {return barycenter_; } // not used anymore
 
   cms_uint16_t barycenter(float previous_barycenter=0, unsigned int offset_module_change=0) const {
   switch (version_){
