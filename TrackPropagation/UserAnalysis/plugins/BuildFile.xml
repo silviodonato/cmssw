@@ -1,0 +1,17 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/Utilities"/>
+<use name="DataFormats/TrackReco"/>
+<use name="TrackingTools/TransientTrack"/>
+<use name="TrackingTools/GeomPropagators"/>
+<use name="TrackingTools/Records"/>
+<use name="Geometry/TrackerGeometryBuilder"/>
+<use name="Geometry/Records"/>
+<use name="DataFormats/TrackingRecHit"/>
+<use name="CommonTools/UtilAlgos"/>
+<use name="RecoLocalTracker/ClusterParameterEstimator"/>
+<use name="RecoLocalTracker/Records"/>
+<use name="root"/>
+<use name="roothistmatrix"/>
+<use name="rootgraphics"/>
+<flags EDM_PLUGIN="1"/>
