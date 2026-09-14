@@ -4,6 +4,7 @@
 #include "DataFormats/Common/interface/SortedCollection.h"
 #include "DataFormats/HGCRecHit/interface/HGCRecHit.h"
 #include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHit.h"
+#include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHitCompressed.h"
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/RefVector.h"
 #include <vector>
@@ -27,5 +28,15 @@ typedef HGCUncalibratedRecHitCollection HGCeeUncalibratedRecHitCollection;
 typedef HGCUncalibratedRecHitCollection HGChefUncalibratedRecHitCollection;
 typedef HGCUncalibratedRecHitCollection HGChebUncalibratedRecHitCollection;
 typedef HGCUncalibratedRecHitCollection HGChfnoseUncalibratedRecHitCollection;
+
+typedef edm::SortedCollection<HGCUncalibratedRecHitCompressed> HGCUncalibratedRecHitCompressedCollection;
+typedef edm::Ref<HGCUncalibratedRecHitCompressedCollection> HGCUncalibratedRecHitCompressedRef;
+typedef edm::RefVector<HGCUncalibratedRecHitCompressedCollection> HGCUncalibratedRecHitCompressedRefs;
+typedef edm::RefProd<HGCUncalibratedRecHitCompressedCollection> HGCUncalibratedRecHitCompressedsRef;
+
+typedef HGCUncalibratedRecHitCompressedCollection HGCeeUncalibratedRecHitCompressedCollection;
+typedef HGCUncalibratedRecHitCompressedCollection HGChefUncalibratedRecHitCompressedCollection;
+typedef HGCUncalibratedRecHitCompressedCollection HGChebUncalibratedRecHitCompressedCollection;
+typedef HGCUncalibratedRecHitCompressedCollection HGChfnoseUncalibratedRecHitCompressedCollection;
 
 #endif
