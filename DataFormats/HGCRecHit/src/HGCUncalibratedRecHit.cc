@@ -1,4 +1,5 @@
 #include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHit.h"
+#include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHitCompressed.h"
 #include <cmath>
 
 HGCUncalibratedRecHit::HGCUncalibratedRecHit()
@@ -22,6 +23,17 @@ HGCUncalibratedRecHit::HGCUncalibratedRecHit(
       flags_(flags),
       aux_(aux),
       id_(id) {}
+
+HGCUncalibratedRecHit::HGCUncalibratedRecHit(const HGCUncalibratedRecHitCompressed& hit)
+    : amplitude_(hit.amplitude()),
+      pedestal_(hit.pedestal()),
+      jitter_(hit.jitter()),
+      chi2_(hit.chi2()),
+      OOTamplitude_(hit.outOfTimeEnergy()),
+      OOTchi2_(hit.outOfTimeChi2()),
+      flags_(hit.flags()),
+      aux_(hit.aux()),
+      id_(hit.id()) {}
 
 HGCUncalibratedRecHit::~HGCUncalibratedRecHit() {}
 
