@@ -36,23 +36,6 @@ public:
   uint8_t jitterErrorBits() const;
   DetId id() const { return id_; }
 
-  void setAmplitude(float amplitude) { amplitude_ = amplitude; }
-  void setPedestal(float pedestal) { pedestal_ = pedestal; }
-  void setJitter(float jitter) { jitter_ = jitter; }
-  void setChi2(float chi2) { chi2_ = chi2; }
-  void setOutOfTimeEnergy(float energy) { OOTamplitude_ = energy; }
-  void setOutOfTimeChi2(float chi2) { OOTchi2_ = chi2; }
-
-  void setJitterError(float jitterErr);
-  void setFlags(uint32_t flags) { flags_ = flags; }
-  void setId(DetId id) { id_ = id; }
-  void setAux(uint32_t aux) { aux_ = aux; }
-  void setFlagBit(Flags flag);
-  bool checkFlag(Flags flag) const;
-
-  bool isSaturated() const;
-  bool isJitterValid() const;
-  bool isJitterErrorValid() const;
 
 private:
   float amplitude_;     //< Reconstructed amplitude
