@@ -28,6 +28,7 @@ public:
   float outOfTimeChi2() const { return OOTchi2_; }
 
   uint32_t flags() const { return flags_; }
+  uint32_t aux() const { return aux_; }
   float jitterError() const;
   uint8_t jitterErrorBits() const;
   DetId id() const { return id_; }

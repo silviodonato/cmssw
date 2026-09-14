@@ -4,6 +4,8 @@
 #include <vector>
 #include "DataFormats/DetId/interface/DetId.h"
 
+class HGCUncalibratedRecHit;
+
 class HGCUncalibratedRecHitCompressed {
 public:
   typedef DetId key_type;
@@ -18,6 +20,7 @@ public:
   HGCUncalibratedRecHitCompressed();
   HGCUncalibratedRecHitCompressed(
       const DetId& detId, float ampl, float ped, float jit, float chi2, uint32_t flags = 0, uint32_t aux = 0);
+  explicit HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit);
 
   virtual ~HGCUncalibratedRecHitCompressed();
   float amplitude() const { return amplitude_; }
@@ -28,6 +31,7 @@ public:
   float outOfTimeChi2() const { return OOTchi2_; }
 
   uint32_t flags() const { return flags_; }
+  uint32_t aux() const { return aux_; }
   float jitterError() const;
   uint8_t jitterErrorBits() const;
   DetId id() const { return id_; }
