@@ -9,7 +9,7 @@ class HGCUncalibratedRecHit;
 class HGCUncalibratedRecHitCompressed {
 public:
   typedef DetId key_type;
-  using index_type = uint16_t;
+  using index_type = uint8_t;
 
   enum Flags {
     kGood = -1,  // channel is good (mutually exclusive with other states)  setFlagBit(kGood) reset flags_ to zero
@@ -20,6 +20,19 @@ public:
 
   HGCUncalibratedRecHitCompressed();
   HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit, index_type geometryIndex);
+
+  // A padding hit advances the geometry-index delta stream and is discarded
+  // by the decompressor. Its payload uses the common/default values and its
+  // amplitude is deliberately zero.
+  static HGCUncalibratedRecHitCompressed makeIndexPadding(index_type geometryIndex) {
+    HGCUncalibratedRecHitCompressed padding;
+    padding.pedestal_ = -1.f;
+    padding.jitter_ = -99.f;
+    padding.chi2_ = -1.f;
+    padding.OOTchi2_ = 10000.f;
+    padding.id_ = geometryIndex;
+    return padding;
+  }
 
   virtual ~HGCUncalibratedRecHitCompressed();
   float amplitude() const { return amplitude_; }

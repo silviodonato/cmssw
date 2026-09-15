@@ -48,6 +48,9 @@ public:
         throw cms::Exception("LogicError") << "Unsupported HGC uncalibrated-rechit compressed encoding";
       }
       input.forEachGeometryIndex([&](const auto& hit, uint32_t geometryIndex) {
+        if (hit.amplitude() == 0.f) {
+          return;
+        }
         HGCUncalibratedRecHit decompressed(hit);
         if (geometryIndex >= activeDetIds.size()) {
           throw cms::Exception("LogicError")

@@ -48,6 +48,7 @@ public:
       output->setEncoding(HGCUncalibratedRecHitCompressedsSorted::Encoding::kGeometryIndexDelta);
 
       uint32_t previousGeometryIndex = 0;
+      constexpr auto maxIndexDelta = std::numeric_limits<HGCUncalibratedRecHitCompressed::index_type>::max() - 1;
       for (const auto& hit : input) {
         const auto found = std::lower_bound(activeDetIds.begin(), activeDetIds.end(), hit.id());
         if (found == activeDetIds.end() || *found != hit.id()) {
@@ -58,10 +59,10 @@ public:
         if (geometryIndex < previousGeometryIndex) {
           throw cms::Exception("LogicError") << "HGCal geometry indices are not ordered in " << geometryNames_[index];
         }
-        const auto geometryIndexDelta = geometryIndex - previousGeometryIndex;
-        if (geometryIndexDelta > std::numeric_limits<HGCUncalibratedRecHitCompressed::index_type>::max()) {
-          throw cms::Exception("LogicError")
-              << "HGCal geometry-index delta " << geometryIndexDelta << " cannot be stored in a uint16_t";
+        auto geometryIndexDelta = geometryIndex - previousGeometryIndex;
+        while (geometryIndexDelta > maxIndexDelta) {
+          output->push_back(HGCUncalibratedRecHitCompressed::makeIndexPadding(maxIndexDelta));
+          geometryIndexDelta -= maxIndexDelta;
         }
         const auto compressedDelta = static_cast<HGCUncalibratedRecHitCompressed::index_type>(geometryIndexDelta);
         output->push_back(HGCUncalibratedRecHitCompressed(hit, compressedDelta));

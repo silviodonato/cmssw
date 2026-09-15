@@ -25,7 +25,7 @@ public:
   bool empty() const { return hits_.empty(); }
   size_type size() const { return hits_.size(); }
 
-  // hit.id() holds the 16-bit difference from the previous index in the
+  // hit.id() holds the index_type difference from the previous index in the
   // corresponding HGCalGeometry valid-DetId list.
   void push_back(const value_type& hit) { hits_.push_back(hit); }
 
