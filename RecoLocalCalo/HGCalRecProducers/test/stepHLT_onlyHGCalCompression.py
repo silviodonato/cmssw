@@ -163,8 +163,8 @@ process.output.overrideBranchesSplitLevel = cms.untracked.VPSet(
     cms.untracked.PSet(
         # The final "." is part of the actual EDM branch name.
         branch=cms.untracked.string(
-            "HGCUncalibratedRecHitSorted_"
-            "hltHGCalUncalibRecHit_*_HLTX."
+            "HGCUncalibratedRecHitsSorted_"
+            "hltHGCalUncalibRecHitDecompressed_*_HLTX."
         ),
         splitLevel=cms.untracked.int32(99)
     )
