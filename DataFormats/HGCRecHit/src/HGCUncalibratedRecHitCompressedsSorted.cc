@@ -14,6 +14,12 @@ HGCUncalibratedRecHitCompressedsSorted::const_iterator::operator++() {
   return *this;
 }
 
+void HGCUncalibratedRecHitCompressedsSorted::push_back(const value_type& hit, uint32_t geometryIndex) {
+  value_type indexedHit = hit;
+  indexedHit.setRawId(geometryIndex);
+  hits_.push_back(indexedHit);
+}
+
 void HGCUncalibratedRecHitCompressedsSorted::post_insert() {
   if (deltaEncoded_)
     return;
@@ -22,11 +28,11 @@ void HGCUncalibratedRecHitCompressedsSorted::post_insert() {
     return left.id() < right.id();
   });
 
-  uint32_t previousId = 0;
+  uint32_t previousIndex = 0;
   for (auto& hit : hits_) {
-    const uint32_t id = hit.id().rawId();
-    hit.setRawId(id - previousId);
-    previousId = id;
+    const uint32_t index = hit.id().rawId();
+    hit.setRawId(index - previousIndex);
+    previousIndex = index;
   }
   deltaEncoded_ = true;
 }

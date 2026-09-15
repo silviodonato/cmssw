@@ -12,6 +12,11 @@ process.hltHGCalUncalibRecHitCompressed = cms.EDProducer(
         cms.InputTag("hltHGCalUncalibRecHit", "HGCHEFUncalibRecHits"),
         cms.InputTag("hltHGCalUncalibRecHit", "HGCHEBUncalibRecHits"),
     ),
+    geometryNames = cms.vstring(
+        "HGCalEESensitive",
+        "HGCalHESiliconSensitive",
+        "HGCalHEScintillatorSensitive",
+    ),
 )
 
 process.hltHGCalUncalibRecHitDecompressed = cms.EDProducer(
@@ -20,6 +25,11 @@ process.hltHGCalUncalibRecHitDecompressed = cms.EDProducer(
         cms.InputTag("hltHGCalUncalibRecHitCompressed", "HGCEEUncalibRecHits"),
         cms.InputTag("hltHGCalUncalibRecHitCompressed", "HGCHEFUncalibRecHits"),
         cms.InputTag("hltHGCalUncalibRecHitCompressed", "HGCHEBUncalibRecHits"),
+    ),
+    geometryNames = cms.vstring(
+        "HGCalEESensitive",
+        "HGCalHESiliconSensitive",
+        "HGCalHEScintillatorSensitive",
     ),
 )
 
@@ -171,4 +181,3 @@ process.options.numberOfThreads = 8
 process.maxEvents.input = -1
 
 #process.source.inputFiles = ["root://eoscms.cern.ch//store/relval/CMSSW_20_0_0_patch1/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_16Aug26-v2/2590000/c0bf8a3e-cf56-46af-b47e-527cd9313b14.root"]
-
