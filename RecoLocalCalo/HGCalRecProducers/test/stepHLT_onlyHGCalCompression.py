@@ -146,6 +146,26 @@ process.options.wantSummary = True
 process.options.numberOfStreams = 4
 process.options.numberOfThreads = 8
 
-process.maxEvents.input = -1
+process.maxEvents.input = 8
 
 #process.source.inputFiles = ["root://eoscms.cern.ch//store/relval/CMSSW_20_0_0_patch1/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_16Aug26-v2/2590000/c0bf8a3e-cf56-46af-b47e-527cd9313b14.root"]
+
+
+process.output.overrideBranchesSplitLevel = cms.untracked.VPSet(
+    cms.untracked.PSet(
+        # The final "." is part of the actual EDM branch name.
+        branch=cms.untracked.string(
+            "HGCUncalibratedRecHitCompressedsSorted_"
+            "hltHGCalUncalibRecHitCompressed_*_HLTX."
+        ),
+        splitLevel=cms.untracked.int32(99)
+    ),
+    cms.untracked.PSet(
+        # The final "." is part of the actual EDM branch name.
+        branch=cms.untracked.string(
+            "HGCUncalibratedRecHitSorted_"
+            "hltHGCalUncalibRecHit_*_HLTX."
+        ),
+        splitLevel=cms.untracked.int32(99)
+    )
+)
