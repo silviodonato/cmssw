@@ -5,6 +5,7 @@
 #include "DataFormats/DetId/interface/DetId.h"
 
 class HGCUncalibratedRecHit;
+class HGCUncalibratedRecHitCompressedsSorted;
 
 class HGCUncalibratedRecHitCompressed {
 public:
@@ -38,6 +39,10 @@ public:
 
 
 private:
+  friend class HGCUncalibratedRecHitCompressedsSorted;
+
+  void setRawId(uint32_t id) { id_ = DetId(id); }
+
   float amplitude_;     //< Reconstructed amplitude
   float pedestal_;      //< Reconstructed pedestal
   float jitter_;        //< Reconstructed time jitter
