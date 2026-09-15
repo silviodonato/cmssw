@@ -139,33 +139,36 @@ process.DST_PFScouting = cms.Path(
 del process.FEVTDEBUGHLToutput_step
 #del process.DST_PFScouting
 
-process.endjob_step = cms.EndPath(process.output)
+process.outputSplitted = process.output.clone(
+    fileName = cms.untracked.string('file:stepHLT_onlyHGCalCompression_splitted.root'),
+    overrideBranchesSplitLevel = cms.untracked.VPSet(
+        cms.untracked.PSet(
+            # The final "." is part of the actual EDM branch name.
+            branch=cms.untracked.string(
+                "HGCUncalibratedRecHitCompressedsSorted_"
+                "hltHGCalUncalibRecHitCompressed_*_HLTX."
+            ),
+            splitLevel=cms.untracked.int32(99)
+        ),
+        cms.untracked.PSet(
+            # The final "." is part of the actual EDM branch name.
+            branch=cms.untracked.string(
+                "HGCUncalibratedRecHitsSorted_"
+                "hltHGCalUncalibRecHitDecompressed_*_HLTX."
+            ),
+            splitLevel=cms.untracked.int32(99)
+        )
+    )
+)
+
+process.endjob_step = cms.EndPath(process.output + process.outputSplitted)
 print(process.schedule)
 
 process.options.wantSummary = True
 process.options.numberOfStreams = 4
 process.options.numberOfThreads = 8
 
-process.maxEvents.input = 8
+process.maxEvents.input = -1
 
 #process.source.inputFiles = ["root://eoscms.cern.ch//store/relval/CMSSW_20_0_0_patch1/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_16Aug26-v2/2590000/c0bf8a3e-cf56-46af-b47e-527cd9313b14.root"]
 
-
-process.output.overrideBranchesSplitLevel = cms.untracked.VPSet(
-    cms.untracked.PSet(
-        # The final "." is part of the actual EDM branch name.
-        branch=cms.untracked.string(
-            "HGCUncalibratedRecHitCompressedsSorted_"
-            "hltHGCalUncalibRecHitCompressed_*_HLTX."
-        ),
-        splitLevel=cms.untracked.int32(99)
-    ),
-    cms.untracked.PSet(
-        # The final "." is part of the actual EDM branch name.
-        branch=cms.untracked.string(
-            "HGCUncalibratedRecHitsSorted_"
-            "hltHGCalUncalibRecHitDecompressed_*_HLTX."
-        ),
-        splitLevel=cms.untracked.int32(99)
-    )
-)

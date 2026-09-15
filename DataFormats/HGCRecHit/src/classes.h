@@ -1,5 +1,6 @@
 #include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHit.h"
 #include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHitCompressed.h"
+#include "DataFormats/HGCRecHit/interface/HGCUncalibratedRecHitCompressedsSorted.h"
 #include "DataFormats/HGCRecHit/interface/HGCRecHit.h"
 #include "DataFormats/HGCRecHit/interface/HGCRecHitCollections.h"
 #include "DataFormats/HGCRecHit/interface/HGCSeverityLevel.h"

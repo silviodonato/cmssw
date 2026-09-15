@@ -25,7 +25,9 @@ PRODUCT_PREFIXES = {
         "hltHGCalUncalibRecHitDecompressed_"
     ),
 }
-MEMBER_MARKER = ".obj.obj."
+# The legacy edm::SortedCollection uses .obj.obj.; the delta-ID collection
+# persists its hits in hits_.
+MEMBER_MARKERS = (".obj.obj.", ".hits_.")
 
 
 def leaf_branches(branch):
@@ -57,14 +59,15 @@ def find_member_branches(tree, collection_pattern="*"):
         top = top_branches.At(index)
         for branch in leaf_branches(top):
             name = branch.GetName()
-            if MEMBER_MARKER not in name:
+            marker = next((candidate for candidate in MEMBER_MARKERS if candidate in name), None)
+            if marker is None:
                 continue
 
             for product, prefix in PRODUCT_PREFIXES.items():
                 if not name.startswith(prefix):
                     continue
 
-                collection, member = name.split(MEMBER_MARKER, 1)
+                collection, member = name.split(marker, 1)
                 collection = collection[len(prefix) :]
                 if not matches_collection(product, collection, collection_pattern):
                     continue
