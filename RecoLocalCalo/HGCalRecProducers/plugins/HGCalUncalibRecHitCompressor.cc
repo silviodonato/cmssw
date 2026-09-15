@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
@@ -46,13 +47,25 @@ public:
       output->reserve(input.size());
       output->setEncoding(HGCUncalibratedRecHitCompressedsSorted::Encoding::kGeometryIndexDelta);
 
+      uint32_t previousGeometryIndex = 0;
       for (const auto& hit : input) {
         const auto found = std::lower_bound(activeDetIds.begin(), activeDetIds.end(), hit.id());
         if (found == activeDetIds.end() || *found != hit.id()) {
           throw cms::Exception("LogicError") << "DetId 0x" << std::hex << hit.id().rawId() << std::dec
                                              << " is not valid in geometry " << geometryNames_[index];
         }
-        output->push_back(HGCUncalibratedRecHitCompressed(hit), std::distance(activeDetIds.begin(), found));
+        const auto geometryIndex = static_cast<uint32_t>(std::distance(activeDetIds.begin(), found));
+        if (geometryIndex < previousGeometryIndex) {
+          throw cms::Exception("LogicError") << "HGCal geometry indices are not ordered in " << geometryNames_[index];
+        }
+        const auto geometryIndexDelta = geometryIndex - previousGeometryIndex;
+        if (geometryIndexDelta > std::numeric_limits<HGCUncalibratedRecHitCompressed::index_type>::max()) {
+          throw cms::Exception("LogicError")
+              << "HGCal geometry-index delta " << geometryIndexDelta << " cannot be stored in a uint16_t";
+        }
+        const auto compressedDelta = static_cast<HGCUncalibratedRecHitCompressed::index_type>(geometryIndexDelta);
+        output->push_back(HGCUncalibratedRecHitCompressed(hit, compressedDelta));
+        previousGeometryIndex = geometryIndex;
       }
 
       event.put(std::move(output), outputInstances_[index]);

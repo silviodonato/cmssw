@@ -1,15 +1,15 @@
 #ifndef DATAFORMATS_HGCUNCALIBRATEDRECHITCOMPRESSED
 #define DATAFORMATS_HGCUNCALIBRATEDRECHITCOMPRESSED
 
+#include <cstdint>
 #include <vector>
 #include "DataFormats/DetId/interface/DetId.h"
 
 class HGCUncalibratedRecHit;
-class HGCUncalibratedRecHitCompressedsSorted;
-
 class HGCUncalibratedRecHitCompressed {
 public:
   typedef DetId key_type;
+  using index_type = uint16_t;
 
   enum Flags {
     kGood = -1,  // channel is good (mutually exclusive with other states)  setFlagBit(kGood) reset flags_ to zero
@@ -19,9 +19,7 @@ public:
   };
 
   HGCUncalibratedRecHitCompressed();
-  HGCUncalibratedRecHitCompressed(
-      const DetId& detId, float ampl, float ped, float jit, float chi2, uint32_t flags = 0, uint32_t aux = 0);
-  explicit HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit);
+  HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit, index_type geometryIndex);
 
   virtual ~HGCUncalibratedRecHitCompressed();
   float amplitude() const { return amplitude_; }
@@ -35,14 +33,9 @@ public:
   uint32_t aux() const { return aux_; }
   float jitterError() const;
   uint8_t jitterErrorBits() const;
-  DetId id() const { return id_; }
-
+  DetId id() const { return DetId(id_); }
 
 private:
-  friend class HGCUncalibratedRecHitCompressedsSorted;
-
-  void setRawId(uint32_t id) { id_ = DetId(id); }
-
   float amplitude_;     //< Reconstructed amplitude
   float pedestal_;      //< Reconstructed pedestal
   float jitter_;        //< Reconstructed time jitter
@@ -51,7 +44,7 @@ private:
   float OOTchi2_;       //< Out-Of-Time Chi2
   uint32_t flags_;      //< flag to be propagated to RecHit
   uint32_t aux_;        //< aux word; first 8 bits contain time (jitter) error
-  DetId id_;            //< Detector ID
+  index_type id_;       //< Index in the valid-DetId list, or its delta
 };
 
 #endif

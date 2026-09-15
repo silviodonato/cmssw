@@ -1,7 +1,6 @@
 #ifndef DATAFORMATS_HGCRECHIT_HGCUNCALIBRATEDRECHITCOMPRESSEDS_SORTED_H
 #define DATAFORMATS_HGCRECHIT_HGCUNCALIBRATEDRECHITCOMPRESSEDS_SORTED_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -17,30 +16,8 @@ public:
   using key_type = DetId;
   using size_type = std::vector<value_type>::size_type;
 
-  class const_iterator {
-  public:
-    const value_type& operator*() const;
-    const value_type* operator->() const { return &operator*(); }
-
-    const_iterator& operator++();
-    const_iterator operator++(int) {
-      const_iterator copy = *this;
-      ++(*this);
-      return copy;
-    }
-
-    bool operator==(const const_iterator& other) const { return current_ == other.current_; }
-    bool operator!=(const const_iterator& other) const { return !(*this == other); }
-
-  private:
-    friend class HGCUncalibratedRecHitCompressedsSorted;
-    const_iterator(std::vector<value_type>::const_iterator current, uint32_t previousId)
-        : current_(current), previousId_(previousId) {}
-
-    std::vector<value_type>::const_iterator current_;
-    uint32_t previousId_ = 0;
-    mutable value_type decodedHit_;
-  };
+  enum class Encoding : uint8_t { kGeometryIndexDelta = 1 };
+  using const_iterator = std::vector<value_type>::const_iterator;
 
   HGCUncalibratedRecHitCompressedsSorted() = default;
 
@@ -48,25 +25,37 @@ public:
   bool empty() const { return hits_.empty(); }
   size_type size() const { return hits_.size(); }
 
-  // Hits are supplied with absolute DetIds. post_insert(), called by
-  // edm::Event::put(), sorts them and changes the stored IDs into deltas.
+  // hit.id() holds the 16-bit difference from the previous index in the
+  // corresponding HGCalGeometry valid-DetId list.
   void push_back(const value_type& hit) { hits_.push_back(hit); }
 
-  const_iterator begin() const { return const_iterator(hits_.begin(), 0); }
+  void setEncoding(Encoding encoding) { encoding_ = encoding; }
+  bool isGeometryIndexEncoded() const { return encoding_ == Encoding::kGeometryIndexDelta; }
+
+  const_iterator begin() const { return hits_.begin(); }
   const_iterator cbegin() const { return begin(); }
-  const_iterator end() const { return const_iterator(hits_.end(), 0); }
+  const_iterator end() const { return hits_.end(); }
   const_iterator cend() const { return end(); }
 
-  // This is called by edm::Event when the product is inserted. The input
-  // uncalibrated-hit collection is already ordered, but sorting here makes
-  // the delta representation robust to insertion order.
+  // Reconstruct the full geometry index without materializing it in the
+  // persisted hit. The callback receives (compressed hit, full index).
+  template <typename F>
+  void forEachGeometryIndex(F&& function) const {
+    uint32_t geometryIndex = 0;
+    for (const auto& hit : hits_) {
+      geometryIndex += hit.id().rawId();
+      function(hit, geometryIndex);
+    }
+  }
+
+  // The index deltas are already computed by the compressor.
   void post_insert();
 
-  CMS_CLASS_VERSION(1)
+  CMS_CLASS_VERSION(3)
 
 private:
   std::vector<value_type> hits_;
-  bool deltaEncoded_ = false;
+  Encoding encoding_ = Encoding::kGeometryIndexDelta;
 };
 
 #endif

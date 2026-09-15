@@ -10,9 +10,11 @@ HGCUncalibratedRecHitCompressed::HGCUncalibratedRecHitCompressed()
       OOTamplitude_(0.),
       OOTchi2_(10000.),
       flags_(0),
-      aux_(0) {}
+      aux_(0),
+      id_(0) {}
 
-HGCUncalibratedRecHitCompressed::HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit)
+HGCUncalibratedRecHitCompressed::HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit,
+                                                                 index_type geometryIndex)
     : amplitude_(hit.amplitude()),
       pedestal_(hit.pedestal()),
       jitter_(hit.jitter()),
@@ -21,6 +23,6 @@ HGCUncalibratedRecHitCompressed::HGCUncalibratedRecHitCompressed(const HGCUncali
       OOTchi2_(hit.outOfTimeChi2()),
       flags_(hit.flags()),
       aux_(hit.aux()),
-      id_(hit.id()) {}
+      id_(geometryIndex) {}
 
 HGCUncalibratedRecHitCompressed::~HGCUncalibratedRecHitCompressed() {}

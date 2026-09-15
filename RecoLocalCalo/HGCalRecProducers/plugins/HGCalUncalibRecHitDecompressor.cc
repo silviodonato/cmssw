@@ -44,19 +44,19 @@ public:
       auto output = std::make_unique<HGCUncalibratedRecHitCollection>();
       output->reserve(input.size());
 
-      for (const auto& hit : input) {
-        HGCUncalibratedRecHit decompressed(hit);
-        if (input.isGeometryIndexEncoded()) {
-          const auto geometryIndex = hit.id().rawId();
-          if (geometryIndex >= activeDetIds.size()) {
-            throw cms::Exception("LogicError")
-                << "HGCal geometry index " << geometryIndex << " is outside " << geometryNames_[index]
-                << " valid-DetId list of size " << activeDetIds.size();
-          }
-          decompressed.setId(activeDetIds[geometryIndex]);
-        }
-        output->push_back(decompressed);
+      if (!input.isGeometryIndexEncoded()) {
+        throw cms::Exception("LogicError") << "Unsupported HGC uncalibrated-rechit compressed encoding";
       }
+      input.forEachGeometryIndex([&](const auto& hit, uint32_t geometryIndex) {
+        HGCUncalibratedRecHit decompressed(hit);
+        if (geometryIndex >= activeDetIds.size()) {
+          throw cms::Exception("LogicError")
+              << "HGCal geometry index " << geometryIndex << " is outside " << geometryNames_[index]
+              << " valid-DetId list of size " << activeDetIds.size();
+        }
+        decompressed.setId(activeDetIds[geometryIndex]);
+        output->push_back(decompressed);
+      });
 
       event.put(std::move(output), outputInstances_[index]);
     }
