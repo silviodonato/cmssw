@@ -1,5 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 from stepHLT_HLT import process 
+from SimCalorimetry.HGCalSimProducers.hgcalDigitizer_cfi import (
+    hgceeDigitizer, hgchefrontDigitizer, hgchebackDigitizer
+)
 
 ### stepHLT_HLT.py is generated from: (CMSSW_20_0_0_patch1)
 #cmsDriver.py stepHLT  -s HLT:NGTScouting --process HLTX --conditions auto:phase2_realistic_T35 --datatier GEN-SIM-DIGI-RAW -n 10 --eventcontent FEVTDEBUGHLT --geometry ExtendedRun4D128 --era Phase2C26I13M9 --filein file:/shared/sdonato/HGCalClusters/CMSSW_20_0_0_patch1/src/CMSSW_20_0_0_patch1_RelValTTbar_14TeV_GEN-SIM-DIGI-RAW_PU_150X_mcRun4_realistic_v1_STD_D128_RegeneratedGS_PU_16Aug26-v2_2590000_85ca555d-58df-475c-ae33-bcd48789cf47.root --fileout file:step2_slim_postHLT.root --no_exec
@@ -17,6 +20,18 @@ process.hltHGCalUncalibRecHitCompressed = cms.EDProducer(
         "HGCalHESiliconSensitive",
         "HGCalHEScintillatorSensitive",
     ),
+    # Keep the compression convention tied to the CMSSW HGCal digitizer
+    # configuration: jitter = tofDelay + ToA_code * toaLSB_ns.
+    tofDelays = cms.vdouble(
+        hgceeDigitizer.tofDelay.value(),
+        hgchefrontDigitizer.tofDelay.value(),
+        hgchebackDigitizer.tofDelay.value(),
+    ),
+    toaLSBs_ns = cms.vdouble(
+        hgceeDigitizer.digiCfg.feCfg.toaLSB_ns.value(),
+        hgchefrontDigitizer.digiCfg.feCfg.toaLSB_ns.value(),
+        hgchebackDigitizer.digiCfg.feCfg.toaLSB_ns.value(),
+    ),
 )
 
 process.hltHGCalUncalibRecHitDecompressed = cms.EDProducer(
@@ -30,6 +45,16 @@ process.hltHGCalUncalibRecHitDecompressed = cms.EDProducer(
         "HGCalEESensitive",
         "HGCalHESiliconSensitive",
         "HGCalHEScintillatorSensitive",
+    ),
+    tofDelays = cms.vdouble(
+        hgceeDigitizer.tofDelay.value(),
+        hgchefrontDigitizer.tofDelay.value(),
+        hgchebackDigitizer.tofDelay.value(),
+    ),
+    toaLSBs_ns = cms.vdouble(
+        hgceeDigitizer.digiCfg.feCfg.toaLSB_ns.value(),
+        hgchefrontDigitizer.digiCfg.feCfg.toaLSB_ns.value(),
+        hgchebackDigitizer.digiCfg.feCfg.toaLSB_ns.value(),
     ),
 )
 

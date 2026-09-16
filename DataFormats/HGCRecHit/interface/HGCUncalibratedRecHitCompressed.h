@@ -10,6 +10,9 @@ class HGCUncalibratedRecHitCompressed {
 public:
   typedef DetId key_type;
   using index_type = uint8_t;
+  using jitter_type = uint16_t;
+  static constexpr jitter_type kFakeJitterCode = 0;    // Fake jitter code for hits with no valid ToA (currently -99 in the uncompressed rechit)
+  static constexpr jitter_type kJitterOffset = kFakeJitterCode+1;       //< Encoded ToA integer offset
 
   enum Flags {
     kGood = -1,  // channel is good (mutually exclusive with other states)  setFlagBit(kGood) reset flags_ to zero
@@ -19,7 +22,10 @@ public:
   };
 
   HGCUncalibratedRecHitCompressed();
-  HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit, index_type geometryIndex);
+  HGCUncalibratedRecHitCompressed(const HGCUncalibratedRecHit& hit,
+                                  index_type geometryIndex,
+                                  double tofDelay,
+                                  double toaLSB_ns);
 
   // A padding hit advances the geometry-index delta stream and is discarded
   // by the decompressor. Its payload uses the common/default values and its
@@ -27,7 +33,7 @@ public:
   static HGCUncalibratedRecHitCompressed makeIndexPadding(index_type geometryIndex) {
     HGCUncalibratedRecHitCompressed padding;
     padding.pedestal_ = -1.f;
-    padding.jitter_ = -99.f;
+    padding.jitter_ = kFakeJitterCode;
     padding.chi2_ = -1.f;
     padding.OOTchi2_ = 10000.f;
     padding.id_ = geometryIndex;
@@ -37,7 +43,10 @@ public:
   virtual ~HGCUncalibratedRecHitCompressed();
   float amplitude() const { return amplitude_; }
   float pedestal() const { return pedestal_; }
-  float jitter() const { return jitter_; }
+  // The persisted value is the encoded ToA integer minus kJitterOffset.
+  jitter_type jitterIndex() const { return jitter_; }
+  jitter_type jitterInteger() const { return jitter_; }
+  float jitter(double tofDelay, double toaLSB_ns) const;
   float chi2() const { return chi2_; }
   float outOfTimeEnergy() const { return OOTamplitude_; }
   float outOfTimeChi2() const { return OOTchi2_; }
@@ -51,7 +60,7 @@ public:
 private:
   float amplitude_;     //< Reconstructed amplitude
   float pedestal_;      //< Reconstructed pedestal
-  float jitter_;        //< Reconstructed time jitter
+  jitter_type jitter_;  //< Encoded ToA integer minus kJitterOffset (10-bit range)
   float chi2_;          //< Chi2 of the pulse
   float OOTamplitude_;  //< Out-Of-Time reconstructed amplitude
   float OOTchi2_;       //< Out-Of-Time Chi2

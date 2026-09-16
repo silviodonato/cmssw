@@ -2,3 +2,7 @@
   <use name="RecoLocalCalo/HGCalRecProducers" />
   <use name="catch2" />
 </bin>
+<bin   name="HGCUncalibratedRecHitCompressed" file="HGCUncalibratedRecHitCompressed_t.cpp">
+  <use name="DataFormats/HGCRecHit" />
+  <use name="catch2" />
+</bin>

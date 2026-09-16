@@ -85,7 +85,7 @@ void HGCalUncalibRecHitProducer::fillDescriptions(edm::ConfigurationDescriptions
   HGCEEConfigPSet.add<unsigned int>("tdcNbits", 12);
   HGCEEConfigPSet.add<double>("tdcSaturation", 10000);
   HGCEEConfigPSet.add<double>("tdcOnset", 60);
-  HGCEEConfigPSet.add<double>("toaLSB_ns", 0.0244);
+  HGCEEConfigPSet.add<double>("toaLSB_ns", 25/1024);
   HGCEEConfigPSet.add<double>("tofDelay", -9);
   HGCEEConfigPSet.add<std::vector<double>>("fCPerMIP",
                                            {
@@ -101,7 +101,7 @@ void HGCalUncalibRecHitProducer::fillDescriptions(edm::ConfigurationDescriptions
   HGCHEFConfigPSet.add<unsigned int>("tdcNbits", 12);
   HGCHEFConfigPSet.add<double>("tdcSaturation", 10000);
   HGCHEFConfigPSet.add<double>("tdcOnset", 60);
-  HGCHEFConfigPSet.add<double>("toaLSB_ns", 0.0244);
+  HGCHEFConfigPSet.add<double>("toaLSB_ns", 25/1024);
   HGCHEFConfigPSet.add<double>("tofDelay", -11);
   HGCHEFConfigPSet.add<std::vector<double>>("fCPerMIP",
                                             {
@@ -117,7 +117,7 @@ void HGCalUncalibRecHitProducer::fillDescriptions(edm::ConfigurationDescriptions
   HGCHEBConfigPSet.add<unsigned int>("tdcNbits", 12);
   HGCHEBConfigPSet.add<double>("tdcSaturation", 1000);
   HGCHEBConfigPSet.add<double>("tdcOnset", 55);
-  HGCHEBConfigPSet.add<double>("toaLSB_ns", 0.0244);
+  HGCHEBConfigPSet.add<double>("toaLSB_ns", 25/1024);
   HGCHEBConfigPSet.add<double>("tofDelay", -14);
   HGCHEBConfigPSet.add<std::vector<double>>("fCPerMIP",
                                             {
@@ -133,7 +133,7 @@ void HGCalUncalibRecHitProducer::fillDescriptions(edm::ConfigurationDescriptions
   HGCHFNoseConfigPSet.add<unsigned int>("tdcNbits", 12);
   HGCHFNoseConfigPSet.add<double>("tdcSaturation", 10000);
   HGCHFNoseConfigPSet.add<double>("tdcOnset", 60);
-  HGCHFNoseConfigPSet.add<double>("toaLSB_ns", 0.0244);
+  HGCHFNoseConfigPSet.add<double>("toaLSB_ns", 25/1024);
   HGCHFNoseConfigPSet.add<double>("tofDelay", -33);
   HGCHFNoseConfigPSet.add<std::vector<double>>("fCPerMIP",
                                                {

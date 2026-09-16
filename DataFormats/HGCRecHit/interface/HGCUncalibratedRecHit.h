@@ -20,7 +20,7 @@ public:
   HGCUncalibratedRecHit();
   HGCUncalibratedRecHit(
       const DetId& detId, float ampl, float ped, float jit, float chi2, uint32_t flags = 0, uint32_t aux = 0);
-  explicit HGCUncalibratedRecHit(const HGCUncalibratedRecHitCompressed& hit);
+  HGCUncalibratedRecHit(const HGCUncalibratedRecHitCompressed& hit, double tofDelay, double toaLSB_ns);
 
   virtual ~HGCUncalibratedRecHit();
   float amplitude() const { return amplitude_; }

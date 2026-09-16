@@ -1,3 +1,4 @@
+#include <cmath>
 #include <memory>
 #include <string>
 #include <vector>
@@ -18,10 +19,21 @@ class HGCalUncalibRecHitDecompressor : public edm::stream::EDProducer<> {
 public:
   explicit HGCalUncalibRecHitDecompressor(const edm::ParameterSet& configuration)
       : inputTags_(configuration.getParameter<std::vector<edm::InputTag>>("src")),
-        geometryNames_(configuration.getParameter<std::vector<std::string>>("geometryNames")) {
+        geometryNames_(configuration.getParameter<std::vector<std::string>>("geometryNames")),
+        tofDelays_(configuration.getParameter<std::vector<double>>("tofDelays")),
+        toaLSBs_ns_(configuration.getParameter<std::vector<double>>("toaLSBs_ns")) {
     if (inputTags_.size() != geometryNames_.size()) {
       throw cms::Exception("Configuration")
           << "HGCalUncalibRecHitDecompressor requires one geometryNames entry for each src entry";
+    }
+    if (inputTags_.size() != tofDelays_.size() || inputTags_.size() != toaLSBs_ns_.size()) {
+      throw cms::Exception("Configuration")
+          << "HGCalUncalibRecHitDecompressor requires one tofDelay and toaLSB_ns entry for each src entry";
+    }
+    for (std::size_t index = 0; index < inputTags_.size(); ++index) {
+      if (!std::isfinite(tofDelays_[index]) || !std::isfinite(toaLSBs_ns_[index]) || toaLSBs_ns_[index] <= 0.) {
+        throw cms::Exception("Configuration") << "Invalid HGCal jitter encoding parameters for src entry " << index;
+      }
     }
     inputTokens_.reserve(inputTags_.size());
     geometryTokens_.reserve(inputTags_.size());
@@ -51,7 +63,7 @@ public:
         if (hit.amplitude() == 0.f) {
           return;
         }
-        HGCUncalibratedRecHit decompressed(hit);
+        HGCUncalibratedRecHit decompressed(hit, tofDelays_[index], toaLSBs_ns_[index]);
         if (geometryIndex >= activeDetIds.size()) {
           throw cms::Exception("LogicError")
               << "HGCal geometry index " << geometryIndex << " is outside " << geometryNames_[index]
@@ -74,12 +86,16 @@ public:
          edm::InputTag("hltHGCalUncalibRecHitCompressed", "HGCHEBUncalibRecHits")});
     description.add<std::vector<std::string>>(
         "geometryNames", {"HGCalEESensitive", "HGCalHESiliconSensitive", "HGCalHEScintillatorSensitive"});
+    description.add<std::vector<double>>("tofDelays");
+    description.add<std::vector<double>>("toaLSBs_ns");
     descriptions.addWithDefaultLabel(description);
   }
 
 private:
   std::vector<edm::InputTag> inputTags_;
   std::vector<std::string> geometryNames_;
+  std::vector<double> tofDelays_;
+  std::vector<double> toaLSBs_ns_;
   std::vector<edm::EDGetTokenT<HGCUncalibratedRecHitCompressedCollection>> inputTokens_;
   std::vector<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>> geometryTokens_;
   std::vector<std::string> outputInstances_;

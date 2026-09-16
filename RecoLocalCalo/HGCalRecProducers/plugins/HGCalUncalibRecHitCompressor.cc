@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <memory>
 #include <string>
@@ -8,6 +9,7 @@
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -20,10 +22,21 @@ class HGCalUncalibRecHitCompressor : public edm::stream::EDProducer<> {
 public:
   explicit HGCalUncalibRecHitCompressor(const edm::ParameterSet& configuration)
       : inputTags_(configuration.getParameter<std::vector<edm::InputTag>>("src")),
-        geometryNames_(configuration.getParameter<std::vector<std::string>>("geometryNames")) {
+        geometryNames_(configuration.getParameter<std::vector<std::string>>("geometryNames")),
+        tofDelays_(configuration.getParameter<std::vector<double>>("tofDelays")),
+        toaLSBs_ns_(configuration.getParameter<std::vector<double>>("toaLSBs_ns")) {
     if (inputTags_.size() != geometryNames_.size()) {
       throw cms::Exception("Configuration")
           << "HGCalUncalibRecHitCompressor requires one geometryNames entry for each src entry";
+    }
+    if (inputTags_.size() != tofDelays_.size() || inputTags_.size() != toaLSBs_ns_.size()) {
+      throw cms::Exception("Configuration")
+          << "HGCalUncalibRecHitCompressor requires one tofDelay and toaLSB_ns entry for each src entry";
+    }
+    for (std::size_t index = 0; index < inputTags_.size(); ++index) {
+      if (!std::isfinite(tofDelays_[index]) || !std::isfinite(toaLSBs_ns_[index]) || toaLSBs_ns_[index] <= 0.) {
+        throw cms::Exception("Configuration") << "Invalid HGCal jitter encoding parameters for src entry " << index;
+      }
     }
     inputTokens_.reserve(inputTags_.size());
     geometryTokens_.reserve(inputTags_.size());
@@ -65,7 +78,22 @@ public:
           geometryIndexDelta -= maxIndexDelta;
         }
         const auto compressedDelta = static_cast<HGCUncalibratedRecHitCompressed::index_type>(geometryIndexDelta);
-        output->push_back(HGCUncalibratedRecHitCompressed(hit, compressedDelta));
+        const HGCUncalibratedRecHitCompressed compressedHit(
+            hit, compressedDelta, tofDelays_[index], toaLSBs_ns_[index]);
+        output->push_back(compressedHit);
+
+        constexpr double maxRelativeJitterDifference = 0.001;
+        if (hit.jitter() > -99.f && hit.jitter() != 0.f) {
+          const double originalJitter = hit.jitter();
+          const double encodedJitter = compressedHit.jitter(tofDelays_[index], toaLSBs_ns_[index]);
+          const double relativeDifference = std::abs(encodedJitter - originalJitter) / std::abs(originalJitter);
+          if (relativeDifference > maxRelativeJitterDifference) {
+            edm::LogWarning("HGCalUncalibRecHitCompressor")
+                << "Jitter for DetId 0x" << std::hex << hit.id().rawId() << std::dec
+                << " differs by " << 100. * relativeDifference << "% after compression (original: "
+                << originalJitter << ", encoded: " << encodedJitter << ")";
+          }
+        }
         previousGeometryIndex = geometryIndex;
       }
 
@@ -81,12 +109,16 @@ public:
                                                  edm::InputTag("hltHGCalUncalibRecHit", "HGCHEBUncalibRecHits")});
     description.add<std::vector<std::string>>(
         "geometryNames", {"HGCalEESensitive", "HGCalHESiliconSensitive", "HGCalHEScintillatorSensitive"});
+    description.add<std::vector<double>>("tofDelays");
+    description.add<std::vector<double>>("toaLSBs_ns");
     descriptions.addWithDefaultLabel(description);
   }
 
 private:
   std::vector<edm::InputTag> inputTags_;
   std::vector<std::string> geometryNames_;
+  std::vector<double> tofDelays_;
+  std::vector<double> toaLSBs_ns_;
   std::vector<edm::EDGetTokenT<HGCUncalibratedRecHitCollection>> inputTokens_;
   std::vector<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>> geometryTokens_;
   std::vector<std::string> outputInstances_;
