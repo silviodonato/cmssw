@@ -25,9 +25,10 @@ HGCUncalibratedRecHit::HGCUncalibratedRecHit(
       id_(id) {}
 
 HGCUncalibratedRecHit::HGCUncalibratedRecHit(const HGCUncalibratedRecHitCompressed& hit,
+                                             const DetId& id,
                                              double tofDelay,
                                              double toaLSB_ns)
-    : amplitude_(hit.amplitude()),
+    : amplitude_(HGCUncalibratedRecHitCompressed::decodeAmplitude(hit.amplitudeCode(), id)),
       pedestal_(hit.pedestal()),
       jitter_(hit.jitter(tofDelay, toaLSB_ns)),
       chi2_(hit.chi2()),
@@ -35,7 +36,7 @@ HGCUncalibratedRecHit::HGCUncalibratedRecHit(const HGCUncalibratedRecHitCompress
       OOTchi2_(hit.outOfTimeChi2()),
       flags_(hit.flags()),
       aux_(hit.aux()),
-      id_(hit.id()) {}
+      id_(id) {}
 
 HGCUncalibratedRecHit::~HGCUncalibratedRecHit() {}
 

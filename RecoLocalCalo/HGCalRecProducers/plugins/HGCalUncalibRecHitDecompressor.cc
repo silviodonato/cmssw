@@ -60,16 +60,15 @@ public:
         throw cms::Exception("LogicError") << "Unsupported HGC uncalibrated-rechit compressed encoding";
       }
       input.forEachGeometryIndex([&](const auto& hit, uint32_t geometryIndex) {
-        if (hit.amplitude() == 0.f) {
-          return;
-        }
-        HGCUncalibratedRecHit decompressed(hit, tofDelays_[index], toaLSBs_ns_[index]);
         if (geometryIndex >= activeDetIds.size()) {
           throw cms::Exception("LogicError")
               << "HGCal geometry index " << geometryIndex << " is outside " << geometryNames_[index]
               << " valid-DetId list of size " << activeDetIds.size();
         }
-        decompressed.setId(activeDetIds[geometryIndex]);
+        if (hit.isIndexPadding()) {
+          return;
+        }
+        HGCUncalibratedRecHit decompressed(hit, activeDetIds[geometryIndex], tofDelays_[index], toaLSBs_ns_[index]);
         output->push_back(decompressed);
       });
 

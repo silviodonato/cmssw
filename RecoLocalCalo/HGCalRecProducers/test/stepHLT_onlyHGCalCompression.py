@@ -148,10 +148,16 @@ process.output = cms.OutputModule("PoolOutputModule",
         #'keep *_muonDTDigis_*_*',
 
         ### keep all HLT reco'd objects
-        #'keep *_*_*_HLTX',
+        'keep *_*_*_HLTX',
+
+        ### keep all simDigis
+        'keep *_simHGCalUnsuppressedDigis_*_*',
     ),
-    #compressionAlgorithm = cms.untracked.string("LZMA"),
-    #compressionLevel = cms.untracked.int32(4),
+    SelectEvents = cms.untracked.PSet(
+                SelectEvents = cms.vstring('DST_PFScouting')
+    ), 
+#    compressionAlgorithm = cms.untracked.string("LZMA"),
+#    compressionLevel = cms.untracked.int32(4),
     compressionAlgorithm = cms.untracked.string("ZSTD"),
     compressionLevel = cms.untracked.int32(3),
     splitLevel = cms.untracked.int32(99)
