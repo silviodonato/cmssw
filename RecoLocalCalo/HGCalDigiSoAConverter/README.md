@@ -3,26 +3,41 @@
 ## RecHit-equivalent `hltHgcalDigis` conversion
 
 `HGCalDigisToRecHitSoA` converts `EE`, `HEfront`, and `HEback` legacy digis to
-the standard `hgcaldigi::HGCalDigiHost` type. It keeps the fields read by
-`HGCalUncalibRecHitRecWeightsAlgo`: DetId and sample 2's data, mode,
+`hgcaldigi::HGCalDigiCompressedHost`, defined in `DataFormats/HGCalDigi`.
+It keeps the fields read by `HGCalUncalibRecHitRecWeightsAlgo`: DetId and sample 2's data, mode,
 threshold, ToA-valid bit, and ToA. It does **not** preserve the other four
 samples or unused bits, so the decompressed digis are intentionally not
 identical to the input digis.
 
-One SoA row represents one input frame. The private legacy mapping uses `tctp`
-bits 0, 1, and 2 for mode, threshold, and ToA-valid respectively; the 12-bit
-in-time data goes to `adc` or `tot`, including busy TDC samples. `toa` holds
-the valid in-time ToA. The rows follow sorted DetId order and have
-`flags=Invalid`, because their channel indexing and ADC/ToT scales are not
-those of native ECON-D digis. Two sidecars per detector instance are needed:
-`DetIdDeltas` and `DetIdExceptions`. The standard SoA has no DetId column.
-The decoder restores five-sample legacy frames with zero in the four unused
-sample slots and the original recHit-relevant fields in sample 2. Frames with
-fewer than three samples are rejected, because the recHit algorithm would
-read beyond their end.
+One SoA row represents one input frame. The layout stores two `uint16_t`
+columns: `packed` and `toaCode`. `packed` holds the `tctp` mode and threshold
+bits in bits 13:12 and the 12-bit in-time data in bits 11:0. Mode (`tctp`
+bit 0) selects whether the data is ToT or ADC, so `adc` and `tot` share the
+same bits. `toaCode` is the valid in-time ToA plus one, or 0 if there is no
+valid ToA, so the ToA-valid bit (`tctp` bit 2) is not stored separately.
+The constant `adcm1`, `cm`, and `flags` columns of `HGCalDigiSoA` are not
+stored. The element methods `tctp()`, `adcm1()`, `adc()`, `tot()`, `toa()`,
+`cm()`, and `flags()` return the same values as the `HGCalDigiSoA` columns
+(`adcm1` and `cm` are 0, and `flags` is `Invalid` because the rows are not
+native ECON-D digis). They are read-only, so rows are filled with `setTctp()`
+(mode and threshold bits only), `setAdc()` (clears the mode bit), `setTot()`
+(sets it), `setToa()` (also sets the ToA-valid bit), and `clearToa()`.
+The rows follow sorted DetId order. The one sidecar per detector instance,
+`IndexDeltas`, stores byte-sized deltas between positions in the geometry's
+sorted `getValidDetIds()` list. A byte value of 255 advances the index without
+consuming a digi; the next byte continues the same delta. The decoder needs
+the same geometry conditions used by the encoder. It restores five-sample
+legacy frames with zero in the four unused sample slots and the original
+recHit-relevant fields in sample 2.
+Frames with fewer than three samples are rejected, because the recHit
+algorithm would read beyond their end.
 
-The example reads `onlyHGCalSimDigisZSTD3.root`. `HGCalRawToDigiFake` creates
-`hltHgcalDigis` from its EE, HEfront, and HEback sim digis. Two identical
+The example reads `onlyHGCalSimDigisZSTD3.root` using the input workflow's
+Run 4 D128 geometry, Phase2C26I13M9 era, and T35 conditions.
+The silicon `fCPerMIP` arrays have the fourth V19 wafer-type entry; with
+geometry available, three entries would allow an out-of-bounds lookup.
+`HGCalRawToDigiFake` creates `hltHgcalDigis` from its EE, HEfront, and HEback
+sim digis. Two identical
 `HGCalUncalibRecHitProducer` configurations reconstruct from the original and
 decompressed digis. `HGCalUncalibRecHitRoundTripValidator` compares all hit
 fields and DetIds bit-for-bit in each event and fails on any mismatch.
@@ -38,9 +53,13 @@ python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hlt
 The first job writes `hltHgcalDigisRecHitRoundTripLZMA4.root` and
 `hltHgcalDigisRecHitRoundTripZSTD3.root` with the original digis, compact SoA,
 decompressed digis, and both recHit collections. The second job checks the
-persisted recHits. The output modules use LZMA level 4 and ZSTD level 3 with
-split level 0. The size script reports compressed and uncompressed kB per
-event for the original digis, SoA with sidecars, and decompressed digis.
+recHits rebuilt from the persisted SoA and geometry index deltas. The output
+modules use LZMA level 4 and ZSTD level 3 with split level 0. The size script
+prints separate Total, EE, HEfront, HEback, and
+HFNose tables with compressed and uncompressed kB per event for the original
+digis, SoA with sidecars, decompressed digis, `recHits`, and
+`recHitsDecompressed`. The HFNose table reports recHit products only; HFNose
+is not part of the digi round trip in this configuration.
 
 ## In-time sample projection
 

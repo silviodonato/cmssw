@@ -1,14 +1,14 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "DataFormats/HGCDigi/interface/HGCDigiCollections.h"
-#include "DataFormats/HGCalDigi/interface/HGCalDigiHost.h"
+#include "DataFormats/HGCalDigi/interface/HGCalDigiCompressedHost.h"
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
@@ -16,6 +16,8 @@
 #include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/Utilities/interface/InputTag.h"
+#include "Geometry/HGCalGeometry/interface/HGCalGeometry.h"
+#include "Geometry/Records/interface/IdealGeometryRecord.h"
 #include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDigiInstances.h"
 
 class HGCalDigisFromRecHitSoA : public edm::stream::EDProducer<> {
@@ -24,11 +26,11 @@ public:
     auto const source = config.getParameter<edm::InputTag>("src");
     for (std::size_t i = 0; i < hgcaldigi::digiInstances.size(); ++i) {
       auto const instance = hgcaldigi::digiInstances[i];
-      sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiHost>(hgcaldigi::withInstance(source, instance));
-      detIdDeltasTokens_[i] = consumes<std::vector<uint16_t>>(
-          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIdDeltas")));
-      detIdExceptionsTokens_[i] = consumes<std::vector<uint32_t>>(
-          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIdExceptions")));
+      sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiCompressedHost>(hgcaldigi::withInstance(source, instance));
+      indexDeltasTokens_[i] = consumes<std::vector<uint8_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "IndexDeltas")));
+      geometryTokens_[i] = esConsumes<HGCalGeometry, IdealGeometryRecord>(
+          edm::ESInputTag{"", std::string(hgcaldigi::geometryNames[i])});
       outputTokens_[i] = produces<HGCalDigiCollection>(std::string(instance));
     }
   }
@@ -40,33 +42,30 @@ public:
   }
 
 private:
-  void produce(edm::Event& event, edm::EventSetup const&) override {
+  void produce(edm::Event& event, edm::EventSetup const& eventSetup) override {
     for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& input = event.get(sourceTokens_[instanceIndex]);
-      auto const& detIdDeltas = event.get(detIdDeltasTokens_[instanceIndex]);
-      auto const& detIdExceptions = event.get(detIdExceptionsTokens_[instanceIndex]);
+      auto const& indexDeltas = event.get(indexDeltasTokens_[instanceIndex]);
+      auto const& activeDetIds = eventSetup.getData(geometryTokens_[instanceIndex]).getValidDetIds();
       auto const& view = input.view();
       auto const size = static_cast<std::size_t>(view.metadata().size());
-      if (detIdDeltas.size() != size)
-        throw cms::Exception("CorruptHGCalDigiSoA") << "DetId deltas do not match the SoA row count";
 
       auto output = HGCalDigiCollection{};
       output.reserve(size);
-      uint32_t previousDetId = 0;
-      std::size_t nextDetIdException = 0;
+      std::size_t geometryIndex = 0;
+      std::size_t nextDelta = 0;
 
       for (std::size_t i = 0; i < size; ++i) {
-        uint32_t detId;
-        if (detIdDeltas[i] == std::numeric_limits<uint16_t>::max()) {
-          if (nextDetIdException >= detIdExceptions.size())
-            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its DetId exception";
-          detId = detIdExceptions[nextDetIdException++];
-        } else {
-          if (i == 0 || previousDetId > std::numeric_limits<uint32_t>::max() - detIdDeltas[i])
-            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has an invalid DetId delta";
-          detId = previousDetId + detIdDeltas[i];
-        }
-        previousDetId = detId;
+        uint8_t delta;
+        do {
+          if (nextDelta >= indexDeltas.size())
+            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its geometry index delta";
+          delta = indexDeltas[nextDelta++];
+          if (geometryIndex >= activeDetIds.size() || delta > activeDetIds.size() - 1 - geometryIndex)
+            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has an out-of-range geometry index";
+          geometryIndex += delta;
+        } while (delta == 255);
+        auto const detId = activeDetIds[geometryIndex];
 
         auto const row = view[i];
         auto const status = row.tctp();
@@ -86,21 +85,21 @@ private:
         inTime.setData(data);
         if (toaValid)
           inTime.setToA(row.toa());
-        auto frame = HGCalDataFrame(DetId(detId));
+        auto frame = HGCalDataFrame(detId);
         frame.resize(5);
         frame.setSample(2, inTime);
         output.push_back(frame);
       }
-      if (nextDetIdException != detIdExceptions.size())
-        throw cms::Exception("CorruptHGCalDigiSoA") << "Unused DetId exceptions remain after decoding";
+      if (nextDelta != indexDeltas.size())
+        throw cms::Exception("CorruptHGCalDigiSoA") << "Unused geometry index deltas remain after decoding";
 
       event.emplace(outputTokens_[instanceIndex], std::move(output));
     }
   }
 
-  std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiHost>, 3> sourceTokens_;
-  std::array<edm::EDGetTokenT<std::vector<uint16_t>>, 3> detIdDeltasTokens_;
-  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> detIdExceptionsTokens_;
+  std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiCompressedHost>, 3> sourceTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint8_t>>, 3> indexDeltasTokens_;
+  std::array<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>, 3> geometryTokens_;
   std::array<edm::EDPutTokenT<HGCalDigiCollection>, 3> outputTokens_;
 };
 

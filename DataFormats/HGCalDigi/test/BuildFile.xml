@@ -11,3 +11,7 @@
 <bin file="HGCalRawDataEmulatorInfoTest.cc" name="HGCalRawDataEmulatorInfoTest">
   <use name="DataFormats/HGCalDigi"/>
 </bin>
+
+<bin file="HGCalDigiCompressedSoATest.cc" name="HGCalDigiCompressedSoATest">
+  <use name="DataFormats/HGCalDigi"/>
+</bin>
