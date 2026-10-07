@@ -1,5 +1,53 @@
 # Digi collections to HGCalDigiSoA
 
+## Lossless `hltHgcalDigis` round trip
+
+`HGCalDigisToLosslessSoA` converts the `EE`, `HEfront`, and `HEback` instances
+of `hltHgcalDigis` to separate
+`HGCalLegacyDigiHost` products. `HGCalDigisFromLosslessSoA` restores the
+corresponding `HGCalDigiCollection` instances. The SoA and its
+sidecars preserve every sample's complete 32-bit word and the DetId. The SoA
+packs fields shared by the five samples and stores uncommon frames and large
+DetId gaps in two small sidecar products, `exceptions` and
+`detIdExceptions`. All three products are required for decompression. Frames
+with more than five samples cause a clear
+exception instead of data loss.
+
+The single `hltHgcalDigisSoA` producer reads all three instances. It emits
+SoA instances `EE`, `HEfront`, and `HEback`, plus a matching pair of sidecar
+instances for each: for example, `EEExceptions` contains full sample words
+when a frame's shared bits differ, and `EEDetIdExceptions` contains full
+DetIds when a gap exceeds the 16-bit delta field. The single
+`hltHgcalDigisDecompressed` producer reads these nine products and emits the
+three restored digi instances. One validator checks all three pairs.
+
+The round-trip example reads `onlyHGCalSimDigisZSTD3.root`, which contains
+`simHGCalUnsuppressedDigis` but no `hltHgcalDigis`. The `HGCalRawToDigiFake`
+producer first creates the three `hltHgcalDigis` instances from the EE,
+HEfront, and HEback sim digis.
+
+The separate `HGCalDigiHost` produced by `HGCalDataFrameToHGCalDigiSoA`
+below stores only one in-time sample and cannot reproduce the original five
+sample frame.
+
+From the CMSSW area, after `cmsenv` and `scram b -j 4`, run:
+
+```sh
+cmsRun src/RecoLocalCalo/HGCalDigiSoAConverter/test/hltHgcalDigisRoundTrip_cfg.py
+cmsRun src/RecoLocalCalo/HGCalDigiSoAConverter/test/hltHgcalDigisReadback_cfg.py
+python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hltHgcalDigisRoundTripLZMA4.root
+```
+
+The first job writes `hltHgcalDigisRoundTrip.root` with the original,
+lossless SoA, and restored branches for all three instances. Its validator compares frame counts,
+DetIds, sample counts, and every raw sample word in every event. The second
+job reads the persisted SoA and sidecars from the ROOT file and repeats the
+comparison. The output module uses LZMA compression at level 4 with split
+level 0. The size script reports compressed and uncompressed kB per event for
+each instance and for the combined collection.
+
+## In-time sample projection
+
 `HGCalDataFrameToHGCalDigiSoA` reads the legacy `HGCalDigiCollection`,
 including `simHGCalUnsuppressedDigis:EE:HLT`. It emits a
 `hgcaldigi::HGCalDigiHost` and a row-aligned `detIds` vector. Each input

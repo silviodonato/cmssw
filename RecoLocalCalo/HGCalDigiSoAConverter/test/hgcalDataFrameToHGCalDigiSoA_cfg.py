@@ -12,7 +12,7 @@ process.source = cms.Source(
         "drop HGCUncalibratedRecHitCompressedsSorted_*_*_*",
     ),
 )
-process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(1))
+process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(100))
 
 
 process.hltHgcalDigis = cms.EDProducer("HGCalRawToDigiFake",
@@ -31,11 +31,23 @@ process.convert = cms.Path(process.hgcalDataFrameToHGCalDigiSoA + process.hltHgc
 
 process.output = cms.OutputModule(
     "PoolOutputModule",
-    fileName=cms.untracked.string("file:hgcalDataFrameToHGCalDigiSoA.root"),
+    fileName=cms.untracked.string("file:hgcalDataFrameToHGCalDigiSoA2.root"),
     outputCommands=cms.untracked.vstring(
         "drop *",
+        "keep *_*simHGCalUnsuppressedDigis*_*_*",
         "keep *_hgcalDataFrameToHGCalDigiSoA_*_*",
         "keep *_*hltHgcalDigis*_*_*",
     ),
+    compressionAlgorithm = cms.untracked.string("LZMA"),
+    compressionLevel = cms.untracked.int32(4),
+    splitLevel = cms.untracked.int32(0)
 )
 process.end = cms.EndPath(process.output)
+
+
+
+process.options.wantSummary = True
+process.options.numberOfStreams = 4
+process.options.numberOfThreads = 8
+
+
