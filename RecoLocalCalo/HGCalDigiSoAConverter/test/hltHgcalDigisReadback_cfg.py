@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("READBACK")
 process.source = cms.Source(
     "PoolSource",
-    fileNames=cms.untracked.vstring("file:hltHgcalDigisRoundTrip.root"),
+    fileNames=cms.untracked.vstring("file:hltHgcalDigisRoundTripLZMA4.root"),
 )
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(-1))
 

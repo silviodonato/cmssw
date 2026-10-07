@@ -66,5 +66,5 @@ process.outputZSTD = cms.OutputModule(
 process.end = cms.EndPath(process.output + process.outputZSTD)
 
 process.options.wantSummary = True
-process.options.numberOfStreams = 4
-process.options.numberOfThreads = 8
+process.options.numberOfStreams = 6
+process.options.numberOfThreads = 12

@@ -10,15 +10,15 @@
 #include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/Utilities/interface/InputTag.h"
-#include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalLegacyDigiInstances.h"
+#include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDigiInstances.h"
 
 class HGCalDigiRoundTripValidator : public edm::stream::EDAnalyzer<> {
 public:
   explicit HGCalDigiRoundTripValidator(edm::ParameterSet const& config) {
     auto const original = config.getParameter<edm::InputTag>("original");
     auto const restored = config.getParameter<edm::InputTag>("restored");
-    for (std::size_t i = 0; i < hgcaldigi::legacyDigiInstances.size(); ++i) {
-      auto const instance = hgcaldigi::legacyDigiInstances[i];
+    for (std::size_t i = 0; i < hgcaldigi::digiInstances.size(); ++i) {
+      auto const instance = hgcaldigi::digiInstances[i];
       originalTokens_[i] = consumes<HGCalDigiCollection>(hgcaldigi::withInstance(original, instance));
       restoredTokens_[i] = consumes<HGCalDigiCollection>(hgcaldigi::withInstance(restored, instance));
     }
@@ -33,7 +33,7 @@ public:
 
 private:
   void analyze(edm::Event const& event, edm::EventSetup const&) override {
-    for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::legacyDigiInstances.size(); ++instanceIndex) {
+    for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& original = event.get(originalTokens_[instanceIndex]);
       auto const& restored = event.get(restoredTokens_[instanceIndex]);
       if (original.size() != restored.size()) {

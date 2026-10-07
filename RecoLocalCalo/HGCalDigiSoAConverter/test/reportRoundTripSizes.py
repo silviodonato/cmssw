@@ -40,6 +40,14 @@ def size_for(token):
     return branch_sizes(matches[0])
 
 
+def soa_size_for(instance):
+    token = f"_hltHgcalDigisSoA_{instance}"
+    matches = [branch for branch in branches if token in branch.GetName()]
+    if len(matches) != 8:
+        parser.error(f"Expected eight SoA and sidecar branches for {instance}, found {len(matches)}")
+    return add_sizes(*(branch_sizes(branch) for branch in matches))
+
+
 def print_row(instance, product, sizes, reduction=""):
     uncompressed, compressed = sizes
     divisor = 1000 * event_count
@@ -56,11 +64,7 @@ print("| Instance | Product | Uncompressed (kB/event) | Compressed (kB/event) | 
 print("|---|---|---:|---:|---:|")
 for instance in ("EE", "HEfront", "HEback"):
     original = size_for(f"_hltHgcalDigis_{instance}_ROUNDTRIP.")
-    packed = add_sizes(
-        size_for(f"_hltHgcalDigisSoA_{instance}_ROUNDTRIP."),
-        size_for(f"_hltHgcalDigisSoA_{instance}Exceptions_ROUNDTRIP."),
-        size_for(f"_hltHgcalDigisSoA_{instance}DetIdExceptions_ROUNDTRIP."),
-    )
+    packed = soa_size_for(instance)
     restored = size_for(f"_hltHgcalDigisDecompressed_{instance}_ROUNDTRIP.")
     totals["original"] = add_sizes(totals["original"], original)
     totals["packed"] = add_sizes(totals["packed"], packed)

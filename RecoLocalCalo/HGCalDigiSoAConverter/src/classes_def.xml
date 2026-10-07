@@ -1,8 +1,0 @@
-<lcgdict>
-  <class name="hgcaldigi::HGCalLegacyDigiHost" rntupleStreamerMode="true"/>
-  <class name="hgcaldigi::HGCalLegacyDigiHost::Layout"/>
-  <class name="hgcaldigi::HGCalLegacyDigiSoA"/>
-  <class name="hgcaldigi::HGCalLegacyDigiSoA::View"/>
-  <class name="hgcaldigi::HGCalLegacyDigiSoALayout<128,false>"/>
-  <class name="edm::Wrapper<PortableHostCollection<hgcaldigi::HGCalLegacyDigiSoALayout<128,false> > >" splitLevel="0"/>
-</lcgdict>

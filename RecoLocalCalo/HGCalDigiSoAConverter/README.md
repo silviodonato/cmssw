@@ -3,22 +3,24 @@
 ## Lossless `hltHgcalDigis` round trip
 
 `HGCalDigisToLosslessSoA` converts the `EE`, `HEfront`, and `HEback` instances
-of `hltHgcalDigis` to separate
-`HGCalLegacyDigiHost` products. `HGCalDigisFromLosslessSoA` restores the
-corresponding `HGCalDigiCollection` instances. The SoA and its
-sidecars preserve every sample's complete 32-bit word and the DetId. The SoA
-packs fields shared by the five samples and stores uncommon frames and large
-DetId gaps in two small sidecar products, `exceptions` and
-`detIdExceptions`. All three products are required for decompression. Frames
-with more than five samples cause a clear
-exception instead of data loss.
+of `hltHgcalDigis` to the standard `hgcaldigi::HGCalDigiHost` format used by
+`hgcalDigis` in raw-data reconstruction. Each SoA row contains the in-time
+sample projection. Seven sidecar vectors per instance retain the information
+that the standard SoA cannot hold: the DetId, sample count, packed raw sample
+bits, and rare full-word exceptions. `HGCalDigisFromLosslessSoA` uses the SoA
+and all seven sidecars to restore every original 32-bit sample word and DetId.
+Frames with more than five samples cause a clear exception instead of data
+loss.
 
-The single `hltHgcalDigisSoA` producer reads all three instances. It emits
-SoA instances `EE`, `HEfront`, and `HEback`, plus a matching pair of sidecar
-instances for each: for example, `EEExceptions` contains full sample words
-when a frame's shared bits differ, and `EEDetIdExceptions` contains full
-DetIds when a gap exceeds the 16-bit delta field. The single
-`hltHgcalDigisDecompressed` producer reads these nine products and emits the
+The product type matches the raw-data SoA, but its rows follow the sorted
+legacy DetId order and are marked `Invalid`. Reconstruction with the raw-data
+SoA needs its channel index mapping and calibrated ADC/ToT scales.
+
+The single `hltHgcalDigisSoA` producer reads all three instances and emits
+`EE`, `HEfront`, and `HEback` SoAs. Each has `DetIdDeltas`, `SampleCounts`,
+`SharedBits`, `StatusBits`, `DataBits`, `Exceptions`, and `DetIdExceptions`
+sidecars with the same instance prefix. The single
+`hltHgcalDigisDecompressed` producer reads all 24 products and emits the
 three restored digi instances. One validator checks all three pairs.
 
 The round-trip example reads `onlyHGCalSimDigisZSTD3.root`, which contains
@@ -26,9 +28,9 @@ The round-trip example reads `onlyHGCalSimDigisZSTD3.root`, which contains
 producer first creates the three `hltHgcalDigis` instances from the EE,
 HEfront, and HEback sim digis.
 
-The separate `HGCalDigiHost` produced by `HGCalDataFrameToHGCalDigiSoA`
-below stores only one in-time sample and cannot reproduce the original five
-sample frame.
+The separate `HGCalDataFrameToHGCalDigiSoA` converter below writes the same
+standard SoA without these lossless sidecars, so it cannot reproduce the
+original five-sample frame.
 
 From the CMSSW area, after `cmsenv` and `scram b -j 4`, run:
 
@@ -38,11 +40,12 @@ cmsRun src/RecoLocalCalo/HGCalDigiSoAConverter/test/hltHgcalDigisReadback_cfg.py
 python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hltHgcalDigisRoundTripLZMA4.root
 ```
 
-The first job writes `hltHgcalDigisRoundTrip.root` with the original,
-lossless SoA, and restored branches for all three instances. Its validator compares frame counts,
+The first job writes `hltHgcalDigisRoundTripLZMA4.root` and
+`hltHgcalDigisRoundTripZSTD3.root` with the original, lossless SoA, and
+restored branches for all three instances. Its validator compares frame counts,
 DetIds, sample counts, and every raw sample word in every event. The second
 job reads the persisted SoA and sidecars from the ROOT file and repeats the
-comparison. The output module uses LZMA compression at level 4 with split
+comparison. The output modules use LZMA level 4 and ZSTD level 3 with split
 level 0. The size script reports compressed and uncompressed kB per event for
 each instance and for the combined collection.
 
