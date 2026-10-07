@@ -43,9 +43,9 @@ def size_for(token):
 def soa_size_for(instance):
     token = f"_hltHgcalDigisSoA_{instance}"
     matches = [branch for branch in branches if token in branch.GetName()]
-    if len(matches) != 8:
-        parser.error(f"Expected eight SoA and sidecar branches for {instance}, found {len(matches)}")
-    return add_sizes(*(branch_sizes(branch) for branch in matches))
+    if len(matches) not in (3, 8):
+        parser.error(f"Expected three or eight SoA and sidecar branches for {instance}, found {len(matches)}")
+    return add_sizes(*(branch_sizes(branch) for branch in matches)), len(matches)
 
 
 def print_row(instance, product, sizes, reduction=""):
@@ -64,13 +64,13 @@ print("| Instance | Product | Uncompressed (kB/event) | Compressed (kB/event) | 
 print("|---|---|---:|---:|---:|")
 for instance in ("EE", "HEfront", "HEback"):
     original = size_for(f"_hltHgcalDigis_{instance}_ROUNDTRIP.")
-    packed = soa_size_for(instance)
+    packed, product_count = soa_size_for(instance)
     restored = size_for(f"_hltHgcalDigisDecompressed_{instance}_ROUNDTRIP.")
     totals["original"] = add_sizes(totals["original"], original)
     totals["packed"] = add_sizes(totals["packed"], packed)
     totals["decompressed"] = add_sizes(totals["decompressed"], restored)
     print_row(instance, "Original", original)
-    print_row(instance, "SoA + sidecars", packed, f"{100 * (1 - packed[1] / original[1]):.1f}%")
+    print_row(instance, f"SoA + {product_count - 1} sidecars", packed, f"{100 * (1 - packed[1] / original[1]):.1f}%")
     print_row(instance, "Restored", restored)
 
 print_row("Total", "Original", totals["original"])

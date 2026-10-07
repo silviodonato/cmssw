@@ -1,8 +1,10 @@
 <library file="*.cc" name="RecoLocalCaloHGCalDigiSoAConverterPlugins">
   <use name="DataFormats/HGCDigi"/>
+  <use name="DataFormats/HGCRecHit"/>
   <use name="DataFormats/HcalDigi"/>
   <use name="DataFormats/HGCalDigi"/>
   <use name="FWCore/Framework"/>
+  <use name="FWCore/MessageLogger"/>
   <use name="FWCore/ParameterSet"/>
   <use name="FWCore/Utilities"/>
   <flags EDM_PLUGIN="1"/>

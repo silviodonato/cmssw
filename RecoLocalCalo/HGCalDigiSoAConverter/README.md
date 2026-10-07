@@ -1,53 +1,46 @@
 # Digi collections to HGCalDigiSoA
 
-## Lossless `hltHgcalDigis` round trip
+## RecHit-equivalent `hltHgcalDigis` conversion
 
-`HGCalDigisToLosslessSoA` converts the `EE`, `HEfront`, and `HEback` instances
-of `hltHgcalDigis` to the standard `hgcaldigi::HGCalDigiHost` format used by
-`hgcalDigis` in raw-data reconstruction. Each SoA row contains the in-time
-sample projection. Seven sidecar vectors per instance retain the information
-that the standard SoA cannot hold: the DetId, sample count, packed raw sample
-bits, and rare full-word exceptions. `HGCalDigisFromLosslessSoA` uses the SoA
-and all seven sidecars to restore every original 32-bit sample word and DetId.
-Frames with more than five samples cause a clear exception instead of data
-loss.
+`HGCalDigisToRecHitSoA` converts `EE`, `HEfront`, and `HEback` legacy digis to
+the standard `hgcaldigi::HGCalDigiHost` type. It keeps the fields read by
+`HGCalUncalibRecHitRecWeightsAlgo`: DetId and sample 2's data, mode,
+threshold, ToA-valid bit, and ToA. It does **not** preserve the other four
+samples or unused bits, so the decompressed digis are intentionally not
+identical to the input digis.
 
-The product type matches the raw-data SoA, but its rows follow the sorted
-legacy DetId order and are marked `Invalid`. Reconstruction with the raw-data
-SoA needs its channel index mapping and calibrated ADC/ToT scales.
+One SoA row represents one input frame. The private legacy mapping uses `tctp`
+bits 0, 1, and 2 for mode, threshold, and ToA-valid respectively; the 12-bit
+in-time data goes to `adc` or `tot`, including busy TDC samples. `toa` holds
+the valid in-time ToA. The rows follow sorted DetId order and have
+`flags=Invalid`, because their channel indexing and ADC/ToT scales are not
+those of native ECON-D digis. Two sidecars per detector instance are needed:
+`DetIdDeltas` and `DetIdExceptions`. The standard SoA has no DetId column.
+The decoder restores five-sample legacy frames with zero in the four unused
+sample slots and the original recHit-relevant fields in sample 2. Frames with
+fewer than three samples are rejected, because the recHit algorithm would
+read beyond their end.
 
-The single `hltHgcalDigisSoA` producer reads all three instances and emits
-`EE`, `HEfront`, and `HEback` SoAs. Each has `DetIdDeltas`, `SampleCounts`,
-`SharedBits`, `StatusBits`, `DataBits`, `Exceptions`, and `DetIdExceptions`
-sidecars with the same instance prefix. The single
-`hltHgcalDigisDecompressed` producer reads all 24 products and emits the
-three restored digi instances. One validator checks all three pairs.
-
-The round-trip example reads `onlyHGCalSimDigisZSTD3.root`, which contains
-`simHGCalUnsuppressedDigis` but no `hltHgcalDigis`. The `HGCalRawToDigiFake`
-producer first creates the three `hltHgcalDigis` instances from the EE,
-HEfront, and HEback sim digis.
-
-The separate `HGCalDataFrameToHGCalDigiSoA` converter below writes the same
-standard SoA without these lossless sidecars, so it cannot reproduce the
-original five-sample frame.
+The example reads `onlyHGCalSimDigisZSTD3.root`. `HGCalRawToDigiFake` creates
+`hltHgcalDigis` from its EE, HEfront, and HEback sim digis. Two identical
+`HGCalUncalibRecHitProducer` configurations reconstruct from the original and
+decompressed digis. `HGCalUncalibRecHitRoundTripValidator` compares all hit
+fields and DetIds bit-for-bit in each event and fails on any mismatch.
 
 From the CMSSW area, after `cmsenv` and `scram b -j 4`, run:
 
 ```sh
 cmsRun src/RecoLocalCalo/HGCalDigiSoAConverter/test/hltHgcalDigisRoundTrip_cfg.py
 cmsRun src/RecoLocalCalo/HGCalDigiSoAConverter/test/hltHgcalDigisReadback_cfg.py
-python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hltHgcalDigisRoundTripLZMA4.root
+python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hltHgcalDigisRecHitRoundTripLZMA4.root
 ```
 
-The first job writes `hltHgcalDigisRoundTripLZMA4.root` and
-`hltHgcalDigisRoundTripZSTD3.root` with the original, lossless SoA, and
-restored branches for all three instances. Its validator compares frame counts,
-DetIds, sample counts, and every raw sample word in every event. The second
-job reads the persisted SoA and sidecars from the ROOT file and repeats the
-comparison. The output modules use LZMA level 4 and ZSTD level 3 with split
-level 0. The size script reports compressed and uncompressed kB per event for
-each instance and for the combined collection.
+The first job writes `hltHgcalDigisRecHitRoundTripLZMA4.root` and
+`hltHgcalDigisRecHitRoundTripZSTD3.root` with the original digis, compact SoA,
+decompressed digis, and both recHit collections. The second job checks the
+persisted recHits. The output modules use LZMA level 4 and ZSTD level 3 with
+split level 0. The size script reports compressed and uncompressed kB per
+event for the original digis, SoA with sidecars, and decompressed digis.
 
 ## In-time sample projection
 
