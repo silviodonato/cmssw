@@ -7,5 +7,7 @@
   <use name="FWCore/MessageLogger"/>
   <use name="FWCore/ParameterSet"/>
   <use name="FWCore/Utilities"/>
+  <use name="Geometry/HGCalGeometry"/>
+  <use name="Geometry/Records"/>
   <flags EDM_PLUGIN="1"/>
 </library>

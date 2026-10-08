@@ -14,8 +14,10 @@ bits 0, 1, and 2 for mode, threshold, and ToA-valid respectively; the 12-bit
 in-time data goes to `adc` or `tot`, including busy TDC samples. `toa` holds
 the valid in-time ToA. The rows follow sorted DetId order and have
 `flags=Invalid`, because their channel indexing and ADC/ToT scales are not
-those of native ECON-D digis. One `DetIds` sidecar per detector instance
-stores a raw `uint32_t` DetId for every row. The standard SoA has no DetId column.
+those of native ECON-D digis. Two sidecars per detector instance identify the
+DetIds without storing raw IDs: `IndexDeltas` stores one byte per row, and 255
+signals that the delta continues in `IndexDeltaOverflows` as a `uint32_t`.
+The deltas address the geometry's sorted `getValidDetIds()` list.
 The decoder restores five-sample legacy frames with zero in the four unused
 sample slots and the original recHit-relevant fields in sample 2. Frames with
 fewer than three samples are rejected, because the recHit algorithm would
@@ -38,7 +40,7 @@ python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hlt
 The first job writes `hltHgcalDigisRecHitRoundTripLZMA4.root` and
 `hltHgcalDigisRecHitRoundTripZSTD3.root` with the original digis, compact SoA,
 decompressed digis, and both recHit collections. The second job rebuilds
-recHits from the persisted SoA and DetIds and compares them with the originals.
+recHits from the persisted SoA and geometry index deltas and compares them with the originals.
 The output modules use LZMA level 4 and ZSTD level 3 with
 split level 0. The size script reports compressed and uncompressed kB per
 event for the original digis, SoA with sidecars, and decompressed digis.

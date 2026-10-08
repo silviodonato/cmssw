@@ -15,6 +15,8 @@
 #include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/Utilities/interface/InputTag.h"
+#include "Geometry/HGCalGeometry/interface/HGCalGeometry.h"
+#include "Geometry/Records/interface/IdealGeometryRecord.h"
 #include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDigiInstances.h"
 
 class HGCalDigisFromRecHitSoA : public edm::stream::EDProducer<> {
@@ -24,8 +26,12 @@ public:
     for (std::size_t i = 0; i < hgcaldigi::digiInstances.size(); ++i) {
       auto const instance = hgcaldigi::digiInstances[i];
       sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiHost>(hgcaldigi::withInstance(source, instance));
-      detIdsTokens_[i] = consumes<std::vector<uint32_t>>(
-          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIds")));
+      indexDeltasTokens_[i] = consumes<std::vector<uint8_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "IndexDeltas")));
+      indexDeltaOverflowsTokens_[i] = consumes<std::vector<uint32_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "IndexDeltaOverflows")));
+      geometryTokens_[i] = esConsumes<HGCalGeometry, IdealGeometryRecord>(
+          edm::ESInputTag{"", std::string(hgcaldigi::geometryNames[i])});
       outputTokens_[i] = produces<HGCalDigiCollection>(std::string(instance));
     }
   }
@@ -37,19 +43,32 @@ public:
   }
 
 private:
-  void produce(edm::Event& event, edm::EventSetup const&) override {
+  void produce(edm::Event& event, edm::EventSetup const& eventSetup) override {
     for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& input = event.get(sourceTokens_[instanceIndex]);
-      auto const& detIds = event.get(detIdsTokens_[instanceIndex]);
+      auto const& indexDeltas = event.get(indexDeltasTokens_[instanceIndex]);
+      auto const& indexDeltaOverflows = event.get(indexDeltaOverflowsTokens_[instanceIndex]);
+      auto const& activeDetIds = eventSetup.getData(geometryTokens_[instanceIndex]).getValidDetIds();
       auto const& view = input.view();
       auto const size = static_cast<std::size_t>(view.metadata().size());
-      if (detIds.size() != size)
-        throw cms::Exception("CorruptHGCalDigiSoA") << "DetIds do not match the SoA row count";
+      if (indexDeltas.size() != size)
+        throw cms::Exception("CorruptHGCalDigiSoA") << "Index deltas do not match the SoA row count";
 
       auto output = HGCalDigiCollection{};
       output.reserve(size);
+      std::size_t geometryIndex = 0;
+      std::size_t nextOverflow = 0;
       for (std::size_t i = 0; i < size; ++i) {
-        auto const detId = detIds[i];
+        std::size_t delta = indexDeltas[i];
+        if (delta == 255) {
+          if (nextOverflow >= indexDeltaOverflows.size())
+            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its index delta overflow";
+          delta += indexDeltaOverflows[nextOverflow++];
+        }
+        if (geometryIndex >= activeDetIds.size() || delta > activeDetIds.size() - 1 - geometryIndex)
+          throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has an out-of-range geometry index";
+        geometryIndex += delta;
+        auto const detId = activeDetIds[geometryIndex];
 
         auto const row = view[i];
         auto const status = row.tctp();
@@ -74,12 +93,16 @@ private:
         frame.setSample(2, inTime);
         output.push_back(frame);
       }
+      if (nextOverflow != indexDeltaOverflows.size())
+        throw cms::Exception("CorruptHGCalDigiSoA") << "Unused index delta overflows remain after decoding";
       event.emplace(outputTokens_[instanceIndex], std::move(output));
     }
   }
 
   std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiHost>, 3> sourceTokens_;
-  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> detIdsTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint8_t>>, 3> indexDeltasTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> indexDeltaOverflowsTokens_;
+  std::array<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>, 3> geometryTokens_;
   std::array<edm::EDPutTokenT<HGCalDigiCollection>, 3> outputTokens_;
 };
 

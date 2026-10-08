@@ -9,6 +9,8 @@
 
 namespace hgcaldigi {
   inline constexpr std::array<std::string_view, 3> digiInstances = {"EE", "HEfront", "HEback"};
+  inline constexpr std::array<std::string_view, 3> geometryNames = {
+      "HGCalEESensitive", "HGCalHESiliconSensitive", "HGCalHEScintillatorSensitive"};
 
   inline edm::InputTag withInstance(edm::InputTag const& source, std::string_view instance) {
     return edm::InputTag(source.label(), std::string(instance), source.process());
