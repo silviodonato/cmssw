@@ -1,10 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
-from Configuration.Eras.Era_Phase2C22I13M9_cff import Phase2C22I13M9
+from Configuration.Eras.Era_Phase2C26I13M9_cff import Phase2C26I13M9
 from Configuration.AlCa.GlobalTag import GlobalTag
 
-process = cms.Process("ROUNDTRIP", Phase2C22I13M9)
-process.load("Configuration.Geometry.GeometryExtended2026Reco_cff")
+process = cms.Process("ROUNDTRIP", Phase2C26I13M9)
+process.load("Configuration.Geometry.GeometryExtendedRun4D128Reco_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag = GlobalTag(process.GlobalTag, "auto:phase2_realistic_T35", "")
 
@@ -37,7 +37,7 @@ process.hltHGCalUncalibRecHit = cms.EDProducer(
     HGCEEConfig=cms.PSet(
         adcNbits=cms.uint32(10),
         adcSaturation=cms.double(100),
-        fCPerMIP=cms.vdouble(2.06, 3.43, 5.15),
+        fCPerMIP=cms.vdouble(2.06, 3.43, 5.15, 3.43),
         isSiFE=cms.bool(True),
         tdcNbits=cms.uint32(12),
         tdcOnset=cms.double(60),
@@ -63,7 +63,7 @@ process.hltHGCalUncalibRecHit = cms.EDProducer(
     HGCHEFConfig=cms.PSet(
         adcNbits=cms.uint32(10),
         adcSaturation=cms.double(100),
-        fCPerMIP=cms.vdouble(2.06, 3.43, 5.15),
+        fCPerMIP=cms.vdouble(2.06, 3.43, 5.15, 3.43),
         isSiFE=cms.bool(True),
         tdcNbits=cms.uint32(12),
         tdcOnset=cms.double(60),
