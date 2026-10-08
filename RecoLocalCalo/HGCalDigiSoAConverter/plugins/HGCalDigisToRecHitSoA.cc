@@ -1,7 +1,6 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
@@ -21,7 +20,7 @@
 
 // Preserves exactly the input fields read by HGCalUncalibRecHitRecWeightsAlgo:
 // DetId and sample 2's data, mode, threshold, ToA-valid flag and ToA.
-// The standard SoA has no DetId column, hence the two DetId sidecars.
+// The standard SoA has no DetId column, so a row-aligned sidecar stores raw DetIds.
 class HGCalDigisToRecHitSoA : public edm::stream::EDProducer<> {
 public:
   explicit HGCalDigisToRecHitSoA(edm::ParameterSet const& config) {
@@ -30,9 +29,7 @@ public:
       auto const instance = hgcaldigi::digiInstances[i];
       sourceTokens_[i] = consumes<HGCalDigiCollection>(hgcaldigi::withInstance(source, instance));
       outputTokens_[i] = produces<hgcaldigi::HGCalDigiHost>(std::string(instance));
-      detIdDeltasTokens_[i] = produces<std::vector<uint16_t>>(hgcaldigi::sidecarInstance(instance, "DetIdDeltas"));
-      detIdExceptionsTokens_[i] =
-          produces<std::vector<uint32_t>>(hgcaldigi::sidecarInstance(instance, "DetIdExceptions"));
+      detIdsTokens_[i] = produces<std::vector<uint32_t>>(hgcaldigi::sidecarInstance(instance, "DetIds"));
     }
   }
 
@@ -49,10 +46,8 @@ private:
       auto const size = source.isValid() ? source->size() : 0;
       hgcaldigi::HGCalDigiHost output(size);
       auto& view = output.view();
-      std::vector<uint16_t> detIdDeltas;
-      std::vector<uint32_t> detIdExceptions;
-      detIdDeltas.reserve(size);
-      uint32_t previousDetId = 0;
+      std::vector<uint32_t> detIds;
+      detIds.reserve(size);
 
       for (HGCalDigiCollection::size_type i = 0; i < size; ++i) {
         auto const& frame = (*source)[i];
@@ -61,14 +56,7 @@ private:
               << "DetId " << frame.id().rawId() << " has fewer than three samples; the rec-hit algorithm reads sample 2";
         }
 
-        auto const detId = frame.id().rawId();
-        if (i > 0 && detId >= previousDetId && detId - previousDetId < std::numeric_limits<uint16_t>::max()) {
-          detIdDeltas.push_back(detId - previousDetId);
-        } else {
-          detIdDeltas.push_back(std::numeric_limits<uint16_t>::max());
-          detIdExceptions.push_back(detId);
-        }
-        previousDetId = detId;
+        detIds.push_back(frame.id().rawId());
 
         auto const& inTime = frame.data()[2];
         auto row = view[i];
@@ -86,15 +74,13 @@ private:
       }
 
       event.emplace(outputTokens_[instanceIndex], std::move(output));
-      event.emplace(detIdDeltasTokens_[instanceIndex], std::move(detIdDeltas));
-      event.emplace(detIdExceptionsTokens_[instanceIndex], std::move(detIdExceptions));
+      event.emplace(detIdsTokens_[instanceIndex], std::move(detIds));
     }
   }
 
   std::array<edm::EDGetTokenT<HGCalDigiCollection>, 3> sourceTokens_;
   std::array<edm::EDPutTokenT<hgcaldigi::HGCalDigiHost>, 3> outputTokens_;
-  std::array<edm::EDPutTokenT<std::vector<uint16_t>>, 3> detIdDeltasTokens_;
-  std::array<edm::EDPutTokenT<std::vector<uint32_t>>, 3> detIdExceptionsTokens_;
+  std::array<edm::EDPutTokenT<std::vector<uint32_t>>, 3> detIdsTokens_;
 };
 
 DEFINE_FWK_MODULE(HGCalDigisToRecHitSoA);

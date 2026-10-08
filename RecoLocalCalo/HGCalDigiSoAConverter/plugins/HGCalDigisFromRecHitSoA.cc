@@ -1,7 +1,6 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
@@ -25,10 +24,8 @@ public:
     for (std::size_t i = 0; i < hgcaldigi::digiInstances.size(); ++i) {
       auto const instance = hgcaldigi::digiInstances[i];
       sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiHost>(hgcaldigi::withInstance(source, instance));
-      detIdDeltasTokens_[i] = consumes<std::vector<uint16_t>>(
-          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIdDeltas")));
-      detIdExceptionsTokens_[i] = consumes<std::vector<uint32_t>>(
-          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIdExceptions")));
+      detIdsTokens_[i] = consumes<std::vector<uint32_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIds")));
       outputTokens_[i] = produces<HGCalDigiCollection>(std::string(instance));
     }
   }
@@ -43,30 +40,16 @@ private:
   void produce(edm::Event& event, edm::EventSetup const&) override {
     for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& input = event.get(sourceTokens_[instanceIndex]);
-      auto const& detIdDeltas = event.get(detIdDeltasTokens_[instanceIndex]);
-      auto const& detIdExceptions = event.get(detIdExceptionsTokens_[instanceIndex]);
+      auto const& detIds = event.get(detIdsTokens_[instanceIndex]);
       auto const& view = input.view();
       auto const size = static_cast<std::size_t>(view.metadata().size());
-      if (detIdDeltas.size() != size)
-        throw cms::Exception("CorruptHGCalDigiSoA") << "DetId deltas do not match the SoA row count";
+      if (detIds.size() != size)
+        throw cms::Exception("CorruptHGCalDigiSoA") << "DetIds do not match the SoA row count";
 
       auto output = HGCalDigiCollection{};
       output.reserve(size);
-      uint32_t previousDetId = 0;
-      std::size_t nextDetIdException = 0;
-
       for (std::size_t i = 0; i < size; ++i) {
-        uint32_t detId;
-        if (detIdDeltas[i] == std::numeric_limits<uint16_t>::max()) {
-          if (nextDetIdException >= detIdExceptions.size())
-            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its DetId exception";
-          detId = detIdExceptions[nextDetIdException++];
-        } else {
-          if (i == 0 || previousDetId > std::numeric_limits<uint32_t>::max() - detIdDeltas[i])
-            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has an invalid DetId delta";
-          detId = previousDetId + detIdDeltas[i];
-        }
-        previousDetId = detId;
+        auto const detId = detIds[i];
 
         auto const row = view[i];
         auto const status = row.tctp();
@@ -91,16 +74,12 @@ private:
         frame.setSample(2, inTime);
         output.push_back(frame);
       }
-      if (nextDetIdException != detIdExceptions.size())
-        throw cms::Exception("CorruptHGCalDigiSoA") << "Unused DetId exceptions remain after decoding";
-
       event.emplace(outputTokens_[instanceIndex], std::move(output));
     }
   }
 
   std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiHost>, 3> sourceTokens_;
-  std::array<edm::EDGetTokenT<std::vector<uint16_t>>, 3> detIdDeltasTokens_;
-  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> detIdExceptionsTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> detIdsTokens_;
   std::array<edm::EDPutTokenT<HGCalDigiCollection>, 3> outputTokens_;
 };
 
