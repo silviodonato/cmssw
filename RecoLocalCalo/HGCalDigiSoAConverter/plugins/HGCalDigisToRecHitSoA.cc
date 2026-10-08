@@ -26,7 +26,7 @@
 // Preserves exactly the input fields read by HGCalUncalibRecHitRecWeightsAlgo:
 // DetId and sample 2's data, mode, threshold, ToA-valid flag and ToA.
 // The SoA has no DetId column. A compact geometry-index delta stream
-// identifies each row using the conditions' ordered active-DetId list.
+// (one byte per row, plus a 32-bit overflow vector for deltas of 255 or more) identifies each row using the conditions' ordered active-DetId list.
 class HGCalDigisToRecHitSoA : public edm::stream::EDProducer<> {
 public:
   explicit HGCalDigisToRecHitSoA(edm::ParameterSet const& config) {
@@ -36,6 +36,8 @@ public:
       sourceTokens_[i] = consumes<HGCalDigiCollection>(hgcaldigi::withInstance(source, instance));
       outputTokens_[i] = produces<hgcaldigi::HGCalDigiCompressedHost>(std::string(instance));
       indexDeltasTokens_[i] = produces<std::vector<uint8_t>>(hgcaldigi::sidecarInstance(instance, "IndexDeltas"));
+      indexDeltaOverflowsTokens_[i] =
+          produces<std::vector<uint32_t>>(hgcaldigi::sidecarInstance(instance, "IndexDeltaOverflows"));
       geometryTokens_[i] = esConsumes<HGCalGeometry, IdealGeometryRecord>(
           edm::ESInputTag{"", std::string(hgcaldigi::geometryNames[i])});
     }
@@ -57,6 +59,7 @@ private:
       auto const& activeDetIds = eventSetup.getData(geometryTokens_[instanceIndex]).getValidDetIds();
       std::vector<uint8_t> indexDeltas;
       indexDeltas.reserve(size);
+      std::vector<uint32_t> indexDeltaOverflows;
       std::size_t previousIndex = 0;
 
       for (HGCalDigiCollection::size_type i = 0; i < size; ++i) {
@@ -75,11 +78,13 @@ private:
         if (index < previousIndex)
           throw cms::Exception("HGCalGeometryIndex") << "Input digis are not ordered by geometry index";
         auto delta = index - previousIndex;
-        while (delta >= 255) {
-          indexDeltas.push_back(255);  // Advance without consuming a digi.
-          delta -= 255;
+        if (delta >= 255) {
+          // 255 is an escape: the remainder (delta - 255) is stored in the overflow vector.
+          indexDeltas.push_back(255);
+          indexDeltaOverflows.push_back(static_cast<uint32_t>(delta - 255));
+        } else {
+          indexDeltas.push_back(static_cast<uint8_t>(delta));
         }
-        indexDeltas.push_back(static_cast<uint8_t>(delta));
         previousIndex = index;
 
         auto const& inTime = frame.data()[2];
@@ -99,12 +104,14 @@ private:
 
       event.emplace(outputTokens_[instanceIndex], std::move(output));
       event.emplace(indexDeltasTokens_[instanceIndex], std::move(indexDeltas));
+      event.emplace(indexDeltaOverflowsTokens_[instanceIndex], std::move(indexDeltaOverflows));
     }
   }
 
   std::array<edm::EDGetTokenT<HGCalDigiCollection>, 3> sourceTokens_;
   std::array<edm::EDPutTokenT<hgcaldigi::HGCalDigiCompressedHost>, 3> outputTokens_;
   std::array<edm::EDPutTokenT<std::vector<uint8_t>>, 3> indexDeltasTokens_;
+  std::array<edm::EDPutTokenT<std::vector<uint32_t>>, 3> indexDeltaOverflowsTokens_;
   std::array<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>, 3> geometryTokens_;
 };
 

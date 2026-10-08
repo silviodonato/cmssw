@@ -29,6 +29,8 @@ public:
       sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiCompressedHost>(hgcaldigi::withInstance(source, instance));
       indexDeltasTokens_[i] = consumes<std::vector<uint8_t>>(
           hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "IndexDeltas")));
+      indexDeltaOverflowsTokens_[i] = consumes<std::vector<uint32_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "IndexDeltaOverflows")));
       geometryTokens_[i] = esConsumes<HGCalGeometry, IdealGeometryRecord>(
           edm::ESInputTag{"", std::string(hgcaldigi::geometryNames[i])});
       outputTokens_[i] = produces<HGCalDigiCollection>(std::string(instance));
@@ -46,6 +48,7 @@ private:
     for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& input = event.get(sourceTokens_[instanceIndex]);
       auto const& indexDeltas = event.get(indexDeltasTokens_[instanceIndex]);
+      auto const& indexDeltaOverflows = event.get(indexDeltaOverflowsTokens_[instanceIndex]);
       auto const& activeDetIds = eventSetup.getData(geometryTokens_[instanceIndex]).getValidDetIds();
       auto const& view = input.view();
       auto const size = static_cast<std::size_t>(view.metadata().size());
@@ -53,18 +56,21 @@ private:
       auto output = HGCalDigiCollection{};
       output.reserve(size);
       std::size_t geometryIndex = 0;
-      std::size_t nextDelta = 0;
+
+      std::size_t nextOverflow = 0;
 
       for (std::size_t i = 0; i < size; ++i) {
-        uint8_t delta;
-        do {
-          if (nextDelta >= indexDeltas.size())
-            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its geometry index delta";
-          delta = indexDeltas[nextDelta++];
-          if (geometryIndex >= activeDetIds.size() || delta > activeDetIds.size() - 1 - geometryIndex)
-            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has an out-of-range geometry index";
-          geometryIndex += delta;
-        } while (delta == 255);
+        if (i >= indexDeltas.size())
+          throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its geometry index delta";
+        std::size_t delta = indexDeltas[i];
+        if (delta == 255) {
+          if (nextOverflow >= indexDeltaOverflows.size())
+            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " is missing its index delta overflow";
+          delta += indexDeltaOverflows[nextOverflow++];
+        }
+        if (geometryIndex >= activeDetIds.size() || delta > activeDetIds.size() - 1 - geometryIndex)
+          throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has an out-of-range geometry index";
+        geometryIndex += delta;
         auto const detId = activeDetIds[geometryIndex];
 
         auto const row = view[i];
@@ -90,7 +96,7 @@ private:
         frame.setSample(2, inTime);
         output.push_back(frame);
       }
-      if (nextDelta != indexDeltas.size())
+      if (indexDeltas.size() != size || nextOverflow != indexDeltaOverflows.size())
         throw cms::Exception("CorruptHGCalDigiSoA") << "Unused geometry index deltas remain after decoding";
 
       event.emplace(outputTokens_[instanceIndex], std::move(output));
@@ -99,6 +105,7 @@ private:
 
   std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiCompressedHost>, 3> sourceTokens_;
   std::array<edm::EDGetTokenT<std::vector<uint8_t>>, 3> indexDeltasTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> indexDeltaOverflowsTokens_;
   std::array<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>, 3> geometryTokens_;
   std::array<edm::EDPutTokenT<HGCalDigiCollection>, 3> outputTokens_;
 };
