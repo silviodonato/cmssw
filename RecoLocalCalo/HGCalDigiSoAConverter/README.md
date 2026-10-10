@@ -9,23 +9,24 @@ threshold, ToA-valid bit, and ToA. It does **not** preserve the other four
 samples or unused bits, so the decompressed digis are intentionally not
 identical to the input digis.
 
-One SoA row represents one input frame. The layout stores two `uint16_t`
-columns: `packed` and `toaCode`. `packed` holds the `tctp` mode and threshold
-bits in bits 13:12 and the 12-bit in-time data in bits 11:0. Mode (`tctp`
-bit 0) selects whether the data is ToT or ADC, so `adc` and `tot` share the
-same bits. `toaCode` is the valid in-time ToA plus one, or 0 if there is no
-valid ToA, so the ToA-valid bit (`tctp` bit 2) is not stored separately.
+One SoA row represents one input frame. The layout stores one `uint16_t`
+column, `packed`: the three `tctp` bits (mode, threshold, ToA valid) in bits
+14:12 and the 12-bit in-time data in bits 11:0. Mode (`tctp` bit 0) selects
+whether the data is ToT or ADC, so `adc` and `tot` share the same bits.
 The constant `adcm1`, `cm`, and `flags` columns of `HGCalDigiSoA` are not
-stored. The element methods `tctp()`, `adcm1()`, `adc()`, `tot()`, `toa()`,
-`cm()`, and `flags()` return the same values as the `HGCalDigiSoA` columns
-(`adcm1` and `cm` are 0, and `flags` is `Invalid` because the rows are not
-native ECON-D digis). They are read-only, so rows are filled with `setTctp()`
-(mode and threshold bits only), `setAdc()` (clears the mode bit), `setTot()`
-(sets it), `setToa()` (also sets the ToA-valid bit), and `clearToa()`.
-The rows follow sorted DetId order. The one sidecar per detector instance,
-`IndexDeltas`, stores byte-sized deltas between positions in the geometry's
+stored. The element methods `tctp()`, `adcm1()`, `adc()`, `tot()`, `cm()`, and
+`flags()` return the same values as the `HGCalDigiSoA` columns (`adcm1` and
+`cm` are 0, and `flags` is `Invalid` because the rows are not native ECON-D
+digis). They are read-only, so rows are filled with `setTctp()`, `setAdc()`
+(clears the mode bit), and `setTot()` (sets it).
+The rows follow sorted DetId order. Each detector instance has two sidecars.
+`IndexDeltas` stores byte-sized deltas between positions in the geometry's
 sorted `getValidDetIds()` list. A byte value of 255 advances the index without
-consuming a digi; the next byte continues the same delta. The decoder needs
+consuming a digi; the next byte continues the same delta. `Toa` holds the
+10-bit ToAs of the rows with the ToA-valid bit set, in row order: first their
+low bytes, then their two high bits packed four per byte (`HGCalToaPacking.h`).
+Only about 14% of EE rows have a valid ToA, so this is about 9% smaller than
+a ToA column in every row (ZSTD level 3). The decoder needs
 the same geometry conditions used by the encoder. It restores five-sample
 legacy frames with zero in the four unused sample slots and the original
 recHit-relevant fields in sample 2.

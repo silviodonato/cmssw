@@ -19,6 +19,7 @@
 #include "Geometry/HGCalGeometry/interface/HGCalGeometry.h"
 #include "Geometry/Records/interface/IdealGeometryRecord.h"
 #include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDigiInstances.h"
+#include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalToaPacking.h"
 
 class HGCalDigisFromRecHitSoA : public edm::stream::EDProducer<> {
 public:
@@ -29,6 +30,8 @@ public:
       sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiCompressedHost>(hgcaldigi::withInstance(source, instance));
       indexDeltasTokens_[i] = consumes<std::vector<uint8_t>>(
           hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "IndexDeltas")));
+      toaTokens_[i] =
+          consumes<std::vector<uint8_t>>(hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "Toa")));
       geometryTokens_[i] = esConsumes<HGCalGeometry, IdealGeometryRecord>(
           edm::ESInputTag{"", std::string(hgcaldigi::geometryNames[i])});
       outputTokens_[i] = produces<HGCalDigiCollection>(std::string(instance));
@@ -46,6 +49,7 @@ private:
     for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& input = event.get(sourceTokens_[instanceIndex]);
       auto const& indexDeltas = event.get(indexDeltasTokens_[instanceIndex]);
+      auto const& toas = event.get(toaTokens_[instanceIndex]);
       auto const& activeDetIds = eventSetup.getData(geometryTokens_[instanceIndex]).getValidDetIds();
       auto const& view = input.view();
       auto const size = static_cast<std::size_t>(view.metadata().size());
@@ -54,6 +58,12 @@ private:
       output.reserve(size);
       std::size_t geometryIndex = 0;
       std::size_t nextDelta = 0;
+      std::size_t toaCount = 0;
+      for (std::size_t i = 0; i < size; ++i)
+        toaCount += view[i].toaValid();
+      if (toas.size() != hgcaldigi::toa::packedSize(toaCount))
+        throw cms::Exception("CorruptHGCalDigiSoA") << "ToA stream size does not match the number of valid ToAs";
+      std::size_t nextToa = 0;
 
       for (std::size_t i = 0; i < size; ++i) {
         uint8_t delta;
@@ -75,7 +85,7 @@ private:
         bool const threshold = status & 0x2;
         bool const toaValid = status & 0x4;
         auto const data = mode ? row.tot() : row.adc();
-        if (data > 0xfff || (toaValid && row.toa() > 0x3ff))
+        if (data > 0xfff)
           throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " has out-of-range sample data";
 
         HGCSample inTime;
@@ -84,7 +94,7 @@ private:
         inTime.setToAValid(toaValid);
         inTime.setData(data);
         if (toaValid)
-          inTime.setToA(row.toa());
+          inTime.setToA(hgcaldigi::toa::unpack(toas, toaCount, nextToa++));
         auto frame = HGCalDataFrame(detId);
         frame.resize(5);
         frame.setSample(2, inTime);
@@ -99,6 +109,7 @@ private:
 
   std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiCompressedHost>, 3> sourceTokens_;
   std::array<edm::EDGetTokenT<std::vector<uint8_t>>, 3> indexDeltasTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint8_t>>, 3> toaTokens_;
   std::array<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>, 3> geometryTokens_;
   std::array<edm::EDPutTokenT<HGCalDigiCollection>, 3> outputTokens_;
 };

@@ -22,11 +22,13 @@
 #include "Geometry/HGCalGeometry/interface/HGCalGeometry.h"
 #include "Geometry/Records/interface/IdealGeometryRecord.h"
 #include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDigiInstances.h"
+#include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalToaPacking.h"
 
 // Preserves exactly the input fields read by HGCalUncalibRecHitRecWeightsAlgo:
 // DetId and sample 2's data, mode, threshold, ToA-valid flag and ToA.
 // The SoA has no DetId column. A compact geometry-index delta stream
 // identifies each row using the conditions' ordered active-DetId list.
+// The ToAs of the rows with a valid ToA are stored densely in a separate byte stream.
 class HGCalDigisToRecHitSoA : public edm::stream::EDProducer<> {
 public:
   explicit HGCalDigisToRecHitSoA(edm::ParameterSet const& config) {
@@ -36,6 +38,7 @@ public:
       sourceTokens_[i] = consumes<HGCalDigiCollection>(hgcaldigi::withInstance(source, instance));
       outputTokens_[i] = produces<hgcaldigi::HGCalDigiCompressedHost>(std::string(instance));
       indexDeltasTokens_[i] = produces<std::vector<uint8_t>>(hgcaldigi::sidecarInstance(instance, "IndexDeltas"));
+      toaTokens_[i] = produces<std::vector<uint8_t>>(hgcaldigi::sidecarInstance(instance, "Toa"));
       geometryTokens_[i] = esConsumes<HGCalGeometry, IdealGeometryRecord>(
           edm::ESInputTag{"", std::string(hgcaldigi::geometryNames[i])});
     }
@@ -58,6 +61,7 @@ private:
       std::vector<uint8_t> indexDeltas;
       indexDeltas.reserve(size);
       std::size_t previousIndex = 0;
+      std::vector<uint16_t> toas;
 
       for (HGCalDigiCollection::size_type i = 0; i < size; ++i) {
         auto const& frame = (*source)[i];
@@ -84,27 +88,27 @@ private:
 
         auto const& inTime = frame.data()[2];
         auto row = view[i];
-        // Private legacy-digi encoding: tctp bits 0 and 1 carry mode and threshold; ToA-valid is implied by a stored ToA.
+        // Private legacy-digi encoding: tctp bits 0, 1 and 2 carry mode, threshold and ToA-valid.
         // The 12-bit in-time data is stored as ToT in mode 1 and as ADC otherwise.
-        row.setTctp((inTime.mode() ? 1 : 0) | (inTime.threshold() ? 2 : 0));
+        row.setTctp((inTime.mode() ? 1 : 0) | (inTime.threshold() ? 2 : 0) | (inTime.getToAValid() ? 4 : 0));
         if (inTime.mode())
           row.setTot(inTime.data());
         else
           row.setAdc(inTime.data());
         if (inTime.getToAValid())
-          row.setToa(inTime.toa());
-        else
-          row.clearToa();
+          toas.push_back(inTime.toa());
       }
 
       event.emplace(outputTokens_[instanceIndex], std::move(output));
       event.emplace(indexDeltasTokens_[instanceIndex], std::move(indexDeltas));
+      event.emplace(toaTokens_[instanceIndex], hgcaldigi::toa::pack(toas));
     }
   }
 
   std::array<edm::EDGetTokenT<HGCalDigiCollection>, 3> sourceTokens_;
   std::array<edm::EDPutTokenT<hgcaldigi::HGCalDigiCompressedHost>, 3> outputTokens_;
   std::array<edm::EDPutTokenT<std::vector<uint8_t>>, 3> indexDeltasTokens_;
+  std::array<edm::EDPutTokenT<std::vector<uint8_t>>, 3> toaTokens_;
   std::array<edm::ESGetToken<HGCalGeometry, IdealGeometryRecord>, 3> geometryTokens_;
 };
 

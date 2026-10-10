@@ -6,6 +6,7 @@
 #include "DataFormats/HGCalDigi/interface/HGCalDigiHost.h"
 
 // Fills the same in-time-sample content in both layouts and checks that every accessor agrees.
+// The ToA is not part of the compressed layout, so only its valid bit (tctp bit 2) is compared.
 int main() {
   constexpr int size = 100000;
   std::mt19937 rng(12345);
@@ -39,10 +40,6 @@ int main() {
     else
       packedRow.setAdc(data);
     packedRow.setTctp(tctp);
-    if (toaValid)
-      packedRow.setToa(toa);
-    else
-      packedRow.clearToa();
   }
 
   auto const constView = compressed.const_view();
@@ -50,12 +47,11 @@ int main() {
     auto const a = reference.const_view()[i];
     auto const b = constView[i];
     if (a.tctp() != b.tctp() || a.adcm1() != b.adcm1() || a.adc() != b.adc() || a.tot() != b.tot() ||
-        a.toa() != b.toa() || a.cm() != b.cm() || a.flags() != b.flags()) {
+        a.cm() != b.cm() || a.flags() != b.flags()) {
       std::cerr << "Mismatch at row " << i << std::endl;
       return 1;
     }
   }
-  static_assert(sizeof(uint16_t) * 2 < sizeof(uint8_t) + 6 * sizeof(uint16_t));
   std::cout << "HGCalDigiCompressedSoA matches HGCalDigiSoA for " << size << " rows" << std::endl;
   return 0;
 }
