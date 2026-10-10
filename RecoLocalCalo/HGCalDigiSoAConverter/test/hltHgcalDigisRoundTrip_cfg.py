@@ -30,6 +30,13 @@ process.hltHgcalDigisDecompressed = cms.EDProducer(
     "HGCalDigisFromRecHitSoA",
     src=cms.InputTag("hltHgcalDigisSoA"),
 )
+# Standard HGCalDigiSoA (in-time sample) with its row-aligned detIds, for size comparison only.
+for instance in ("EE", "HEfront", "HEback"):
+    setattr(process, f"hltHgcalDigisStandardSoA{instance}", cms.EDProducer(
+        "HGCalDataFrameToHGCalDigiSoA",
+        src=cms.InputTag("hltHgcalDigis", instance),
+        sampleIndex=cms.uint32(2),
+    ))
 
 # Both modules use the same reconstruction parameters; only the digi source differs.
 process.hltHGCalUncalibRecHit = cms.EDProducer(
@@ -107,12 +114,16 @@ process.convert = cms.Path(
     + process.hltHgcalDigisDecompressed
     + process.hltHGCalUncalibRecHitDecompressed
     + process.hgcalUncalibRecHitRoundTripValidator
+    + process.hltHgcalDigisStandardSoAEE
+    + process.hltHgcalDigisStandardSoAHEfront
+    + process.hltHgcalDigisStandardSoAHEback
 )
 
 outputCommands = cms.untracked.vstring(
     "drop *",
     "keep *_hltHgcalDigis_*_ROUNDTRIP",
     "keep *_hltHgcalDigisSoA_*_ROUNDTRIP",
+    "keep *_hltHgcalDigisStandardSoA*_*_ROUNDTRIP",
     "keep *_hltHgcalDigisDecompressed_*_ROUNDTRIP",
     "keep *_hltHGCalUncalibRecHit_*_ROUNDTRIP",
     "keep *_hltHGCalUncalibRecHitDecompressed_*_ROUNDTRIP",

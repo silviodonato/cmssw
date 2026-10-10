@@ -1,4 +1,5 @@
 <library file="*.cc" name="RecoLocalCaloHGCalDigiSoAConverterPlugins">
+  <use name="DataFormats/DetId"/>
   <use name="DataFormats/HGCDigi"/>
   <use name="DataFormats/HGCRecHit"/>
   <use name="DataFormats/HcalDigi"/>

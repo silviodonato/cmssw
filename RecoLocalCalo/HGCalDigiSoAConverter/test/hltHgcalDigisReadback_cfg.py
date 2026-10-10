@@ -1,4 +1,4 @@
-"""Rebuild recHits from persisted SoA/index deltas and compare with the saved originals."""
+"""Rebuild recHits from persisted SoA and sidecars and compare with the saved originals."""
 
 import os
 import runpy

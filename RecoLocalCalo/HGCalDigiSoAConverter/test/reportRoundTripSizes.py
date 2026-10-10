@@ -43,8 +43,8 @@ def size_for(token):
 def soa_size_for(instance):
     token = f"_hltHgcalDigisSoA_{instance}"
     matches = [branch for branch in branches if token in branch.GetName()]
-    if len(matches) not in (2, 3, 8):
-        parser.error(f"Expected two, three, or eight SoA and sidecar branches for {instance}, found {len(matches)}")
+    if len(matches) not in (1, 2, 3, 8):
+        parser.error(f"Expected one coded stream, or two, three, or eight SoA and sidecar branches for {instance}, found {len(matches)}")
     return add_sizes(*(branch_sizes(branch) for branch in matches)), len(matches)
 
 
@@ -76,6 +76,11 @@ for instance, rec_hit_instance in rec_hit_instances.items():
     if instance != "HFNose":
         products["Original"] = size_for(f"_hltHgcalDigis_{instance}_ROUNDTRIP.")
         products["SoA + sidecars"], product_count = soa_size_for(instance)
+        standard = [
+            branch for branch in branches if f"_hltHgcalDigisStandardSoA{instance}_" in branch.GetName()
+        ]
+        if standard:
+            products["Standard SoA + detIds"] = add_sizes(*(branch_sizes(branch) for branch in standard))
         products["Restored"] = size_for(
             f"_hltHgcalDigisDecompressed_{instance}_ROUNDTRIP."
         )
@@ -86,6 +91,7 @@ total_products = {}
 for products in sizes_by_instance.values():
     for product in (
         "Original",
+        "Standard SoA + detIds",
         "SoA + sidecars",
         "Restored",
         "recHits",
@@ -109,6 +115,7 @@ for section in ("Total", "EE", "HEfront", "HEback", "HFNose"):
     original = products.get("Original")
     for product in (
         "Original",
+        "Standard SoA + detIds",
         "SoA + sidecars",
         "Restored",
         "recHits",
@@ -128,6 +135,13 @@ for section in ("Total", "EE", "HEfront", "HEback", "HFNose"):
                 label = f"SoAs + {sidecar_count} sidecar{'s' if sidecar_count != 1 else ''}"
             else:
                 label = f"SoA + {sidecar_count} sidecar{'s' if sidecar_count != 1 else ''}"
+            if sidecar_count == 0:
+                label = "Coded streams" if section == "Total" else "Coded stream"
+            reduction = f"{100 * (1 - products[product][1] / original[1]):.1f}%"
+            if "Standard SoA + detIds" in products:
+                standard = products["Standard SoA + detIds"][1]
+                reduction += f" ({100 * (1 - products[product][1] / standard):.1f}% vs standard SoA)"
+        if product == "Standard SoA + detIds":
             reduction = f"{100 * (1 - products[product][1] / original[1]):.1f}%"
         print_row(label, products[product], reduction)
     print()
