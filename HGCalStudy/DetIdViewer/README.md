@@ -1,5 +1,7 @@
 # HGCalStudy/DetIdViewer
 
+Example: https://sdonato.web.cern.ch/HGCalView/
+
 Tools to inspect HGCal silicon digis (`HGCalDigiCollection`) for the Phase-2 **D128** geometry:
 
 * a **2D viewer**: one self-contained HTML page with every digi of one event drawn as a hexagonal cell at its
