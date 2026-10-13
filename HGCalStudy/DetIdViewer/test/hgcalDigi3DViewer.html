@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HGCal D128 · 3D Digis</title>
+<style>
+:root{font:14px system-ui;color:#213247;background:#f6f8fa}body{margin:16px auto;max-width:1750px;padding:0 16px}h1{font-size:22px;margin:0 0 4px}p{margin:6px 0;line-height:1.45}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:16px;align-items:start;margin-top:12px}
+aside{background:white;border:1px solid #bac6d1;border-radius:6px;padding:12px}aside h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#526579;margin:16px 0 6px}aside h2:first-child{margin-top:0}
+.range{display:grid;grid-template-columns:62px 1fr 1fr;gap:6px;align-items:center;margin:5px 0}.range input{width:100%;min-width:0;box-sizing:border-box}.range span{font-size:13px}
+.head{display:grid;grid-template-columns:62px 1fr 1fr;gap:6px;font-size:11px;color:#526579}
+input,select,button{font:inherit;padding:5px 6px;border:1px solid #abb7c2;border-radius:4px;background:white;color:inherit}button{cursor:pointer;margin:4px 4px 0 0}select{width:100%}
+label.chk{display:flex;gap:6px;align-items:center;margin:4px 0}label.row{display:grid;grid-template-columns:1fr 90px;gap:6px;align-items:center;margin:5px 0}label.row input{min-width:0}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{position:relative;background:#0e151d;border-radius:6px;overflow:hidden;height:680px}
+.panel canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.panel canvas.gl{touch-action:none;cursor:grab}.panel canvas.ov{pointer-events:none}
+.tag{position:absolute;left:12px;top:9px;color:#eef3f7;font-weight:600;font-size:15px;pointer-events:none}.stat{position:absolute;left:12px;bottom:9px;right:12px;color:#b9c7d3;font-size:12px;pointer-events:none}
+#bar{height:12px;border-radius:2px;background:linear-gradient(to right,#440154,#3b528b,#21918c,#5ec962,#fde725)}.scale{display:flex;justify-content:space-between;font-size:12px;color:#526579;margin-top:3px}
+#detail{font:13px ui-monospace,monospace;min-height:40px;padding:10px 12px;background:#e6eef4;margin-top:12px;overflow-wrap:anywhere;white-space:pre-wrap}
+.subtle{color:#526579;font-size:12px}#error{color:#b02430}#count{font-weight:600}
+@media(max-width:1150px){.layout{grid-template-columns:1fr}.panels{grid-template-columns:1fr}.panel{height:520px}}
+</style>
+<h1>HGCal D128 · 3D Digis</h1>
+<p id="metadata">Loading embedded digis…</p>
+<p class="subtle">Drag to rotate · Shift-drag or right-drag to pan · Scroll to zoom · Click a point to inspect · Double-click to reset the view</p>
+<div class="layout">
+<aside>
+<h2>Sample</h2><select id="sample" disabled></select>
+<h2>Selection</h2>
+<div class="head"><span></span><span>min</span><span>max</span></div>
+<div class="range"><span>|z| [cm]</span><input id="zmin" type="number" step="0.1"><input id="zmax" type="number" step="0.1"></div>
+<div class="range"><span>r [cm]</span><input id="rmin" type="number" step="0.1"><input id="rmax" type="number" step="0.1"></div>
+<div class="range"><span>ADC</span><input id="adcmin" type="number" step="1"><input id="adcmax" type="number" step="1"></div>
+<div class="range"><span>TOT</span><input id="totmin" type="number" step="1"><input id="totmax" type="number" step="1"></div>
+<div class="range"><span>TOA</span><input id="toamin" type="number" step="1"><input id="toamax" type="number" step="1"></div>
+<label class="chk"><input id="useAdc" type="checkbox" checked> ADC-mode digis</label>
+<label class="chk"><input id="useTot" type="checkbox" checked> TOT-mode digis</label>
+<button id="resetSel">Reset selection</button>
+<p><span id="count"></span></p>
+<h2>Charge colour (log)</h2><div id="bar"></div><div class="scale"><span id="qlo"></span><span id="qhi"></span></div>
+<h2>Display</h2>
+<label class="row">Point size [cm]<input id="psize" type="number" min="0.05" max="10" step="0.1" value="0.8"></label>
+<label class="chk"><input id="sizeByQ" type="checkbox" checked> Size grows with charge</label>
+<label class="chk"><input id="link" type="checkbox" checked> Link (mirrored) cameras</label>
+<button id="resetView">Reset view</button>
+<h2>Charge estimate</h2>
+<label class="row">fC per ADC<input id="adcLSB" type="number" step="any" value="0.09765625"></label>
+<label class="row">fC per TOT<input id="totLSB" type="number" step="any" value="2.44140625"></label>
+<p class="subtle">Q = ADC × LSB or TOT × LSB for the selected sample. Defaults are nominal digitizer LSBs (100 fC / 10 bit ADC, 10 pC / 12 bit TOT). Not a calibrated energy: no per-channel pedestal, gain, TOT non-linearity or MIP/MeV conversion is applied.</p>
+</aside>
+<div>
+<div class="panels">
+<div class="panel" id="pz"><canvas class="gl" aria-label="+z endcap digis in 3D"></canvas><canvas class="ov"></canvas><div class="tag">+z endcap</div><div class="stat"></div></div>
+<div class="panel" id="mz"><canvas class="gl" aria-label="−z endcap digis in 3D"></canvas><canvas class="ov"></canvas><div class="tag">−z endcap</div><div class="stat"></div></div>
+</div>
+<p id="detail" aria-live="polite">Click a point to see its DetId and samples.</p><p id="error" role="alert"></p>
+<details><summary>Data scope</summary><p>One event; every digi of the exported product is included. Points sit at the reconstructed cell centre of gravity in global centimetres. ADC, TOT and TOA are raw digi words of the selected sample; TOA is the raw 10-bit time-of-arrival count (0 usually means no TOA was recorded). ADC and TOT ranges apply only to digis in that mode. The whole dataset is embedded in this file; no server or internet connection is required.</p></details>
+</div>
+</div>
+<script>
+(async()=>{
+const $=id=>document.getElementById(id);
+try{
+const meta=/*META*/;
+const bytes=Uint8Array.from(atob('/*DATA_GZIP*/'),c=>c.charCodeAt(0));
+const buf=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+const n=meta.n,S=meta.samples,MISSING=2;
+const ID=new Uint32Array(buf,0,n),X=new Float32Array(buf,4*n,n),Y=new Float32Array(buf,8*n,n),Z=new Float32Array(buf,12*n,n),
+ D=new Uint16Array(buf,16*n,n*S),T=new Uint16Array(buf,16*n+2*n*S,n*S),L=new Uint8Array(buf,16*n+4*n*S,n),M=new Uint8Array(buf,17*n+4*n*S,n*S);
+const R=new Float32Array(n);for(let i=0;i<n;i++)R[i]=Math.hypot(X[i],Y[i]);
+$('metadata').textContent=`${meta.product} | Event ${meta.event} | ${n.toLocaleString()} digis | Geometry ${meta.geometry}`;
+
+// Data extents for the default selection.
+const ext={z:[Infinity,-Infinity],r:[Infinity,-Infinity],adc:[Infinity,-Infinity],tot:[Infinity,-Infinity],toa:[Infinity,-Infinity]};
+const grow=(e,v)=>{if(v<e[0])e[0]=v;if(v>e[1])e[1]=v};
+for(let i=0;i<n;i++){grow(ext.z,Math.abs(Z[i]));grow(ext.r,R[i]);for(let s=0;s<S;s++){const k=i*S+s;if(M[k]===MISSING)continue;grow(M[k]?ext.tot:ext.adc,D[k]);grow(ext.toa,T[k])}}
+for(const e of Object.values(ext))if(e[0]>e[1])e[0]=e[1]=0;
+const defaults={zmin:Math.floor(ext.z[0]*10)/10,zmax:Math.ceil(ext.z[1]*10)/10,rmin:Math.floor(ext.r[0]*10)/10,rmax:Math.ceil(ext.r[1]*10)/10,
+ adcmin:ext.adc[0],adcmax:ext.adc[1],totmin:ext.tot[0],totmax:ext.tot[1],toamin:ext.toa[0],toamax:ext.toa[1]};
+function resetSelection(){for(const [k,v] of Object.entries(defaults))$(k).value=v;$('useAdc').checked=$('useTot').checked=true}
+resetSelection();
+if(!meta.hasToa){$('toamin').disabled=$('toamax').disabled=true;$('toamin').title=$('toamax').title='This export has no TOA; rerun exportHGCalDigiGeometry_cfg.py'}
+for(let s=0;s<S;s++){const o=document.createElement('option');o.value=s;o.textContent=s===2?'2 (in-time)':String(s);$('sample').append(o)}
+$('sample').value=String(Math.min(2,S-1));$('sample').disabled=false;
+
+const zc=(ext.z[0]+ext.z[1])/2,rOut=Math.ceil(ext.r[1]/10)*10,rIn=Math.floor(ext.r[0]/10)*10,FOV=0.7;
+const stops=[[68,1,84],[59,82,139],[33,145,140],[94,201,98],[253,231,37]];
+function viridis(t,out,o){t=Math.min(1,Math.max(0,t))*4;const i=Math.min(3,Math.floor(t)),f=t-i;for(let k=0;k<3;k++)out[o+k]=(stops[i][k]+(stops[i+1][k]-stops[i][k])*f)/255}
+
+// Small column-major matrix helpers.
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+ cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>{const l=Math.hypot(...a);return a.map(v=>v/l)};
+function persp(f,a,near,far){const t=1/Math.tan(f/2);return [t/a,0,0,0,0,t,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0]}
+function lookAt(e,c,u){const z=norm(sub(e,c)),x=norm(cross(u,z)),y=cross(z,x);return [x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,e),-dot(y,e),-dot(z,e),1]}
+function mul(a,b){const o=new Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+r]*b[c*4+k];o[c*4+r]=s}return o}
+
+const VS_P=`attribute vec3 p;attribute vec3 c;attribute float s;uniform mat4 mvp;uniform float size;uniform float proj;varying vec3 vc;
+void main(){gl_Position=mvp*vec4(p,1.);gl_PointSize=max(1.5,size*s*proj/gl_Position.w);vc=c;}`;
+const FS_P=`precision mediump float;varying vec3 vc;void main(){vec2 d=gl_PointCoord-.5;if(dot(d,d)>.25)discard;gl_FragColor=vec4(vc,1.);}`;
+const VS_L=`attribute vec3 p;uniform mat4 mvp;void main(){gl_Position=mvp*vec4(p,1.);}`;
+const FS_L=`precision mediump float;uniform vec3 col;void main(){gl_FragColor=vec4(col,1.);}`;
+function program(gl,vs,fs,attrs){const p=gl.createProgram();for(const [t,src] of [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]]){const s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));gl.attachShader(p,s)}
+ attrs.forEach((a,i)=>gl.bindAttribLocation(p,i,a));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));return p}
+const defaultCam=()=>({az:2.45,el:0.38,dist:2.6*rOut,px:0,py:0,pz:0});
+
+class Panel{
+ constructor(side,root){this.side=side;this.cv=root.querySelector('canvas.gl');this.ov=root.querySelector('canvas.ov');this.statEl=root.querySelector('.stat');this.octx=this.ov.getContext('2d');
+  const gl=this.gl=this.cv.getContext('webgl',{antialias:true});if(!gl)throw Error('WebGL is not available in this browser');
+  this.pp=program(gl,VS_P,FS_P,['p','c','s']);this.lp=program(gl,VS_L,FS_L,['p']);
+  this.bP=gl.createBuffer();this.bC=gl.createBuffer();this.bS=gl.createBuffer();this.bG=gl.createBuffer();this.bX=gl.createBuffer();
+  this.count=0;this.idx=new Int32Array(0);this.pos=new Float32Array(0);this.cam=defaultCam();this.picked=-1;this.queued=false;
+  this.geometry();this.events();new ResizeObserver(()=>this.schedule()).observe(this.cv)}
+ geometry(){// Beam line, front/back rings at the outer and inner radius, x/y axes at the front face.
+  const s=this.side,z0=s*ext.z[0],z1=s*ext.z[1],v=[0,0,s*(ext.z[0]-10),0,0,s*(ext.z[1]+10)],ring=(r,z)=>{for(let i=0;i<96;i++){const a=i/96*2*Math.PI,b=(i+1)/96*2*Math.PI;v.push(r*Math.cos(a),r*Math.sin(a),z,r*Math.cos(b),r*Math.sin(b),z)}};
+  ring(rOut,z0);ring(rOut,z1);if(rIn>0){ring(rIn,z0);ring(rIn,z1)}for(const a of [0,Math.PI/2,Math.PI,1.5*Math.PI])v.push(rOut*Math.cos(a),rOut*Math.sin(a),z0,rOut*Math.cos(a),rOut*Math.sin(a),z1);
+  this.nGrey=v.length/3;v.push(0,0,z0,50,0,z0,0,0,z0,0,50,z0);this.nAll=v.length/3;
+  const gl=this.gl;gl.bindBuffer(gl.ARRAY_BUFFER,this.bG);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(v),gl.STATIC_DRAW)}
+ upload(idx,pos,col,size){const gl=this.gl;this.idx=idx;this.pos=pos;this.count=idx.length;this.picked=-1;
+  for(const [b,a] of [[this.bP,pos],[this.bC,col],[this.bS,size]]){gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW)}this.schedule()}
+ eye(){const c=this.cam,s=this.side,t=[c.px,c.py,s*(zc+c.pz)];return [t,[t[0]+c.dist*Math.cos(c.el)*Math.sin(c.az),t[1]+c.dist*Math.sin(c.el),t[2]+s*c.dist*Math.cos(c.el)*Math.cos(c.az)]]}
+ matrices(aspect){const [t,e]=this.eye();this.view=lookAt(e,t,[0,1,0]);return mul(persp(FOV,aspect,this.cam.dist*.01,this.cam.dist*20),this.view)}
+ schedule(){if(!this.queued){this.queued=true;requestAnimationFrame(()=>{this.queued=false;this.draw()})}}
+ project(m,x,y,z){const w=m[3]*x+m[7]*y+m[11]*z+m[15];if(w<=0)return null;return [((m[0]*x+m[4]*y+m[8]*z+m[12])/w*.5+.5)*this.W,(.5-(m[1]*x+m[5]*y+m[9]*z+m[13])/w*.5)*this.H,w]}
+ draw(){const gl=this.gl,dpr=window.devicePixelRatio||1,W=this.W=this.cv.clientWidth,H=this.H=this.cv.clientHeight;if(!W||!H)return;
+  for(const c of [this.cv,this.ov]){const w=Math.round(W*dpr),h=Math.round(H*dpr);if(c.width!==w||c.height!==h){c.width=w;c.height=h}}
+  gl.viewport(0,0,this.cv.width,this.cv.height);gl.clearColor(.055,.082,.114,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);
+  const m=this.mvp=this.matrices(W/H);
+  gl.useProgram(this.lp);gl.uniformMatrix4fv(gl.getUniformLocation(this.lp,'mvp'),false,m);gl.bindBuffer(gl.ARRAY_BUFFER,this.bG);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
+  const col=gl.getUniformLocation(this.lp,'col');gl.uniform3f(col,.30,.37,.44);gl.drawArrays(gl.LINES,0,this.nGrey);
+  gl.uniform3f(col,.85,.36,.30);gl.drawArrays(gl.LINES,this.nGrey,2);gl.uniform3f(col,.36,.75,.40);gl.drawArrays(gl.LINES,this.nGrey+2,2);
+  if(this.count){gl.useProgram(this.pp);gl.uniformMatrix4fv(gl.getUniformLocation(this.pp,'mvp'),false,m);
+   gl.uniform1f(gl.getUniformLocation(this.pp,'size'),Math.max(.05,+$('psize').value||.8));gl.uniform1f(gl.getUniformLocation(this.pp,'proj'),this.cv.height/(2*Math.tan(FOV/2)));
+   [[this.bP,3],[this.bC,3],[this.bS,1]].forEach(([b,k],i)=>{gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,k,gl.FLOAT,false,0,0)});
+   gl.drawArrays(gl.POINTS,0,this.count);gl.disableVertexAttribArray(1);gl.disableVertexAttribArray(2)}
+  if(this.picked>=0){const i=this.picked,x=X[i],y=Y[i],z=Z[i],d=2.5;gl.useProgram(this.lp);gl.disable(gl.DEPTH_TEST);gl.bindBuffer(gl.ARRAY_BUFFER,this.bX);
+   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([x-d,y,z,x+d,y,z,x,y-d,z,x,y+d,z,x,y,z-d,x,y,z+d]),gl.DYNAMIC_DRAW);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);gl.uniform3f(col,1,1,1);gl.drawArrays(gl.LINES,0,6)}
+  const o=this.octx;o.setTransform(dpr,0,0,dpr,0,0);o.clearRect(0,0,W,H);o.font='11px system-ui';o.fillStyle='#8fa1b2';const s=this.side,label=(t,x,y,z)=>{const p=this.project(m,x,y,z);if(p)o.fillText(t,p[0]+4,p[1]-4)};
+  for(let z=Math.ceil(ext.z[0]/10)*10;z<=ext.z[1];z+=10)label(`${s*z}`,0,0,s*z);label('z [cm]',0,0,s*(ext.z[1]+10));label(`r = ${rOut} cm`,rOut*Math.SQRT1_2,rOut*Math.SQRT1_2,s*ext.z[0]);
+  o.fillStyle='#e27a6c';label('x',52,0,s*ext.z[0]);o.fillStyle='#78c784';label('y',0,52,s*ext.z[0])}
+ pick(sx,sy){const m=this.mvp;let best=-1,bw=Infinity;const r2=49;for(let j=0;j<this.count;j++){const p=this.project(m,this.pos[3*j],this.pos[3*j+1],this.pos[3*j+2]);if(!p)continue;const dx=p[0]-sx,dy=p[1]-sy;if(dx*dx+dy*dy<=r2&&p[2]<bw){bw=p[2];best=j}}
+  this.picked=best>=0?this.idx[best]:-1;for(const q of panels)if(q!==this){q.picked=-1;q.schedule()}showDetail(this.picked);this.schedule()}
+ events(){const cv=this.cv;let drag=null;
+  cv.oncontextmenu=e=>e.preventDefault();
+  cv.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,pan:e.shiftKey||e.button===2,cam:{...this.cam},moved:false};cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'};
+  cv.onpointermove=e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y,c=this.cam,s=drag.cam;if(Math.hypot(dx,dy)>3)drag.moved=true;if(!drag.moved)return;
+   if(drag.pan){const k=s.dist*2*Math.tan(FOV/2)/this.H,v=this.view,right=[v[0],v[4],v[8]],up=[v[1],v[5],v[9]],d=[0,1,2].map(i=>(-dx*right[i]+dy*up[i])*k);c.px=s.px+d[0];c.py=s.py+d[1];c.pz=s.pz+this.side*d[2]}
+   else{c.az=s.az-this.side*dx*.006;c.el=Math.max(-1.5,Math.min(1.5,s.el+dy*.006))}this.sync()};
+  cv.onpointerup=e=>{if(drag&&!drag.moved){const r=cv.getBoundingClientRect();this.pick(e.clientX-r.left,e.clientY-r.top)}drag=null;cv.style.cursor=''};cv.onpointercancel=()=>{drag=null;cv.style.cursor=''};
+  cv.addEventListener('wheel',e=>{e.preventDefault();this.cam.dist=Math.max(5,Math.min(20*rOut,this.cam.dist*Math.exp(Math.max(-1,Math.min(1,e.deltaY*.0015)))));this.sync()},{passive:false});
+  cv.ondblclick=()=>{this.cam=defaultCam();this.sync()}}
+ sync(){if($('link').checked)for(const q of panels)if(q!==this){q.cam={...this.cam};q.schedule()}this.schedule()}
+}
+const panels=[new Panel(1,$('pz')),new Panel(-1,$('mz'))];
+
+const fmtQ=q=>q>=1e4?q.toExponential(2):q>=10?q.toFixed(0):q.toPrecision(3);
+function showDetail(i){if(i<0){$('detail').textContent='Click a point to see its DetId and samples.';return}
+ const sel=+$('sample').value,samples=[];for(let s=0;s<S;s++){const k=i*S+s;samples.push(M[k]===MISSING?`s${s}: missing`:`s${s}${s===sel?'*':''}: ${M[k]?'TOT':'ADC'} ${D[k]} TOA ${T[k]}`)}
+ const k=i*S+sel,q=M[k]===MISSING?null:D[k]*(M[k]?totLSB:adcLSB);
+ $('detail').textContent=`DetId ${ID[i]} | 0x${ID[i].toString(16).padStart(8,'0')} | layer ${L[i]} | z side ${Z[i]>0?'+1':'−1'} | x ${X[i].toFixed(2)}, y ${Y[i].toFixed(2)}, z ${Z[i].toFixed(2)}, r ${R[i].toFixed(2)} cm${q===null?'':` | Q ≈ ${fmtQ(q)} fC`}\n${samples.join(' | ')}`}
+
+let adcLSB=0,totLSB=0;
+function bound(id,fallback){const v=parseFloat($(id).value);return Number.isFinite(v)?v:fallback}
+function rebuild(){
+ const s=+$('sample').value;adcLSB=bound('adcLSB',0);totLSB=bound('totLSB',0);
+ const zmin=bound('zmin',-Infinity),zmax=bound('zmax',Infinity),rmin=bound('rmin',-Infinity),rmax=bound('rmax',Infinity),amin=bound('adcmin',-Infinity),amax=bound('adcmax',Infinity),
+  tmin=bound('totmin',-Infinity),tmax=bound('totmax',Infinity),omin=bound('toamin',-Infinity),omax=bound('toamax',Infinity),useAdc=$('useAdc').checked,useTot=$('useTot').checked;
+ const Q=new Float32Array(n),keep=new Uint8Array(n);let qlo=Infinity,qhi=0,nAdc=0,nTot=0;
+ for(let i=0;i<n;i++){const az=Math.abs(Z[i]);if(az<zmin||az>zmax||R[i]<rmin||R[i]>rmax)continue;const k=i*S+s,m=M[k],d=D[k];if(m===MISSING)continue;
+  if(meta.hasToa&&(T[k]<omin||T[k]>omax))continue;
+  if(m){if(!useTot||d<tmin||d>tmax)continue;nTot++}else{if(!useAdc||d<amin||d>amax)continue;nAdc++}
+  const q=d*(m?totLSB:adcLSB);Q[i]=q;keep[i]=1;if(q>0&&q<qlo)qlo=q;if(q>qhi)qhi=q}
+ if(!(qlo<=qhi)){qlo=qhi=1}const l0=Math.log10(qlo),l1=Math.log10(qhi),span=l1-l0||1,bySize=$('sizeByQ').checked;
+ $('qlo').textContent=`${fmtQ(qlo)} fC`;$('qhi').textContent=`${fmtQ(qhi)} fC`;
+ $('count').textContent=`${(nAdc+nTot).toLocaleString()} of ${n.toLocaleString()} digis (${nAdc.toLocaleString()} ADC, ${nTot.toLocaleString()} TOT)`;
+ for(const p of panels){let c=0,sum=0;for(let i=0;i<n;i++)if(keep[i]&&(Z[i]>0)===(p.side>0))c++;
+  const idx=new Int32Array(c),pos=new Float32Array(3*c),col=new Float32Array(3*c),size=new Float32Array(c);let j=0;
+  for(let i=0;i<n;i++){if(!keep[i]||(Z[i]>0)!==(p.side>0))continue;const t=Q[i]>0?(Math.log10(Q[i])-l0)/span:0;idx[j]=i;pos[3*j]=X[i];pos[3*j+1]=Y[i];pos[3*j+2]=Z[i];viridis(t,col,3*j);size[j]=bySize?.45+1.55*t:1;sum+=Q[i];j++}
+  p.upload(idx,pos,col,size);p.statEl.textContent=`${c.toLocaleString()} digis · ΣQ ≈ ${fmtQ(sum)} fC`}
+ showDetail(-1)}
+let timer=0;const later=()=>{clearTimeout(timer);timer=setTimeout(rebuild,150)};
+for(const id of ['zmin','zmax','rmin','rmax','adcmin','adcmax','totmin','totmax','toamin','toamax','adcLSB','totLSB'])$(id).oninput=later;
+for(const id of ['sample','useAdc','useTot','sizeByQ'])$(id).onchange=rebuild;
+$('psize').oninput=()=>panels.forEach(p=>p.schedule());
+$('resetSel').onclick=()=>{resetSelection();rebuild()};
+$('resetView').onclick=()=>{for(const p of panels)p.cam=defaultCam();panels.forEach(p=>p.schedule())};
+$('link').onchange=()=>{if($('link').checked)panels[0].sync()};
+rebuild();
+}catch(err){$('error').textContent='Unable to load viewer: '+err.message;console.error(err)}
+})();
+</script></html>

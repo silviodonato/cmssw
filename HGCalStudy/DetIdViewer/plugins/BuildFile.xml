@@ -1,0 +1,13 @@
+<library file="*.cc" name="HGCalStudyDetIdViewerPlugins">
+  <use name="FWCore/Framework"/>
+  <use name="FWCore/ParameterSet"/>
+  <use name="FWCore/Utilities"/>
+  <use name="DataFormats/HGCDigi"/>
+  <use name="DataFormats/ForwardDetId"/>
+  <use name="Geometry/HGCalGeometry"/>
+  <use name="Geometry/HGCalCommonData"/>
+  <use name="Geometry/Records"/>
+  <use name="CommonTools/UtilAlgos"/>
+  <use name="root"/>
+  <flags EDM_PLUGIN="1"/>
+</library>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HGCal D128 · Digi DetIds</title>
+<style>
+:root{font:15px system-ui;color:#213247;background:#f6f8fa}body{margin:20px auto;max-width:1400px;padding:0 16px}h1{font-size:24px;margin-bottom:6px}p{line-height:1.5;margin:8px 0}.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:18px 0}label{display:flex;flex-direction:column;gap:5px}select,input,button{font:inherit;padding:8px;border:1px solid #abb7c2;border-radius:4px;background:white;color:inherit}button{cursor:pointer}main{position:relative}canvas{display:block;width:100%;height:650px;background:white;border:1px solid #bac6d1;touch-action:none;cursor:crosshair}#detail{font:14px ui-monospace,monospace;min-height:44px;padding:12px;background:#e6eef4;overflow-wrap:anywhere}#status{font-weight:600}summary{cursor:pointer}.subtle{color:#526579;font-size:13px}#error{color:#b02430}a{color:#08679e}@media(max-width:600px){body{padding:0 6px;margin:10px auto}canvas{height:480px}.controls{gap:8px}input{max-width:165px}}
+</style>
+<h1>HGCal D128 · Digi DetIds</h1>
+<p id="metadata">Loading embedded geometry…</p>
+<div class="controls">
+<label>Layer<select id="layer" disabled></select></label>
+<label>Endcap<select id="side" disabled></select></label>
+<label>Wafer (U, V)<select id="wafer" disabled><option value="all">All wafers</option></select></label>
+<label>Sample<select id="sample" disabled></select></label>
+<label>Find DetId (decimal or hex)<input id="search" placeholder="e.g. 0x8010080a"></label>
+<button id="find" disabled>Find cell</button><button id="reset" disabled>Fit view</button>
+<button id="zin" disabled aria-label="Zoom in">Zoom +</button><button id="zout" disabled aria-label="Zoom out">Zoom −</button>
+</div>
+<p id="status"></p><p id="legend"><span style="display:inline-block;width:180px;height:12px;background:linear-gradient(to right,#440154,#3b528b,#21918c,#5ec962,#fde725)"></span> <span id="scaleLabel"></span> · <span style="color:#d64ac5">■</span> TOT mode · <span style="color:#9da7ae">■</span> Missing sample</p><p class="subtle">Scroll to zoom · Drag to pan · Hover or click a hexagon to inspect · Double-click a cell to zoom in</p>
+<main><canvas id="map" aria-label="D128 detector cells at global x and y positions in centimetres"></canvas></main>
+<p id="detail" aria-live="polite">Select a cell to see its DetId.</p><p id="error" role="alert"></p>
+<details><summary>Geometry and data scope</summary><p>Only channels with digis in the selected event are drawn. Every exported DetId is checked against the D128 topology. The reported positions are reconstructed cell centres of gravity in global centimetres. Display polygons use CMSSW's nominal cell centres and orientation, with the correct high-/low-density pitch. They are drawn at full nominal size, so neighbouring cells tile without gaps; polygon edges are a display aid, not exact partial-sensor boundaries. Sample 2 is the in-time sample. ADC-mode cells are colored by the raw sample data count (linear scale, set per layer/endcap/sample); TOT-mode values are shown separately, not mislabeled as ADC. All samples are available in the selector. Layer and endcap selectors change the displayed slice; the complete selected dataset is embedded in this one file. No server or internet connection is required.</p></details>
+<script>
+(async()=>{
+const $=id=>document.getElementById(id), canvas=$('map'),ctx=canvas.getContext('2d');
+try{
+const bytes=Uint8Array.from(atob('/*DATA_GZIP*/'),c=>c.charCodeAt(0));
+const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+const data=JSON.parse(await new Response(stream).text());
+const slices=new Map(),ids=new Map();
+for(const r of data.cells){const k=r[1]+','+r[2];if(!slices.has(k))slices.set(k,[]);slices.get(k).push(r);ids.set(r[0],r)}
+$('metadata').textContent=`${data.product} | Event ${data.event} | ${data.cells.length.toLocaleString()} digis | Geometry ${data.geometry}`;
+const layers=[...new Set(data.cells.map(r=>r[1]))].sort((a,b)=>a-b);
+const sides=[...new Set(data.cells.map(r=>r[2]))].sort((a,b)=>b-a);
+function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o)}
+for(const l of layers)option($('layer'),l,l);
+for(const z of sides)option($('side'),z,z>0?'+z':'−z');
+for(const id of ['layer','side','wafer','sample','find','reset','zin','zout'])$(id).disabled=false;
+const maxSamples=data.cells.reduce((m,r)=>Math.max(m,r[11].length),0);
+for(let i=0;i<maxSamples;i++)option($('sample'),i,i===2?'2 (in-time)':String(i));$('sample').value=String(Math.min(2,maxSamples-1));
+let adcMax=1;
+const stops=[[68,1,84],[59,82,139],[33,145,140],[94,201,98],[253,231,37]];
+function color(r){const s=r[11][+$('sample').value];if(!s)return '#9da7ae';if(s[1])return '#d64ac5';const t=Math.min(1,s[0]/adcMax)*4,i=Math.min(3,Math.floor(t)),f=t-i;return 'rgb('+stops[i].map((v,k)=>Math.round(v+(stops[i+1][k]-v)*f)).join(',')+')'}
+function updateScale(){adcMax=1;for(const r of slices.get($('layer').value+','+$('side').value)||[]){const s=r[11][+$('sample').value];if(s&&!s[1])adcMax=Math.max(adcMax,s[0])}$('scaleLabel').textContent=`ADC 0–${adcMax} · sample ${$('sample').value}`;if(selected)show(selected);schedule()}
+let rows=[],selected=null,view={x:0,y:0,span:350},width=0,height=0,scale=1,grid=new Map(),paths=new Map();
+const margin={left:65,right:18,top:18,bottom:48};
+let queued=false;
+function schedule(){if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;draw()})}}
+function fit(){let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;for(const r of rows)for(const [x,y] of r[10]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}
+ if(rows.length){view.x=(x0+x1)/2;view.y=(y0+y1)/2;const aspect=Math.max(1,width-margin.left-margin.right)/Math.max(1,height-margin.top-margin.bottom);view.span=Math.max(y1-y0,(x1-x0)/aspect)*1.08}schedule()}
+function sliceChanged(){
+ const slice=slices.get($('layer').value+','+$('side').value)||[];const wafer=$('wafer');wafer.replaceChildren();option(wafer,'all','All wafers');
+ const counts=new Map();for(const r of slice){const k=r[3]+','+r[4];counts.set(k,(counts.get(k)||0)+1)}
+ for(const k of [...counts.keys()].sort((a,b)=>{const x=a.split(',').map(Number),y=b.split(',').map(Number);return x[0]-y[0]||x[1]-y[1]}))option(wafer,k,`(${k}) · ${counts.get(k)} digis`);
+ waferChanged();
+}
+function waferChanged(){const key=$('wafer').value;rows=(slices.get($('layer').value+','+$('side').value)||[]).filter(r=>key==='all'||r[3]+','+r[4]===key);selected=null;grid=new Map();paths=new Map();
+ for(const r of rows){const key=Math.floor(r[7]/2)+','+Math.floor(r[8]/2);if(!grid.has(key))grid.set(key,[]);grid.get(key).push(r);const p=new Path2D();r[10].forEach(([x,y],i)=>i?p.lineTo(x,y):p.moveTo(x,y));p.closePath();paths.set(r[0],p)}
+ updateScale();
+ $('status').textContent=`Layer ${$('layer').value} · ${+$('side').value>0?'+z':'−z'} · ${rows.length.toLocaleString()} digi cells`;
+ $('detail').textContent='Hover or select a cell to see its DetId.';fit();}
+function dimensions(){const rect=canvas.getBoundingClientRect();width=rect.width-2;height=rect.height-2;const dpr=window.devicePixelRatio||1;canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);scale=(height-margin.top-margin.bottom)/view.span;}
+function centre(){return [margin.left+(width-margin.left-margin.right)/2,margin.top+(height-margin.top-margin.bottom)/2]}
+function world(sx,sy){const [cx,cy]=centre();return [view.x+(sx-cx)/scale,view.y-(sy-cy)/scale]}
+function niceStep(raw){const base=10**Math.floor(Math.log10(raw));return [1,2,5,10].map(n=>n*base).find(s=>s>=raw)}
+function draw(){dimensions();ctx.clearRect(0,0,width,height);const [cx,cy]=centre();const left=world(margin.left,height-margin.bottom)[0],right=world(width-margin.right,margin.top)[0],bottom=view.y-view.span/2,top=view.y+view.span/2;
+ ctx.save();ctx.beginPath();ctx.rect(margin.left,margin.top,width-margin.left-margin.right,height-margin.top-margin.bottom);ctx.clip();ctx.translate(cx,cy);ctx.scale(scale,-scale);ctx.translate(-view.x,-view.y);
+ ctx.fillStyle='#2685b0';ctx.strokeStyle='#164c69';ctx.lineWidth=.65/scale;
+ for(const r of rows){if(r[7]<left-2||r[7]>right+2||r[8]<bottom-2||r[8]>top+2)continue;const p=paths.get(r[0]);ctx.fillStyle=color(r);ctx.fill(p);if(scale>5)ctx.stroke(p)}
+ if(selected){const p=paths.get(selected[0]);if(p){ctx.strokeStyle='#ee4510';ctx.lineWidth=2/scale;ctx.stroke(p)}}ctx.restore();
+ ctx.strokeStyle='#9baebd';ctx.lineWidth=1;ctx.strokeRect(margin.left,margin.top,width-margin.left-margin.right,height-margin.top-margin.bottom);ctx.fillStyle='#344a5e';ctx.font='12px system-ui';ctx.textAlign='center';
+ const sx=niceStep((right-left)/Math.max(3,width/110)),sy=niceStep(view.span/6);
+ for(let x=Math.ceil(left/sx)*sx;x<=right;x+=sx)ctx.fillText(x.toFixed(sx<1?2:0),cx+(x-view.x)*scale,height-margin.bottom+20);
+ ctx.textAlign='right';for(let y=Math.ceil(bottom/sy)*sy;y<=top;y+=sy)ctx.fillText(y.toFixed(sy<1?2:0),margin.left-9,cy-(y-view.y)*scale+4);
+ ctx.textAlign='center';ctx.fillText('Global x [cm]',cx,height-8);ctx.save();ctx.translate(14,cy);ctx.rotate(-Math.PI/2);ctx.fillText('Global y [cm]',0,0);ctx.restore();
+}
+function local(e){const rect=canvas.getBoundingClientRect();return [e.clientX-rect.left-1,e.clientY-rect.top-1]}
+function contains(poly,x,y){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const [xi,yi]=poly[i],[xj,yj]=poly[j];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))inside=!inside}return inside}
+function hit(e){const [sx,sy]=local(e);if(sx<margin.left||sx>width-margin.right||sy<margin.top||sy>height-margin.bottom)return null;const [x,y]=world(sx,sy),gx=Math.floor(x/2),gy=Math.floor(y/2);for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++)for(const r of grid.get((gx+i)+','+(gy+j))||[])if(contains(r[10],x,y))return r;return null}
+function show(r){selected=r;if(r)$('detail').textContent=`DetId ${r[0]} | 0x${r[0].toString(16).padStart(8,'0')} | layer ${r[1]}, z side ${r[2]} | wafer (${r[3]}, ${r[4]}) | cell (${r[5]}, ${r[6]}) | sample ${$('sample').value}: ${r[11][+$('sample').value] ? (r[11][+$('sample').value][1]?'TOT ':'ADC ')+r[11][+$('sample').value][0] : 'missing'} | COG x ${r[7].toFixed(3)}, y ${r[8].toFixed(3)}, z ${r[9].toFixed(3)} cm`;schedule()}
+let drag=null;
+canvas.onpointerdown=e=>{drag={at:local(e),x:view.x,y:view.y,moved:false};canvas.setPointerCapture(e.pointerId)};
+canvas.onpointermove=e=>{if(drag){const p=local(e),dx=p[0]-drag.at[0],dy=p[1]-drag.at[1];if(Math.hypot(dx,dy)>3)drag.moved=true;view.x=drag.x-dx/scale;view.y=drag.y+dy/scale;schedule()}else {const r=hit(e);if(r&&r!==selected)show(r)}};
+canvas.onpointerup=e=>{if(drag&&!drag.moved){const r=hit(e);if(r)show(r)}drag=null};canvas.onpointercancel=()=>drag=null;
+canvas.ondblclick=e=>{const r=hit(e);if(r){view.x=r[7];view.y=r[8];view.span=8;show(r)}};
+function zoom(factor,point){const before=point?world(...point):[view.x,view.y];view.span=Math.max(.5,Math.min(1000,view.span*factor));scale=(height-margin.top-margin.bottom)/view.span;if(point){const after=world(...point);view.x+=before[0]-after[0];view.y+=before[1]-after[1]}schedule()}
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(Math.exp(Math.max(-1,Math.min(1,e.deltaY*.002))),local(e))},{passive:false});
+$('zin').onclick=()=>zoom(.65);$('zout').onclick=()=>zoom(1/.65);$('reset').onclick=fit;
+$('find').onclick=()=>{const text=$('search').value.trim();const raw=/^(0x[0-9a-f]+|[0-9]+)$/i.test(text)?Number(text):NaN;const r=ids.get(raw);$('error').textContent=r?'':'DetId not found in this exported event/product.';if(!r)return;$('layer').value=r[1];$('side').value=r[2];sliceChanged();$('wafer').value=r[3]+','+r[4];waferChanged();view.x=r[7];view.y=r[8];view.span=8;show(r)};
+$('sample').onchange=updateScale;
+$('search').onkeydown=e=>{if(e.key==='Enter')$('find').click()};$('layer').onchange=sliceChanged;$('side').onchange=sliceChanged;$('wafer').onchange=waferChanged;
+new ResizeObserver(schedule).observe(canvas);dimensions();sliceChanged();
+}catch(err){$('error').textContent='Unable to load viewer: '+err.message;console.error(err)}
+})();
+</script></html>
