@@ -8,6 +8,12 @@ process.load("Configuration.Geometry.GeometryExtendedRun4D128Reco_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag = GlobalTag(process.GlobalTag, "auto:phase2_realistic_T35", "")
 
+# Electronics mapping providing the dense index stored in place of the raw DetId.
+# The only full-detector module map available describes the z-minus endcap (CE-minus, v15.5); its
+# tileboard type codes do not match the SiPM cell map of this release, so only silicon modules are kept.
+from Geometry.HGCalMapping.hgcalmapping_cff import customise_hgcalmapper
+process = customise_hgcalmapper(process, modules="RecoLocalCalo/HGCalDigiSoAConverter/data/modulelocator_CEminus_V15p5_silicon.txt")
+
 process.source = cms.Source(
     "PoolSource",
     fileNames=cms.untracked.vstring(

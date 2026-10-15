@@ -12,14 +12,34 @@ identical to the input digis.
 One SoA row represents one input frame. The private legacy mapping uses `tctp`
 bits 0, 1, and 2 for mode, threshold, and ToA-valid respectively; the 12-bit
 in-time data goes to `adc` or `tot`, including busy TDC samples. `toa` holds
-the valid in-time ToA. The rows follow sorted DetId order and have
-`flags=Invalid`, because their channel indexing and ADC/ToT scales are not
-those of native ECON-D digis. One `DetIds` sidecar per detector instance
-stores a raw `uint32_t` DetId for every row. The standard SoA has no DetId column.
-The decoder restores five-sample legacy frames with zero in the four unused
-sample slots and the original recHit-relevant fields in sample 2. Frames with
-fewer than three samples are rejected, because the recHit algorithm would
-read beyond their end.
+the valid in-time ToA. The rows have `flags=Invalid`, because their channel
+indexing and ADC/ToT scales are not those of native ECON-D digis.
+
+The standard SoA has no DetId column. Instead of the raw 32-bit DetId, one
+`DenseIndices` sidecar per detector instance stores, for every row, the
+electronics dense index of `HGCalDenseIndexInfoSoA`
+(`CondFormats/HGCalObjects/interface/HGCalMappingParameterSoA.h`), which needs
+far fewer bits. The rows are sorted by dense index, which makes the sidecar
+compress well. The map comes from the HGCal electronics mapping
+EventSetup (`customise_hgcalmapper`), configured with
+`data/modulelocator_CEminus_V15p5_silicon.txt`. This file is the release's
+`modulelocator_CEminus_V15p5.txt` restricted to silicon modules. That map
+describes only the z-minus endcap, and its tileboard type codes do not match
+the SiPM cell map of this release. Therefore:
+
+- a z-minus DetId is stored as its dense index `d`, in `[0, N)`, with `N` the
+  size of the dense index table (3,255,186, so values fit in 23 bits);
+- a z-plus DetId is folded onto its z-minus mirror (zside bit 25 flipped) and
+  stored as `d + N`;
+- a DetId absent from the map (all scintillator cells, and silicon cells
+  missing from the v15.5 map) is stored as `2N + k`. Its raw DetId is entry
+  `k` of the `UnmappedDetIds` sidecar.
+
+The decoder maps every index back to its DetId and sorts the restored
+collection, which recovers the original DetId order. It restores five-sample
+legacy frames with zero in the four unused sample slots and the original
+recHit-relevant fields in sample 2. Frames with fewer than three samples are
+rejected, because the recHit algorithm would read beyond their end.
 
 The example reads `onlyHGCalSimDigisZSTD3.root`. `HGCalRawToDigiFake` creates
 `hltHgcalDigis` from its EE, HEfront, and HEback sim digis. Two identical
@@ -38,7 +58,7 @@ python3 src/RecoLocalCalo/HGCalDigiSoAConverter/test/reportRoundTripSizes.py hlt
 The first job writes `hltHgcalDigisRecHitRoundTripLZMA4.root` and
 `hltHgcalDigisRecHitRoundTripZSTD3.root` with the original digis, compact SoA,
 decompressed digis, and both recHit collections. The second job rebuilds
-recHits from the persisted SoA and DetIds and compares them with the originals.
+recHits from the persisted SoA and dense indices and compares them with the originals.
 The output modules use LZMA level 4 and ZSTD level 3 with
 split level 0. The size script reports compressed and uncompressed kB per
 event for the original digis, SoA with sidecars, and decompressed digis.

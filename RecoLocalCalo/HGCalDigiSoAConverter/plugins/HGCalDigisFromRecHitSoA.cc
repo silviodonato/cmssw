@@ -1,31 +1,40 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "CondFormats/DataRecord/interface/HGCalDenseIndexInfoRcd.h"
+#include "CondFormats/HGCalObjects/interface/HGCalMappingParameterHost.h"
 #include "DataFormats/HGCDigi/interface/HGCDigiCollections.h"
 #include "DataFormats/HGCalDigi/interface/HGCalDigiHost.h"
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "FWCore/Framework/interface/stream/EDProducer.h"
+#include "FWCore/Framework/interface/Run.h"
+#include "FWCore/Framework/interface/global/EDProducer.h"
 #include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/ParameterSet/interface/ParameterSetDescription.h"
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/Utilities/interface/InputTag.h"
+#include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDenseIndexMap.h"
 #include "RecoLocalCalo/HGCalDigiSoAConverter/interface/HGCalDigiInstances.h"
 
-class HGCalDigisFromRecHitSoA : public edm::stream::EDProducer<> {
+class HGCalDigisFromRecHitSoA : public edm::global::EDProducer<edm::RunCache<hgcaldigi::HGCalDenseIndexMap>> {
 public:
-  explicit HGCalDigisFromRecHitSoA(edm::ParameterSet const& config) {
+  explicit HGCalDigisFromRecHitSoA(edm::ParameterSet const& config)
+      : denseIndexInfoToken_(esConsumes<edm::Transition::BeginRun>()) {
     auto const source = config.getParameter<edm::InputTag>("src");
     for (std::size_t i = 0; i < hgcaldigi::digiInstances.size(); ++i) {
       auto const instance = hgcaldigi::digiInstances[i];
       sourceTokens_[i] = consumes<hgcaldigi::HGCalDigiHost>(hgcaldigi::withInstance(source, instance));
-      detIdsTokens_[i] = consumes<std::vector<uint32_t>>(
-          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DetIds")));
+      denseIndicesTokens_[i] = consumes<std::vector<uint32_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "DenseIndices")));
+      unmappedTokens_[i] = consumes<std::vector<uint32_t>>(
+          hgcaldigi::withInstance(source, hgcaldigi::sidecarInstance(instance, "UnmappedDetIds")));
       outputTokens_[i] = produces<HGCalDigiCollection>(std::string(instance));
     }
   }
@@ -36,20 +45,38 @@ public:
     descriptions.add("hltHgcalDigisDecompressed", description);
   }
 
+  std::shared_ptr<hgcaldigi::HGCalDenseIndexMap> globalBeginRun(edm::Run const&,
+                                                                edm::EventSetup const& setup) const override {
+    return std::make_shared<hgcaldigi::HGCalDenseIndexMap>(setup.getData(denseIndexInfoToken_));
+  }
+
+  void globalEndRun(edm::Run const&, edm::EventSetup const&) const override {}
+
 private:
-  void produce(edm::Event& event, edm::EventSetup const&) override {
+  void produce(edm::StreamID, edm::Event& event, edm::EventSetup const&) const override {
+    auto const& map = *runCache(event.getRun().index());
     for (std::size_t instanceIndex = 0; instanceIndex < hgcaldigi::digiInstances.size(); ++instanceIndex) {
       auto const& input = event.get(sourceTokens_[instanceIndex]);
-      auto const& detIds = event.get(detIdsTokens_[instanceIndex]);
+      auto const& denseIndices = event.get(denseIndicesTokens_[instanceIndex]);
+      auto const& unmapped = event.get(unmappedTokens_[instanceIndex]);
       auto const& view = input.view();
       auto const size = static_cast<std::size_t>(view.metadata().size());
-      if (detIds.size() != size)
-        throw cms::Exception("CorruptHGCalDigiSoA") << "DetIds do not match the SoA row count";
+      if (denseIndices.size() != size)
+        throw cms::Exception("CorruptHGCalDigiSoA") << "dense indices do not match the SoA row count";
 
       auto output = HGCalDigiCollection{};
       output.reserve(size);
       for (std::size_t i = 0; i < size; ++i) {
-        auto const detId = detIds[i];
+        auto const index = denseIndices[i];
+        uint32_t detId;
+        if (index < map.escapeBase()) {
+          detId = map.detId(index);
+        } else {
+          auto const position = index - map.escapeBase();
+          if (position >= unmapped.size())
+            throw cms::Exception("CorruptHGCalDigiSoA") << "SoA row " << i << " refers to a missing unmapped DetId";
+          detId = unmapped[position];
+        }
 
         auto const row = view[i];
         auto const status = row.tctp();
@@ -74,12 +101,16 @@ private:
         frame.setSample(2, inTime);
         output.push_back(frame);
       }
+      // Rows are stored in dense-index order; restore the DetId order of the original collection.
+      output.sort();
       event.emplace(outputTokens_[instanceIndex], std::move(output));
     }
   }
 
+  edm::ESGetToken<hgcal::HGCalDenseIndexInfoHost, HGCalDenseIndexInfoRcd> denseIndexInfoToken_;
   std::array<edm::EDGetTokenT<hgcaldigi::HGCalDigiHost>, 3> sourceTokens_;
-  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> detIdsTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> denseIndicesTokens_;
+  std::array<edm::EDGetTokenT<std::vector<uint32_t>>, 3> unmappedTokens_;
   std::array<edm::EDPutTokenT<HGCalDigiCollection>, 3> outputTokens_;
 };
 
